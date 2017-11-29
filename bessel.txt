@@ -1,0 +1,42 @@
+Wirtinger derivative
+
+∂ = ½(∂ₓ-i∂_y)
+∂̅ = ½(∂ₓ+i∂_y)
+
+|n> = J_n(r)exp(ikθ), z = rexp(iθ) -- checked in M
+
+2∂|n> = |n-1>
+2∂̅|n> = -|n+1>
+(1+4∂∂̅)|n> = 0
+
+∂ₓ|n> = ½(|n-1> - |n+1>)
+∂_y|n> = ½i(|n-1> + |n+1>) -- checked in M
+
+∑(k=-∞,∞) |nk> = ∑(i=0,n-1) exp(i Im(ωⁿz)), ω = exp(2πi/n)
+
+9.1.27
+------
+
+z|k-1> + z̅|k+1> = 2k|k> -- checked in M
+
+9.1.44
+9.1.45
+------
+exp(½(z-z̅)) = ∑(k=-∞,∞) J_k(|z|) ẑᵏ
+            = ∑(k=-∞,∞) |k> -- checked in M
+
+9.1.79
+------
+|n>(u+v) = ∑(k=-∞,∞) |n+k>(u) |-k>(v) checked in M
+
+|2n>(u) = |̅-̅2̅n̅>̅(̅u̅)̅
+|2n+1>(u) = -|̅-̅2̅n̅-̅1̅>̅(̅u̅)̅
+
+Euclidean group action:
+
+|n>(u+exp(iϕ)v) = ∑(k=-∞,∞) |n+k>(u) |-k>(exp(iϕ)v)
+                = ∑(k=-∞,∞) |n-k>(u) |k>(exp(iϕ)v)
+                = ∑(k=-∞,∞) exp(ikϕ) |n-k>(u) |k>(v)
+
+Matrix elements for rep of z → u+exp(iϕz) are exp(ikϕ)|n-k>(u) -- Checked in M
+
