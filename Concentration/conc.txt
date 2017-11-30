@@ -1,0 +1,617 @@
+Documents:
+(1) https://www.researchgate.net/publication/41781177_Concentration_Inequalities
+(2) http://www.stat.rice.edu/~jrojo/PASI/lectures/TyronCMarticle.pdf
+(3) https://www.hse.ru/data/2016/11/24/1113029206/Concentration%20inequalities.pdf
+(4) http://84.89.132.1/~lugosi/anu.pdf
+
+𝔼(X) = ∫t p(t) dt
+     = t ∫p(t)dt |(0,∞) - ∫ ∫(0,t') p(t)dt dt'
+     = 
+
+
+
+    /---
+   /----
+  /-----
+ /------
+*------->t
+0
+
+    /|||
+   /||||
+  /|||||
+ /||||||
+*------->t
+0
+
+∫ℙ{X ≥ t}dt = ∫t ℙ(t) dt = 𝔼{X}
+
+ℙ{X ≥ t} is decreasing
+So area in rectangle t × ℙ{X ≥ t} islways bigger than total integral.
+
+
+ \
+  \
+   \
++--+\  ℙ{X ≥ t}
+|  | \
+|  |  \
++--+----
+0  t
+
+?? +ve t, f(t) >= 0, ∫ f(t)=1
+1-∫f(t)dt <= ∫ t f(t)dt / t
+
+Markov inequality
+-----------------
+ℙ[X≥t] ≤ 𝔼[X]/t
+
+ϕ monotonic increasing
+ℙ{X ≥ t} = ℙ{ϕ(X) ≥ ϕ(t)} (trivial}
+         ≤ 𝔼ϕ(X)/ϕ(t)     (treat ϕ(X) as just some random variable)
+
+--
+
+Eg. ϕ(x) = x²
+
+Chebyshev Inequality
+--------------------
+P{|X-𝔼X| ≥ t} = ℙ{|X-𝔼X|² ≥ t²}
+              ≤ 𝔼[|X-𝔼X|²]/t²
+              = Var{X}/t²
+--
+
+Also
+P{|X-𝔼X| ≥ t} ≤ 𝔼[|X-𝔼X|ᵖ]/tᵖ
+
+ℙ{X ≥ t} ≤ 𝔼exp(sX)/exp(st)
+
+--
+
+ℙ[ X≥t ] = ℙ[exp[sX] ≥ exp[st]]
+Markov inequality:
+
+Chernoff bounds
+---------------
+Pr[X ≥ t] ≤ 𝔼[exp[sX]]/exp[st]
+Choose s to get tightest bound
+
+--
+
+S_n = ∑(i=1..n) Xᵢ - independent Xᵢ
+
+ℙ{|S_n-𝔼S_n| ≥ t} ≤ Var{S_n}/t² = ∑(i=1..n) Var{Xᵢ}/t²
+
+σ² = (1/n)∑Var(Xᵢ)
+
+ℙ{|(1/n) ∑Xᵢ-𝔼Xᵢ| ≥ ε} ≤ σ²/(nε²)   (trivial)
+
+--
+
+ℙ{S_n-𝔼S_n ≥ t} ≤ exp(-st) 𝔼[ exp(s∑(Xᵢ-𝔼Xᵢ)) ]
+                = exp(-st) ∏ 𝔼[ exp(s(Xᵢ-𝔼Xᵢ)) ]    Inequality (1)
+
+--
+
+Random vectors
+--------------
+Norm of random vector.
+Let X = [X₁ X₂ … X₃]ᵗ
+Gaussian, mean 0, covariance matrix P
+Does ‖X‖₂² concentrate around mean?
+
+MGF
+---
+
+𝔼[exp[±s‖X‖₂²] = ∫ dx 1/√(2π det P) exp(±sx·x)exp(-½x·P⁻¹)
+               = ∫ dx 1/√(2π det P) exp(-½x·(P⁻¹∓2sI)x)
+               = ∫ dx √(2π det(P⁻¹∓2sI)⁻¹)/√(2π det P) 
+               = ∫ dx √(det(P⁻¹∓2sI)⁻¹)/√(det P) 
+               = ∫ dx 1/√(det(I∓2sP))
+
+Eg. special case P=I (So ‖X‖₂² ~ χ_n²)
+               = (1-2s)^(-n/2)
+
+Special case: X ~ 𝒩 (0,σ²I)
+Expected norm: 𝔼[‖X‖₂²] = ∑𝔼[Xᵢ²] = n Var(X₁) = nσ²
+
+Chernoff bound:
+ℙ[ ‖X‖₂² ≥ (1+ε)𝔼[‖X‖₂²] ] ≤ min (s>0) 𝔼[exp[s‖X‖₂²]/exp(s(1+ε)nσ²)
+                           = min (s>0) (1-2sσ²)^(-n/2) exp(-s(1+ε)nσ²)
+
+
+min f(s) = (1-2sσ²)^(-n/2) exp(-s(1+ε)nσ²)
+
+min f(s) = G(s)exp(-As)
+f'(s) = G'(s)exp(-As) -AG(s)exp(-As)
+Solve: A = G'(s)/G(s)
+       A = (log G)'(s)
+
+G(s) = (1-2sσ²)^(-n/2)
+A = (1+ε)nσ²
+log G(s) = (-n/2) log(1-2σ²s)
+(log G(s))' = nσ²/(1-2σ²s) = (1+ε)nσ²
+1-2σ²s = nσ²/((1+ε)nσ²)
+1-2σ²s = 1/(1+ε)
+1-1/(1+ε) = 2σ²s
+ε/(1+ε) = 2σ²s
+s = ε/(2σ²(1+ε))
+
+Substitute back in:
+(1-2sσ²)^(-n/2) → (1-2εσ²/(2σ²(1+ε)))^(-n/2)
+               = (1-ε/(1+ε))^(-n/2)
+               = (1+ε)^(n/2)
+exp(-s(1+ε)nσ²) → exp(-ε(1+ε)nσ²/(2σ²(1+ε)))
+                = exp(-εn/2)
+
+So ℙ[ ‖X‖₂² ≥ (1+ε)𝔼[‖X‖₂²] ] ≤ ((1+ε)exp(-ε))^(n/2)
+                              = (exp(-ε+log(1+ε)))^(n/2)
+
+(
+log(1+ε) ≤ ε-ε²/2+ε³/3
+L(0) = 0, R(0) = 0
+L'(ε) = 1/(1+ε)
+R'(ε) = 1-ε+ε²
+L'(0) = 1
+R'(0) = 1
+L''(ε) = -1/(1+ε)²
+R''(ε) = -1+2ε
+L''(0) = -1
+R''(0) = -1
+L⁽³⁾(ε) = 2/(1+ε)³
+R⁽³⁾(ε) = 2
+L⁽³⁾(0) = 2
+R⁽³⁾(0) = 2
+L⁽⁴⁾(ε) < R⁽⁴⁾ for small ε (down to ε = -1)
+∴ L(ε) ≤ R(ε) for all small ε
+
+So (1+ε)exp(-ε) ≤ exp(-(ε²/2-ε³/3))
+
+So ℙ[ ‖X‖₂² ≥ (1+ε)𝔼[‖X‖₂²] ] ≤ (exp(-(ε²/2-ε³/3)))^(n/2)
+
+Also ε²/6 ≥ ε³/3 for ε ≤ ½
+So ε²/2-ε³/3 ≥ ε²/3 for 0 < ε < ½
+
+So ℙ[ ‖X‖₂² ≥ (1+ε)𝔼[‖X‖₂²] ] ≤ exp(-ε²n/6) 
+
+Similarly ε²/2 ≤ ε²/2-ε³/3 for ε ≤ 0
+
+So ℙ[ ‖X‖₂² ≤ (1-ε)𝔼[‖X‖₂²] ] ≤ exp(-ε²n/4)  
+
+--
+Johnson-Lindenstrauss
+---------------------
+
+Given ε > 0, and integer N.
+Let m ≥ m₀ = O(log(N)/ε²)
+
+For all sets P of N points in ℝⁿ,
+there exists ψ:ℝⁿ → ℝᵐ such that for all u,v∈ℙ
+
+(1-ε)‖u-v‖² ≤ ‖ψ(u)-ψ(v)‖² ≤ (1+ε)‖u-v‖²
+
+
+Choose
+
+ψ(x) = Ax where 
+
+    [a₁₁  a₁₂  … a₁_n ]
+A = [ ⋮    ⋮   ⋱   ⋮  ]
+    [a_m₁ a_m₂ … a_m_n]
+
+aᵢⱼ ~ 𝒩 (0, 1/m) independent
+
+nC2 distances to consider
+
+Fix x. Consider y = Ax.
+
+yᵢ = ∑ⱼ aᵢⱼxⱼ
+𝔼yᵢ = ∑ xⱼ 𝔼aᵢⱼ = 0
+Var yᵢ = ∑ xⱼ² Var aᵢⱼ = ‖x‖₂²/m
+
+yᵢ ~ 𝒩 (0, ‖x‖₂²/m), independent.
+
+𝔼[‖Ax‖₂²] = 𝔼[‖y‖₂²] = m/m ‖x‖₂²
+
+So ℙ[not (1-ε)‖x‖₂² ≤ ‖Ax‖₂² ≤ (1+ε)‖x‖₂²] ≤ 2exp(-ε²m/6)
+
+So probability of failing for NC2 vectors is ≤ 2(NC2)exp(-ε²m/6)
+≤ 2(N²/2)exp(-ε²m/6)
+= exp(-ε²m/6+2log N)   (my constant disagrees with notes, doesn't change result)
+
+Small for m > O(log N/min(ε,0.5)²)
+
+Should come back here to look at matrix trace estimation…
+--
+
+
+Hoeffding's Inequality (not proved here)
+
+If:
+X lies in [a,b].
+𝔼[X] = 0.
+
+Then:
+𝔼[exp(sX)] ≤ exp(s²(b-a)²)/8                        Inequality (2)
+
+--
+
+Combine (1) and (2):
+
+Let S = ∑(bᵢ-aᵢ)²
+
+RHS of (1) is
+A = exp(-st+s²S/8)
+
+Best bound: minimize (S/8)s²-st
+Diff w.r.t. s, set = 0
+(S/4)s = t
+s = 4t/S
+
+Substitute back in: A = exp(-2t²/S)
+
+∴ ℙ{S_n-𝔼S_n ≥ t} ≤ exp(-2t²/∑(bᵢ-aᵢ)²)
+(Hoeffding inequality)
+
+--
+
+Suppose 𝔼Xᵢ = 0.
+Define σᵢ² = 𝔼[Xᵢ²]
+       Fᵢ = 𝔼[ψ(sXᵢ)] = ∑(t=2..∞) s^(r-2)𝔼[Xᵢʳ]/(r!σᵢ²)
+       ψ(x) = exp(x)-x-1
+
+ψ(x) ≤ x²/2 for x≤0.
+(
+Define f(x) = exp(-x)-x+½x²
+
+f'(0) = 0 and x≥0 ⇒ f''(x)≤0 
+So x≥0 ⇒ f'(x)≤0
+
+f(0) = 0 and x≥0 ⇒ f'(x)≤0 
+So x≥0 ⇒ f(x)≤0
+
+So ψ(x) ≤ x²/2 for x≤0)
+
+s≥0 and x∈[0,1] ⇒ ψ(sx) ≤ x²ψ(s)
+(
+ ψ(sx) = s²x²/2! + s³x³/3! + …
+x²ψ(s) = x²(s²/2! + s³/3! + …)
+       = s²x²/2! + s³x²/3! + …
+compare term by term
+True for any analytic ψ with +ve coefficients and starting with squared term.
+)
+
+Define x₊ = max(0, x)   positive part
+       x₋ = min(0, -x)  negative part
+
+x = x₊-x₋
+
+𝔼[exp(sXᵢ)] = 1 + s𝔼[Xᵢ] + 𝔼[ψ(sXᵢ)]
+            = 1 + 𝔼[ψ(sXᵢ)]                     (E[Xᵢ] = 0)
+            ≤ 1 + 𝔼(ψ(s(Xᵢ)₊) + ψ(-s(Xᵢ)₋)]
+            ≤ 1 + E[ψ(s(Xᵢ)₊) + ½s²(Xᵢ)₋²]      (Using ψ(x) ≤ x²/2 for x≤ 0)
+
+Assume Xᵢ ≤ 1
+
+E[exp(sXᵢ)] ≤ 1 + E[ψ(s(Xᵢ)₊) + ½s²(Xᵢ)₋²] ≤ 1+ψ(s) ... ???
+
+Don't get argument in book
+
+Try again
+
+𝔼[exp(sXᵢ)] ≤ 1 + 𝔼[ψ(sXᵢ)]
+            = 1 + 𝔼[s²Xᵢ²/2 ψ(sXᵢ)/(s²Xᵢ²/2)]
+            ≤ 1 + s²/2 𝔼[Xᵢ²] ψ(s)/(s²/2)       (ψ(s)/(s²/2) is monotonically increasing and Xᵢ≤1)
+            = 1 + ψ(s)𝔼[Xᵢ²]
+            ≤ exp(ψ(s)𝔼[Xᵢ²])
+
+We had
+ℙ{S_n-𝔼S_n ≥ t} ≤ exp(-st) ∏ 𝔼[ exp(s(Xᵢ-𝔼Xᵢ)) ]
+
+If 𝔼Xᵢ = 0 we have
+
+ℙ{S_n ≥ t} ≤ exp(-st) ∏ 𝔼[ exp(sXᵢ) ]
+           ≤ exp(-st) ∏ exp(ψ(s)σ²)
+           ≤ exp(nψ(s)σ²-st)
+
+Minimise over s
+
+f(s) = nσ²(exp(s)-s-1) - st
+f'(s) = nσ²(exp(s)-1) - t = 0
+
+exp(s)-1 = t/(nσ²)
+s = log(1+t/(nσ²))
+
+f(s) = nσ²(1+t/(nσ²)-log(1+t/(nσ²)))-tlog(1+t/(nσ²))
+     = nσ²(1+t/nσ²-(1+t/(nσ²)log(1+t/(nσ²))))
+
+∴ Bennett's Inequality
+----------------------
+σ² = (1/n)∑Var(Xᵢ)
+Xᵢ independent
+Xᵢ ≤ 1 with probability 1.
+
+For any t > 0:
+
+So ℙ{∑Xᵢ > t} ≤ exp(-nσ²h(t/(nσ²)))
+where h(u) = (1+u)log(1+u)-u
+
+--
+
+RTP h(u) ≥ u²/(2+2u/3) for u ≥ 0
+True at u = 0.
+
+h'(u) = log(1+u)
+RHS' = (2u(2+2u/3) - 2u²/3)/(2 + 2u/3)²
+     = (4u+4u²/3-2u²/3)/(2+2u/3)²
+     = (4u+2u²/3)/(2+2u/3)²
+     = 3(12u+2u²)/2(6+2u)²
+     = 3(6u+u²)/2(3+u)²
+     = 3u(6+u)/2(3+u)²
+h'(0) = 0
+RHS'(0) = 0
+RHS''(u) = 27/(u+3)³
+h''(u) = 1/(1+u)
+h''(u)-RHS''(u) = u²(u+9)/(u+1)/(u+3)³
+
+So h(u) is bigger for u≥0
+
+Bernstein's Inequality
+=----------------------
+For ε>0 and conditions like above:
+we now have ℙ{(1/n)∑X_i ≥ ε} ≤ exp(-nε²/2(σ²+ε/3))
+
+Efron-Stein
+-----------
+
+(Towering proprty
+𝔼[V|E] = 𝔼[𝔼[V|U,W] | W]
+)
+
+Xᵢ independent
+Z = g(X₁,…,X_n)
+Var(Z) ≤ ∑𝔼E[(Z-EᵢZ)²]
+
+𝔼[XY] = 𝔼[𝔼[XY|Y]] = 𝔼[Y𝔼[X|Y]]
+
+Let V = Z-𝔼Z
+So Var Z = 𝔼(V²)
+Let Vᵢ = 𝔼[Z|X₁,…,Xᵢ]-𝔼[Z|X₁,…,Xᵢ₋₁]
+
+Eg. n=2:
+V₁ = 𝔼[Z|X₁] - 𝔼[Z]
+V₂ = 𝔼[Z|X₁, X₂] - 𝔼[Z|X₁]
+V₁+V₂ = Z-𝔼[Z] because 𝔼[Z|X₁, X₂] is just f(X₁,X₂) as Z no longer random
+if we know what X₁ and X₂ are.
+So we're basically creeping up on V one variable at a time.
+So V = ∑Vᵢ
+
+Suppose i>j
+𝔼VᵢVⱼ = 𝔼𝔼[VᵢVⱼ|X₁,…,Xⱼ] (because already assuming X₁,…,Xⱼ given)
+      = 𝔼[Vⱼ𝔼[Vᵢ|X₁,…,Xⱼ]] (as Vⱼ constant if X₁,…,Xⱼ given)
+
+Consider 𝔼[Vᵢ|X₁,…,Xⱼ]
+
+Vᵢ = 𝔼[Z|X₁,…,Xᵢ] - 𝔼[Z|X₁,…,Xᵢ₋₁]
+𝔼[Vᵢ|X₁,…,Xⱼ] = 𝔼[𝔼[Z|X₁,…,Xᵢ]|X₁,…,Xⱼ] - 𝔼[𝔼[Z|X₁,…,Xᵢ₋₁]|X₁,…,Xⱼ]
+              = 𝔼[Z|X₁,…,Xⱼ] - 𝔼[Z|X₁,…,Xⱼ]
+              = 0
+
+Var(Z) = 𝔼[(∑Vᵢ)²]
+       = 𝔼∑Vᵢ² + 2𝔼∑(i≠j) VᵢVⱼ
+       = 𝔼∑Vᵢ²
+
+(
+E[X]² ≤ E[X²]
+
+𝔼[(X-𝔼X)²] = 𝔼[X²-2X𝔼X+(𝔼X)²]
+           = 𝔼[X²]-2(𝔼X)²+(𝔼X)²]
+           = E[X²]-(𝔼X)² ≥ 0
+)
+
+Vᵢ² = (𝔼[Z|X₁,…,Xᵢ]-𝔼[Z|X₁,…,Xᵢ₋₁])²
+    = (𝔼[ 𝔼[Z|X₁,…,X_n]-𝔼[Z|X₁,…,Xᵢ₋₁,Xᵢ₊₁,…,X_n] | X₁,…,Xᵢ])²
+    ≤ 𝔼[ (𝔼[Z|X₁,…,X_n]-𝔼[Z|X₁,…,Xᵢ₋₁,Xᵢ₊₁,…,X_n])² | X₁,…,Xᵢ ]
+    = 𝔼[ (𝔼[Z|X₁,…,X_n]-𝔼[Z|X₁,…,Xᵢ₋₁,Xᵢ₊₁,…,X_n])² | X₁,…,Xᵢ ]
+    = 𝔼[ (Z-𝔼Z)² | X₁,…,Xᵢ ]
+
+Define 𝔼ᵢZ = 𝔼[Z|X₁,…,Xᵢ₋₁,Xᵢ₊₁,…,X_n]
+
+𝔼[Vᵢ²] = 𝔼[(Z-𝔼ᵢZ)²]
+
+So Theorem 4
+Let X₁',…,X_n' be an independent copy of X₁,…,X_n
+Define Zᵢ' = g(X₁,…,Xᵢ',…,X_n)
+
+Var Z ≤ ∑ 𝔼[(Z-𝔼ᵢZ)²]
+
+Efron-Stein Inequality
+----------------------
+
+Var(Z) ≤ ½∑𝔼[(Z-Zᵢ')²]
+
+Proof:
+Var(X) = ½ 𝔼[(X-Y)²] if X and Y i.i.d.
+𝔼[(Z-𝔼ᵢZ)²] = ½ 𝔼ᵢ[(Z-Zᵢ')²]
+
+(See conc1.jl for tests)
+
+Intuitively: the total variance is bounded by the expected "one-variable-at-a-time" variation. The factor ½ comes from doing variation between two copies of Z.
+
+Eg.
+X,Y,X',Y' ~ N(0,1)
+Z = X+Y
+Z₁' = X'+Y
+Z₂' = X+Y'
+
+Var(Z) = Var(X+Y) = Var(X)+Var(Y) = 2
+
+𝔼(Z-Z₁')²] = 𝔼[(X+Y-X'-Y)²]
+           = 𝔼[X²+X'²]
+           = 2
+So RHS = 4
+2 ≤ ½4 ✓
+
+Intuition: Sums are least concentrating and bound is met.
+
+---
+
+Var(X) ≤ 𝔼[(X-a)²] forall a. (a=𝔼X is minimum.)
+
+Define Zᵢ = gᵢ(X₁,…,Xᵢ₋₁,Xᵢ₊₁,…,X_n)
+
+So 𝔼ᵢ[(Z-𝔼ᵢZ)²] ≤ 𝔼ᵢ[(Z-Zᵢ)²]
+Which gives, using proof above,
+
+Theorem 6
+---------
+Var Z ≤ ∑𝔼[(Z-Zᵢ)²]
+This is for any measurable gᵢ
+
+Jackknife Estimate
+------------------
+X₁,…,X_n i.i.d
+Want to estimate θ by Z = f(X₁,…,X_n)
+Quality measures: bias 𝔼Z-θ, variance
+Jacknife estimate of bias:
+(n-1)/n ∑Zᵢ-Z
+Zᵢ some function of X⁽ⁱ⁾ = (X₁,…,Xᵢ₋₁,Xᵢ₊₁,…,X_n)
+Jacknife estimate of variance:
+∑(Z-Zᵢ)²
+sometimes with (n-1)/n out front.
+
+Bounded differences
+-------------------
+Bounded property:
+sup |g(x₁,…,x_n)-g(x₁,…,xᵢ₋₁,xᵢ',xᵢ₊₁,…,x_n)| ≤ cᵢ
+sup over all x₁,…,x_n,xᵢ'
+
+Corollary 1
+-----------
+Var ZX ≤ ½ ∑cᵢ²
+
+---
+𝒜 collection of subsets of 𝒳
+μ(A) = ℙ{X₁∈A}
+
+μ_n(A) = (1/n) ∑𝟙_{X_n∈A}
+
+Z = sup (A∈𝒜) |μ_n(A)-μ(A)|
+
+? Sum of n 0-1 variables always ≤ 1/(2n) ?
+
+In this case we're looking at sup.
+
+--
+Better estimate for Var Z…
+Remember Xᵢ are i.i.d.
+
+F some class of real valued functions.
+Z = g(X₁, …, X_n) = sup (f∈F) ∑ f(Xⱼ)
+
+Let's say that for all f ∈ F:
+𝔼[f(Xᵢ)] = 0, f(x) ∈ [-1, 1]
+
+Zᵢ = sup (f∈F) ∑ (j≠i) f(Xⱼ)
+(i.e. Z misisng ith term)
+
+Let f̂ achieve supremum so
+Z = ∑f̂(Xᵢ)
+
+∑f(Xᵢ) ≤ ∑f̂(Xᵢ) defṇ of f̂
+∑(j≠i) f(Xᵢ) ≤ ∑f̂ᵢ(Xᵢ) defṇ of f̂
+
+Also define f̂ᵢ such that Zᵢ = ∑(j≠i) f̂ᵢ(Xⱼ)
+
+By defṇ Z-Zᵢ = ∑(j≠i)(f̂(Xⱼ)-f̂ᵢ(Xⱼ)) + f̂(Xᵢ)
+               \__________________/
+                  ≤0 by defṇ of f̂ᵢ
+
+By defṇ Z-Zᵢ = ∑(f̂(Xⱼ)-f̂ᵢ(Xⱼ)) - f̂(Xᵢ) + f̂ᵢ(Xᵢ) + f̂(Xᵢ)
+             = ∑(f̂(Xⱼ)-f̂ᵢ(Xⱼ)) + f̂ᵢ(Xᵢ)
+               \_____________/
+                ≥0 by defṇ of f̂
+
+Combining gives:
+
+f̂ᵢ(Xᵢ) ≤ Z-Zᵢ ≤ f̂(Xᵢ)
+
+∴ ∑(Z-Zᵢ) ≤ Z (By defṇ Z = ∑f̂(Xᵢ))
+
+(I don't know what it means for f̂ᵢ and Xᵢ to be independent.
+By defṇ 𝔼ᵢ[f̂ᵢ(Xᵢ)] = 𝔼[ f̂ᵢ(Xᵢ) | X₁,…,Xᵢ₋₁,Xᵢ₊₁,…,X_n ]
+??? 𝔼ᵢ[f̂ᵢ(Xᵢ)] = 0 ???
+Makes perfect sense. f̂ᵢ is a random variable selected based on
+X₁,…X̂ᵢ,…,X_n
+)
+
+𝔼[f̂ᵢ(Xᵢ)] = 0
+
+???
+(Z-Zᵢ)² - f̂ᵢ²(Xᵢ) = (Z-Zᵢ+f̂ᵢ(Xᵢ))(Z-Zᵢ-f̂ᵢ(Xᵢ))
+                  ≤ 2(Z-zᵢ+f̂ᵢ(Xᵢ))
+??? XXX Come back to this ???
+See conc3.jl for counterexample. This is wrong.
+
+𝔼[ ∑(Z-Zᵢ)² ] ≤ 𝔼[ ∑f̂ᵢ(Xᵢ)² + 2(Z-Zᵢ) + 2f̂ᵢ(Xᵢ) ]
+              ≤ n sup(f∈F) 𝔼[f(X₁)²]    (trivial 'cos sup)
+                + 2𝔼[Z]                 ('cos ∑ Z-Zᵢ ≤ Z)
+                + 0                     ('cos 𝔼f̂ᵢ(Xᵢ) = 0)
+So
+
+Var Z ≤ n sup(f∈F) 𝔼[f(X₁)²] + 2𝔼[Z]
+
+--
+
+Minimum of Empirical Loss
+-------------------------
+
+F a class of {0,1}- values functions on X.
+Assume F finite.
+i.i.d D_n = (〈Xᵢ,Yᵢ〉)_{i≤n}
+〈Xᵢ,Yᵢ〉 take values in X×{0,1}
+Define empirical loss:
+L_n(f) = (1/n) ∑ ℓ(f(Xᵢ), Yᵢ) with ℓ(y,y') = 𝟙_{y≠y'}
+
+Often one needs:
+
+L̂ = inf_{f∈F} L_n(f)
+
+E-S gives Var(L̂) ≤ 1/(2n)
+
+Z - nL̂ and Zᵢ' as above.
+Define Zᵢ' = min_{f∈F} [ ℓ(f(Xᵢ), Yᵢ) + ℓ(f(Xᵢ'), Yᵢ') ]
+〈Xᵢ', Yᵢ'〉 same distribution as 〈Xᵢ,Yᵢ〉 but independent.
+
+Var X ≤ ½ ∑ 𝔼[(Z-Zᵢ')²] = ∑ 𝔼[(Z-Zᵢ')²𝟙_{Zᵢ'>Z}]
+??? Where does that last bit come from ???
+OK, switching do document (4) now as I don't trust (1)
+
+Uniform Deviations
+------------------
+X₁,,…,X_n in 𝒳 i.i.d
+𝒜 is collection of subsets of 𝒳
+μ is distribution of X₁ so μ(A) = ℙ{X₁∈A}
+μ_n is empirical distribution
+
+μ_n(A) = (1/n) ∑𝟙{Xᵢ∈Aᵢ}
+
+We want Z = sup(A∈𝒜)|μ_n(A)-μ(A)|
+If lim(n→∞)𝔼Z = 0 for every μ then 𝒜 is called a uniform Glivenko-Cantelli class.
+Changing one Xᵢ changes Z by at most 1/n.
+So Var(Z) ≤ 1/(2n)
+--
+Better estimate:
+
+Let ℱ be some class of functions.
+Define Z = g(X₁,…,X_n) = sup(f∈ℱ) ∑f(Xⱼ)
+
+Write Efron-Stein as
+
+Var(Z) ≤ ½ ∑𝔼[(Z-Zᵢ')²] = ∑𝔼[(Z-Zᵢ')²𝟙{Zᵢ'<Z}]
+Let f* be the actual supremum (which is a function of the Xᵢ)
+So Z = ∑f*(Xⱼ)
+
+(Z-Zᵢ')²𝟙{Zᵢ'<Z} ≤ (f*(Xᵢ)-f*(Xᵢ'))²
+
+(Z-Zᵢ')² ≤ 𝔼[sup(f∈ℱ) ∑ ((f(Xᵢ)-f(Xᵢ'))² ]

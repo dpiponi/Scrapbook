@@ -1,0 +1,65 @@
+∑(Z-Zᵢ) ≤ Z
+nZ-∑Zᵢ ≤ Z
+(n-1)Z ≤ ∑Zᵢ
+Z ≤ 1/(n-1)∑Zᵢ
+
+
+(a+b)(a-b) ≤ 2(a+b) ???
+Also have b ≤ a
+So a-b ≥ 0
+We could have a small and b very -ve ??
+Eg. a=0, b=-1
+(0-1)(0+1) ≤ 2(0-1) ???
+-1 ≤ -2 ??? No!
+
+We know this is ≥ 0 because Z-Zᵢ ≥ f̂ᵢ(Xᵢ) no. 
+
+-1 ≤ Z-Zᵢ ≤ 1
+
+Lots of detail now.
+
+Xᵢ ~ 𝒰 [-1, 1]
+F = {-1,1}-valued functions
+
+Z = sup (f∈F) f(Xᵢ)
+Maximized when f(x) = 1 for x>0, -1 for x<0.
+Clearly 𝔼[f(Xᵢ)] = 0.
+
+We know -n ≤ Z ≤ n
+        -n+1 ≤ Zᵢ ≤ n-1
+
+Pick F = linear functions.
+So f(x) = ax.
+Eg. max axᵢ
+    s.t. |ax|<1 for all x in [-1,1]
+Pick a = 1 if ∑Xᵢ > 0, -1 otherwise.
+
+f̂(x) = âx
+
+â is {is ∑Xᵢ > 0}
+âᵢ is {is a(j≠i) ∑Xⱼ > 0}
+
+Eg.
+X₁ = -½
+X₂ = 1
+â = 1
+â₁ = 1
+â₂ = -1
+Z = ½
+Z₁ = 1
+Z₂ = ½
+Z-Z₁ = -½
+Z-Z₂ = 0
+f̂₁(X₁) = -½
+f̂₂(X₂) = -1
+â₁X₁ = -½ ≤ Z-Z₁ = -½ ≤ âX₁ = -½
+â₂X₂ = -1 ≤ Z-Z₂ = 0 ≤ âX₂ = 1
+
+(Z-Z₁)² = ¼
+f̂₁(X₁)² = (-½)² = ¼
+(Z-Z₁)² - f̂₁(X₁)² = 0
+Z-Z₁+f̂₁(X₁) = -½-½ = -1 ⨳
+
+(Z-Z₂)² = 0
+f̂₂(X₂)² = (-1)² = 1
+(Z-Z₂)² - f̂₂(X₂)² = -1
