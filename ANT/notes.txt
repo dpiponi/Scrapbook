@@ -1,0 +1,97 @@
+Symmetric polynomials
+---------------------
+
+p = t₁²t₂ + t₁²t₃ + t₁t₂² + t₁ t₃² + t₂²t₃ + t₂t₃²
+
+Highest power is 2. Second highest is 1.
+s₁s₂ = (t₁+t₂+t₃)(t₁t₂+t₂t₃+t₁t₃)
+p-s₁s₂ = 3t₁t₂t₃
+
+p = s₁s₂ + 3 s₃
+
+Corollary 1.14
+--------------
+L extension of K
+p ∈ K[t]
+zeros of p are θ₁,…,θ_n ∈ L
+h(t₁, t₂, …, t_n) ∈ K[t₁, …, t_n]
+⇒ 
+
+---
+Monic p(x) = xᵐ+… = 0
+p(x) = 0 
+xᵐ = xᵐ-p(x)
+
+Eg. x² = x+1
+
+[0 1]
+[1 1]
+
+1/x
+[-1 1]
+[1  0]
+
+x-1 ?
+
+x(x-1) = x²-x = x+1-x = 1
+
+More generally x³ = ax²+bx+c
+
+[0 0 c]
+[1 0 b]
+[0 1 a]
+
+[0 b] = -b
+[1 a]
+
+[1 b] = a
+[0 a]
+
+[1 0] = 1
+[0 1]
+
+Det = c
+
+[-b/c -a/c 1/c]
+
+1/x = (-b-ax-x²)/c
+
+Invert x using GCD?
+a(x)x = 1
+
+a(x)x + s(x)p(x) = 1
+
+a(x)x + s(x)(xᵐ+q(x)) = 1
+(a(x)+s(x)xᵐ⁻¹)x + s(x)q(x) = 1
+
+a(x)x + s(x)(x²+x+1) = 1
+(a(x)+xs(x))x + s(x)(x+1) = 0
+
+
+x, x²+x+1
+
+x²+x+1 = (x+1)x + 1
+
+x, x³+ax²+bx+c
+
+(x²+ax+b)x+c
+
+1/h(x)
+
+∑ (a+b)⁻²(c+d)⁻²(a+b+c+d)⁻² = 1/24
+where sum is over integers (a,b,c,d) such that 1≤a≤b,1≤c≤d
+
+[Q(α,β):Q] = [Q(α,β):Q(α)][Q(α):Q]
+
+What does it mean for α+β
+
+2.2 Conjugates and Discriminants
+--------------------------------
+K = ℚ(θ)
+n monomorphisms σᵢ:K -> ℂ
+Each σᵢ(θ) = θᵢ is a zero of minimum polynomial
+Sort of indistinguishable in ℂ.
+
+Field polynomial of α in ℚ(θ) is
+
+f_α(t) = ∏ (t-σᵢ(α))
