@@ -1,0 +1,216 @@
+Convention:
+(-+++) metric
+so timelike negative
+   spacelike positive
+Use 0 for time and i,j  for space
+
+Field eqns:
+
+G[/ab] = 8πT[/ab]
+
+Bianchi identites:
+
+∇[/b] G[ab/] = 0
+
+∇[/c]G[ab/] = ∂[/c]G[ab/] + Γ[a/dc]G[db/] + Γ[b/dc]G[ad/]
+
+∇[/b]G[ab/] = ∂[/c]G[ab/] + Γ[a/db]G[db/] + Γ[b/db]G[ad/]
+            = ∂[/t]G[a0/] + ∂[/i]G[ab/] + Γ[a/ib]G[ib/] + Γ[b/ib]G[ai/] = 0
+
+So
+
+∂[/t]G[a0/] =  - ∂[/i]G[ab/] - Γ[a/db]G[db/] - Γ[b/db]G[ad/]
+
+So G[a0/] can't contain second derivatives.
+(This is a weird argument. Presumably this can be seen by looking at original definition of G.)
+
+So 4 equations
+G[a0/] = 8πT[a0/] are not "dynamical".
+Give constraints on g[/ab] and ∂[/t]g[/ab]
+
+Actual equations of motion are
+G[ij/] = 8πT[ij/]
+
+--------------------------------------------------------------------------------
+Ex 2.1
+RTP
+If constraint
+G[a0/] = 8πT[a0/] (I) holds at start end evolves by
+G[ij/] = 8πT[ij/] then constraint still holds after time t.
+
+RTP ∂[/t](G[a0/] - 8πT[a0/]) = 0
+Using ∇[/b]G[ab/] = 0    Bianchi (B)
+and   ∇[/b]T[ab/] = 0    Conservation (C)
+and   G[ij/] = 8πT[ij/]  Motion (M)
+
+∂[/t](G[a0/] - 8πT[a0/]) = 0
+
+∂[/t]G[a0/] + ∂[/i]G[ai] = 0
+
+∂[/b](G[ab/]-8πT[ab/]) = 0
+
+∂[/t](G[a0/]-8πT[a0/]) = -∂[/i](G[ai/]-8πT[ai/]) by B and C
+                       = -∂[/i](0) by M if a≠0 (*)
+
+If a=0:
+∂[/t](G[00/]-8πT[00/]) = -∂[/i](G[0i/]-8πT[0i/]) by B 0nd C
+
+∂[/i](G[0i/]-8πT[0i/]) at t=0 as constraint holds on all of t=0 hypersurface
+∂[/t]∂[/i](G[0i/]-8πT[0i/]) = ∂[/i]∂[/t](G[0i/]-8πT[0i/])
+                            = 0 by (*)
+So ∂[/i](G[0i/]-8πT[0i/]) is constant.
+So remains zero. ▪
+--------------------------------------------------------------------------------
+Define
+Ω[/a] ≡ ∇[/a]t
+
+‖Ω‖ = g[ab/](∇[/a]t)(∇[/b]t) ≡ -1/α²
+α is "lapse" function
+
+--------------------------------------------------------------------------------
+Ex 2.5
+
+ω[/a] = αΩ[/a]
+A typo: ω for ε ?????
+
+RTP ω[/[a] ∇[/b]ω[/c]] = 0
+
+ω = -1/√(-‖Ω‖²) Ω = -1/√(-‖Ω‖²) ∇t
+
+∇[/a]Ω[/b] = ∇[/a] (√(-‖Ω‖²)ω[/b])
+           = (∇[/a] √(-‖Ω‖²)) ω[/b]) + √(-‖Ω‖²) (∇[/a] ω[/b])
+           = -1/(2√(-‖Ω‖²)) (∇[/a] (-g[ef/]Ω[/e]Ω[/f])) ω[/b]) + √(-‖Ω‖²) (∇[/a] ω[/b])
+
+Ω² = -‖Ω‖²
+Ω = √(-‖Ω‖²)
+
+∇[/a] ω[/b] = 1/√(-‖Ω‖²) ∇[/a]Ω[/b] - 1/(-2‖Ω‖²) (∇[/a] (-g[ef/]Ω[/e]Ω[/f])) ω[/b])
+            = 1/√(-‖Ω‖²) ∇[/a]∇[/b]t - 1/(-2‖Ω‖²) (-∇[/a](g[ef/]Ω[/e]Ω[/f])) ω[/b])
+            = 1/√(-‖Ω‖²) ∇[/a]∇[/b]t - 1/(-2‖Ω‖²) (-g[ef/]∇[/a](Ω[/e]Ω[/f])) ω[/b])
+            = 1/√(-‖Ω‖²) ∇[/a]∇[/b]t - 1/(-2‖Ω‖²) (-g[ef/]((∇[/a]Ω[/e])Ω[/f])+(∇[/a]Ω[/e])Ω[/f]) ω[/b])
+            = 1/Ω ∇[/a]∇[/b]t - 1/(2Ω³) (-g[ef/]((∇[/a]∇[/e]t)∇[/f]t)+(∇[/a]∇[/e]t)∇[/f]t) ∇[/b]t)
+            = 1/Ω ∇[/a]∇[/b]t - 1/Ω³ (-g[ef/])(∇[/a]∇[/e]t)(∇[/f]t)(∇[/b]t)
+
+ω[/c] ∇[/a] ω[/b] [abc]  ∝ Ω² (∇[/c]t)(∇[/a]∇[/b]t) - (∇[/c]t)(-g[ef/])(∇[/a]∇[/e]t)(∇[/f]t)(∇[/b]t)     [abc]
+                         = (-g[ef/](∇[/e]t)(∇[/f]t)(∇[/c]t)(∇[/a]∇[/b]t) - (-g[ef/])(∇[/f]t)(∇[/b]t) (∇[/c]t)(∇[/a]∇[/e]t)   [abc]
+                         = -g[ef/]((∇[/e]t) (∇[/f]t)(∇[/c]t)(∇[/a]∇[/b]t) + (∇[/f]t)(∇[/b]t) (∇[/c]t)(∇[/a]∇[/e]t))   [abc]
+                         = -g[ef/](∇[/c]t) ((∇[/e]t) (∇[/f]t)(∇[/a]∇[/b]t) + (∇[/f]t)(∇[/b]t) (∇[/a]∇[/e]t))   [abc]
+                         <symmetry in a, b>
+                         = -(∇[/c]t) g[ef/](∇[/f]t) ((∇[/e]t) (∇[/a]∇[/b]t) + (∇[/b]t) (∇[/a]∇[/e]t))   [abc]
+                         <symmetry in b, c>
+                         = -(∇[/c]t) g[ef/](∇[/f]t) (∇[/b]t) (∇[/a]∇[/e]t)   [abc]
+                         = 0
+--------------------------------------------------------------------------------
+Define
+n[a/] ≡ -g[ab/]ω[/b]
+
+γ[/ab] = g[/ab]+n[/a]n[/b]
+
+n[a/]n[/a] = -1
+
+γ[a/b] = δ[a/b]+n[a/]n[/b]
+--------------------------------------------------------------------------------
+Exercise 2.6
+
+RTP γ[a/b]v[b/] is purely spatial
+
+γ[a/b]v[b/]n[/a] = (δ[a/b]+n[a/]n[/b])v[b/]n[/a]
+                 = v[a/]n[/a] + n[a/]n[/a]n[/b]v[b/]
+                 = v[a/]n[/a] - n[/b]v[b/]
+                  = 0
+--------------------------------------------------------------------------------
+Project into 3-space:
+⊥T[/ab] = γ[a\c]γ[b\d]T[cd/]
+
+Project onto normal:
+N[a/b] = -n[a/]n[/b] = δ[a/b]-γ[a/b]
+--------------------------------------------------------------------------------
+Exercise 2.7
+
+RTP T[/ab] = ⊥T[/ab]-n[/a]n[c/]⊥T[/cb]-n[/b]n[c/]T[/ac]+n[/a]n[/b]n[c/]n[d/]T[/cd]
+
+⊥T[/ab] = γ[a\c]γ[b\d]T[cd/]
+        = (δ[a\c]-n[c/]n[/a])(δ[b\d]-n[/b]n[d/])T[/cd]
+        = T[/ab] - n[/a]n[c/]T[/cb] - n[/b]n[d/]T[/ad] + n[/a]n[c/]n[b/]n[d/]T[/cd]
+⊥T[/cb] = T[/cb] - n[/c]n[e/]T[/eb] - n[/b]n[d/]T[/cd] + n[/c]n[e/]n[b/]n[d/]T[/ed]
+n[/a]n[c/]⊥T[/cb] = n[/a]n[c/]T[/cb] + n[/a]n[e/]T[/eb] - n[/a]n[c/]n[/b]n[d/]T[/cd] - n[/a]n[e/]n[b/]n[d/]T[/ed]
+--------------------------------------------------------------------------------
+
+γ:T*M→T*M→ℝ
+
+(⊥T)(x,y) = T(γ(x), γ(y))
+(⊥T)(x,y) = T(⊥x, ⊥y)
+a(N(x)) = a(x)-γ(a)·x
+γ(a,b) = g(a,b)+a(n)b(n)
+a(x) = γ(a)·v+a(N(x))
+a(⊥x) = γ(a)·x = ⊥a(x)
+N(x) = x-γ(x·)
+N(x) = -(n·x)n
+⊥n = 0
+
+LHS = T(x,y)
+RHS1 = (⊥T)(x,y) = T(⊥x,⊥y)
+RHS2 = -(n·x) (⊥T)(n,y)
+     = -(n·x) T(⊥n,⊥y)
+RHS3 = -(⊥T)(x,n)(n·y)
+     = -T(⊥x,⊥n)(n.y)
+RHS4 = (n·x)(n·y)(⊥T)(n,n)
+     = (n.x)(n.y)T(⊥n,⊥n)
+
+LHS = T(⊥x,⊥y)
+RHS1 = (⊥T)(⊥x,⊥y) = T(⊥⊥x,⊥⊥y) = T(⊥x,⊥y)
+RHS2 = -(n·⊥x)(⊥T)(n,⊥y)
+     = -(n·⊥x)T(⊥n,⊥y)
+     = 0
+LHS = T(N(x),⊥y)
+RHS1 = (⊥T)(N(x),⊥y)
+     = T(⊥N(x),⊥y)
+     = 0 etc.
+
+v = ⊥v-N(v)
+
+T(x,y) = T(⊥x-N(x),⊥y-N(y))
+       = T(⊥x,⊥y)-T(N(x),⊥y)-T(⊥x,N(y))+T(N(x),N(y))
+       = (⊥T)(x,y) - T(N(x))(⊥y) - T(·,N(y))(⊥x) + (n·x)(n·y)T(n,n)
+       = (⊥T)(x,y) - ⊥(T(N(x)))(y) - ⊥(T(·,N(y)))(x) + (n·x)(n·y)T(n,n)
+
+---
+Ω(x) = ∇(x)t = dt(∂/∂t)
+α² = -1/‖Ω‖²
+
+∇(x)y = ∂(x)(y)+Γ
+
+g = a(r)²dt²+b(r)²(dr²+r²dθ+r²sin²θdϕ²)
+
+∇(r)g(∂/∂r,∂/∂r) = a(r)
+
+∇(r)g(u,v) = 0 = (∇(r)g)(u,v)+g(∇(r)u,v)+g(u,∇(r)v)
+
+0 = (∇(u)g)(∂/∂t,∂/∂t) + 2a(r)dt(∇(u)∂/∂t)
+
+dt(∇(u)∂/∂t) = 0
+
+dt(∇(u)(∂/∂t t)) = dt((∇(u)∂/∂t)t+∂/∂t(∇(u)t)) = 0
+
+u = t ⇒ 
+---
+Ω = (1, 0, 0, 0) trivial
+
+‖Ω‖² = 1/a²(r)
+α = a(r) = (1-M/(2r))/(1+M/(2r))
+
+ω = αΩ
+ω = (a(r), 0, 0, 0)
+n = -g*(ω,·) = ((1/a(r)²)a(r), 0, 0, 0) = (1/a(r), 0, 0, 0)
+n* = (a(r), 0, 0, 0)
+---
+Ex 2.8
+
+ni̲ = gi̲̲j̲ nj̅
+Da̲ γb̲c̲ = γ ∇d̲ ge̲f̲
+
+na̅ = -ga̅b̅ ω b̲
+
+Da̲ γb̲c̲ = γa̲d̅ γb̲e̅ γc̲f̅ ∇d̲ γe̲f̲
+       = γa̲d̅ γb̲e̅ γc̲f̅ ∇d̲ (ge̲f̲+ne̲nf̲)
+

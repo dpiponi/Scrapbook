@@ -1,0 +1,14 @@
+g_ij h^jk = δ_i^k
+
+// contract j, j'
+delta i j = do
+    g i j
+    h j
+
+gⓘ ⓙ gjk = δⓘ k
+
+12 defective
+
+123456
+123465
+

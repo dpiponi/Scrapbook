@@ -95,3 +95,15 @@ Sort of indistinguishable in ℂ.
 Field polynomial of α in ℚ(θ) is
 
 f_α(t) = ∏ (t-σᵢ(α))
+
+---------------------------
+---------------------------
+
+ℤ[√-5]
+
+5.1
+---
+Every maximal ideal of ring with identity is prime.
+
+Maximal: J maximal iff I ⊆ J ⊆ R ⇒ J = I or J = R
+Prime: xy ∈ I⇒ x in I or y in I.
