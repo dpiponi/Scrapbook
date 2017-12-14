@@ -107,3 +107,54 @@ Every maximal ideal of ring with identity is prime.
 
 Maximal: J maximal iff I ⊆ J ⊆ R ⇒ J = I or J = R
 Prime: xy ∈ I⇒ x in I or y in I.
+
+p prime ⇒ <p> prime ⇒ xy∈<p> ⇒ (p|xy ⇒ p|x or p|y)
+
+Suppose p = xy.
+Then p | xy
+So p | x or p | y
+So norm(p) = 1
+So p is a unit
+
+Ex. 3.3
+P ideal of R with identity
+RTP P prime iff (IJ⊆P ⇒ I⊆P or J⊆P)
+
+=>
+
+Suppose P is prime.
+Suppose also IJ⊆P
+Prime: xy ∈ P⇒ x in P or y in P.
+IJ = {∑xy | x ∈ I, y ∈ J}
+For each xy in IJ, x ∈ P or y ∈ P
+
+Choose x ∈ P-I
+xJ ⊆ IJ ⊆ P
+P is prime so every element of J is in P.
+
+⇐
+
+Suppose IJ⊆P ⇒ I⊆P or J⊆P.
+RTP xy∈P ⇒ x in P or y in P
+
+Suppose xy∈P.
+Then (x)(y)⊆P
+So (x)⊆P or (y)⊆P
+So x∈P or y∈P
+
+Example 3.4
+-----------
+I=<2> not prime in ℤ[√-5]
+(1-√-5)(1+√-5) = 2·3
+∴ (1-√-5)(1+√-5) ∈ <2>
+Suppose 1-√-5 ∈ <2>
+then 1-√-5 = 2α
+then α = (1-√-5)/2 ⨳
+So <2> not prime
+
+2 irreducible but <2> not prime ideal.
+
+Maximal ideal
+-------------
+I maximal
+
