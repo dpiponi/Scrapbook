@@ -1,0 +1,73 @@
+\documentclass[12pt]{article}
+\usepackage{tikz,amssymb}
+
+\begin{document}
+
+\newcommand{\R}{\mathbb{R}}
+\newtheorem{theorem}{Theorem}
+
+\section{Pontryagin's Maximum Principle}
+
+The function $b$ defines how controls work:
+\[
+b:\R^+\times\R^d\times A\rightarrow\R^d
+\]
+
+\[
+\dot{x}_t = b(t,x_t,u_t), \quad t\ge s, \quad x_s = x
+\]
+
+We have a stopping set $D\subset\R^d$ and time horizon $T$.
+
+Cost function:
+\[
+c:[0,T)\times\R^d\times A\rightarrow\R, \quad C:\{T\}\times D\rightarrow R
+\]
+
+Total cost:
+\[
+V^u(s,x) = \int_s^\tau c(t,x_t,u_t)dt+C(\tau,x_\tau)
+\]
+
+Infimal cost function:
+\[
+V(s,x) = \inf_u V^u(s,x)
+\]
+
+Define Hamiltonian:
+\[
+H(t,x,u,\lambda) = \lambda^T b(t,x,u)-c(t,x,u)
+\]
+
+Assume stopping set is some hyperplane $D = \{y\}+\Sigma$.
+
+\begin{theorem} Pontryagin's Principle.
+If $(x_t,u_t)_{t\le\tau}$ is optimal then there exist adjoint paths $(\lambda_t)_{t\le\tau}$ in $\R^d$ and $(\mu_t)_{t\le\tau}$ in $\R$ with the following properties: for all $t\le\tau$:
+
+\begin{enumerate}
+\item $H(t,x_t,u,\lambda_t)+\mu_t$ has maximum value $0$, achieved at $u=u_t$,
+\item $\dot{\lambda}_t^T = -\lambda_t^T\nabla b(t,x_t,u_t)+\nabla c(t,x_t,u_t)$,
+\item $\dot{\mu}_t = -\lambda_t^T\dot{b}(t,x_t,u_t)+\dot{c}(t,x_t,u_t)$,
+\item $\dot{x}_t = b(t,x_t,u_t)$.
+\end{enumerate}
+Moreover we have
+\begin{enumerate}
+\setcounter{enumi}{4}
+\item $(\lambda_r^T+\nabla C(\tau,x_\tau))\sigma = 0\mbox{ for all }\sigma\in\Sigma$,
+\end{enumerate}
+and in the time-unconstrained case,
+\begin{enumerate}
+\setcounter{enumi}{5}
+\item $\mu_\tau+\dot{C}(\tau,x_\tau) = 0$,
+\end{enumerate}
+In time unconstrained case, $\mu_t=0$ for all $t$.
+\end{theorem}
+Alternatively
+\begin{enumerate}
+\item $0 = \partial H/\partial u$,\mbox{ note: this may not apply, fundamentally we're minimising wrt $u$},
+\item $\dot{\lambda} = -\partial H/\partial x$,
+\item $\dot{\mu} = -\partial H/\partial t$,
+\item $\dot{x} = \partial H/\partial\lambda$.
+\end{enumerate}
+
+\end{document}

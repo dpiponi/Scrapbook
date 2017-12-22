@@ -1,0 +1,33 @@
+f(t) = exp(U(ε)t)f(0)
+df(t)/dt = U(ε)exp(U(ε)t)f(0)
+
+df(t)/dε = T(U'(ε) exp(U(ε)t)) f(0)
+         = C(t) f(0) = ∫dτ exp(U(ε)(t-τ)) U'(ε) exp(U(ε)τ) f(0)
+
+d²f(t)/dεdt = 
+         = ∫dτ (exp(U(ε)(t-τ)) U'(ε) U(ε) exp(U(ε)τ)
+                + exp(U(ε)(t-τ)) (-U(ε)) U'(ε) exp(U(ε)τ)) f(0)
+
+         = ∫dτ exp(U(ε)(t-τ)) [U'(ε), U(ε)] exp(U(ε)τ) f(0)
+
+         = [f(t)/dε, U(ε)] f(0)
+
+         = (A(t)-B(t)) f(0)
+         A = ∫dτ exp(U(ε)(t-τ)) U'(ε) exp(U(ε)τ) U(ε) f(0)
+         B = U(ε) ∫dτ exp(U(ε)(t-τ)) U'(ε) exp(U(ε)τ) f(0)
+         A = C(t)U(ε)
+         B = U(ε)C(t)
+
+d/dε <g|exp(U(ε)t)|f> = ∫τ <g|exp(U(ε)(t-τ)) U'(ε) exp(U(ε)τ)|f>
+                      = ∫τ <g(t-τ)| U'(ε) |f(τ)>
+
+df/dt = U(ε)f
+dg/dt = Uᵗ(ε)g
+
+  ‖exp(U(ε)t)|f>-|g>‖^2
+=   <f|exp(Uᵗ(ε)t)exp(U(ε)t)|f>
+  + <g|g>
+  + <f|exp(Uᵗ(ε)t)|g>
+  + <g|exp(U(ε)t)|f>
+
+=   <f(t)|f(t)> + <g|g> + <f(t)|g> + <g|f(t)>

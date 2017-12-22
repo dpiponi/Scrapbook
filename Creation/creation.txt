@@ -1,0 +1,19 @@
+Eg.
+
+X² * X
+
+∫(2X²)/2 = 2/3 X³
+
+So 2 size 3.
+
+EGF with labeling same is OGF without.
+
+
+F(X)    F(X)
+
+∫ F'(X) F(X) = F(X)²/2
+
+
+Z * Z³
+
+∫Z³dZ = z⁴/4
