@@ -1,0 +1,97 @@
+\documentclass[12pt]{article}
+
+% :vim set makeprg=pdflatex notes:
+
+\begin{document}
+
+\newcommand{\dt}[0]{\partial_t}
+\newcommand{\phase}[0]{e^{-i\int_0^tE_n(t')dt'}}
+\newcommand{\wps}[0]{|\psi(t)\rangle}
+\newcommand{\wpsn}[0]{|\psi_n(t)\rangle}
+\newcommand{\awpsm}[0]{\langle\psi_n(t)|}
+\newcommand{\wPs}[0]{|\Psi(t)\rangle}
+
+\section{The Adiabatic Theorem}
+
+Schr\"odinger equation:
+\begin{equation}
+\label{eq:schrod}
+i\hbar\dt\wpsn=H(t)\wpsn
+\end{equation}
+
+Consider $\phase\wpsn$. Not a solution as
+
+\[
+i\dt\phase\wpsn \ne H(t)\phase\wpsn
+\]
+
+LHS:
+\begin{eqnarray*}
+& & (i\cdot(-i)E_n(t)\phase+i\phase\dt)\wpsn \\
+& = & \phase(E_n(t)+i\dt)\wpsn
+\end{eqnarray*}
+
+RHS:
+\[
+E_n(t)\phase\wpsn
+\]
+
+Mismatch of: $\phase i\dt\wpsn$.
+
+Expand wavefunction $\wPs$ in terms of $\phase\wpsn$ anyway:
+\[
+\wPs = \sum_nc_n(t)\phase\wpsn
+\]
+
+Substitute in \ref{eq:schrod}:
+
+LHS:
+\[
+\sum_nc_n(t)\phase E_n(t)\wpsn
+\]
+RHS:
+\begin{eqnarray*}
+& & i\hbar\sum_n((\dt c_n(t))\phase\wpsn + c_n(t)(-iE_n(t))\phase\wpsn+ \\
+& &                                      + c_n(t)\phase\dt\wpsn \\
+&=& (i\hbar\dt c_n(t)+c_n(t)E_n(t))\phase\wpsn+c_n(t)\phase\dt\wpsn
+\end{eqnarray*}
+
+\[
+\sum_nc_n(t)\phase i\hbar\wpsn+i\hbar(\dt c_n(t))\phase\wpsn = 0
+\]
+
+\subsection{Differentiating the energy}
+\[
+H(t)\wpsn=E_n(t)\wpsn
+\]
+
+Differentiating this:
+\[
+(\dt H(t))\wpsn+H_n(t)\dt\wpsn=(\dt E_n(t))\wpsn+E_n(t)\dt\wpsn
+\]
+LHS:
+
+\begin{eqnarray*}
+& & \awpsm(\dt H(t))\wpsn+\awpsm H_n(t)\dt\wpsn \\
+&=& \awpsm(\dt H(t))\wpsn+E_m(t)\awpsm\dt\wpsn
+\end{eqnarray*}
+RHS:
+
+\[
+\dt E_n(t)+E_n(t)\awpsm\dt\wpsn
+\]
+
+Therefore:
+\[
+\awpsm(\dt H(t))\wpsn+(E_m(t)-E_n(t))\awpsm\dt\wpsn=\delta_{mn}\dt E_n(t)
+\]
+
+If $m\ne n$:
+
+\[
+\awpsm\dt\wpsn={\awpsm(\dt -H(t))\wpsn \over E_n(t)-E_m(t)}
+\]
+
+% http://www.phy.cuhk.edu.hk/course/2011-2012/2/phys5410/download/0/Lecture10%20Adiabatic%20evolution%20and%20Berry%20phase.pdf
+% page 9 still needed
+\end{document}
