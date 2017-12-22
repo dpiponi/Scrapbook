@@ -1,0 +1,60 @@
+σ-algebra closed under countable ∩∪ and and complement
+inner regular if m(B) is sup m(K) for all compact K⊆B
+locally finite: every point has nbrhd U∋x
+
+Radon measure = inner regular & locally finite
+
+
+Met = metric spaces and short maps and radon measures with finite first moment
+Short map: f:X→Y
+           d_Y(f(x),f(x')) ≤ d_X(x,x')
+
+Product metric d((x,y),(x',y')) = d(x,x')+d(y,y')
+
+2.4 Wasserstein space
+---------------------
+Let X ∈ Met
+PX set of probability measures on X with finite first moment
+metric:
+d_PX(p,q) = inf ∫ d_X(x,y)dr(x,y)
+inf is over all prob measures on X×X with marginals p and q
+
+What's shortest expected distance between points consistent with
+given pair of marginals?
+= sup (short f:X→ℝ) (𝔼_p[f]-𝔼_q[f])
+
+Lemma 2.4.2
+-----------
+Let d(δ(x₀),p) = ∫d(x₀,x)dp(x)
+
+f:X→Y short
+p∈PX
+f_*p has finite first moment
+f_*:PX→PY is short
+
+P is functor. Kantorovich functor
+
+3.1 Power functors
+------------------
+Xⁿ has normalised distance
+So d_Xⁿ((x₁,…),(y₁,…)) = (1/n)(d(x₁,y₁)+…)
+
+isometric embedding X→Xⁿ is short
+
+X_n = quotient under permutation
+metric obvious min over perms
+ⁿ and _n are functors
+
+Lemma 3.1.3
+-----------
+When ϕ:S→T has fibers of uniform card. we have isometric embedding
+-○ϕ:X^T→X^S
+
+Def 3.1.4
+---------
+FinUnif
+Finite sets
+Morphisms of uniform card.
+Cartesian product
+
+X⁽⁻⁾:FinUnifᵒᵖ→CMet power functor in 3.1.3
