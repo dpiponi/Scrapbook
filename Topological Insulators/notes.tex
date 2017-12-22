@@ -1,0 +1,255 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+% :vim set makeprg=pdflatex notes:
+
+\begin{document}
+
+\newcommand{\dt}[0]{\partial_t}
+\newcommand{\phase}[0]{e^{-i\int_0^tE_n(t')dt'}}
+\newcommand{\wps}[0]{|\psi(t)\rangle}
+\newcommand{\wpsn}[0]{|\psi_n(t)\rangle}
+\newcommand{\awpsm}[0]{\langle\psi_n(t)|}
+\newcommand{\wPs}[0]{|\Psi(t)\rangle}
+
+\section{Four types of fourier transform}
+\begin{eqnarray}{1\over2\pi}\int_{-\infty}^\infty dxe^{ikx} &=& \delta(k) \\
+{1\over2\pi}\int_0^{2\pi}dxe^{ikx} &=& \delta_{k0}\mbox{, }k\mbox{ integer} \\
+{1\over N}\sum_{m=0}^{N-1}e^{2\pi ikm/N} &=& \sum_{i=-\infty}^\infty\delta_{k,iN}\mbox{, }k\mbox{ integer} \\
+{1\over L}\sum_{k=-\infty}^\infty e^{2\pi ikx/L} &=& \sum_{i=-\infty}^\infty\delta(x-kL) \\
+\end{eqnarray}
+
+% From PHYSICAL R E~VI EW VOLUME 168, NUM HER 3 15 AP R IL 1968 Dynamics of Electrons in Solids in External Fields J. ZAK*
+\section{Fourier transform of operators}
+\begin{eqnarray}&& \int d\alpha d\beta\exp(i\alpha\hat{p}+i\beta\hat{x})\operatorname{tr}(f(\hat{x},\hat{p})\exp(-i\alpha\hat{p}-i\beta\hat{x}))|x\rangle \\
+&=& \int d\alpha d\beta\operatorname{tr}(f(\hat{x},\hat{p})\exp(-i\alpha\hat{p}-i\beta\hat{x}))\exp(i\alpha\hat{p}+i\beta\hat{x})|x\rangle \\
+&=& \int d\alpha d\beta\operatorname{tr}(f(\hat{x},\hat{p})\exp(-i\alpha\hat{p})exp(-i\beta\hat{x}))\exp(i\beta\hat{x})\exp(i\alpha\hat{p})|x\rangle \\
+&=& \int d\alpha d\beta\operatorname{tr}(f(\hat{x},\hat{p})\exp(-i\alpha\hat{p})exp(-i\beta\hat{x}))\exp(i\beta\hat{x})|x+\alpha\rangle \\
+&=& \int d\alpha d\beta\operatorname{tr}(f(\hat{x},\hat{p})\exp(-i\alpha\hat{p})exp(-i\beta\hat{x}))\exp(i\beta(x+\alpha))|x+\alpha\rangle \\
+&=& \int d\alpha d\beta dx'\langle x'|f(\hat{x},\hat{p})\exp(-i\alpha\hat{p})exp(-i\beta\hat{x})|x'\rangle\exp(i\beta(x+\alpha))|x+\alpha\rangle \\
+&=& \int d\alpha d\beta dx'\langle x'|f(\hat{x},\hat{p})\exp(-i\alpha\hat{p})exp(-i\beta x')|x'\rangle\exp(i\beta(x+\alpha))|x+\alpha\rangle \\
+&=& \int d\alpha d\beta dx'\langle x'|f(\hat{x},\hat{p})\exp(-i\beta x')|x'-\alpha\rangle\exp(i\beta(x+\alpha))|x+\alpha\rangle \\
+&=& \int d\alpha d\beta dx'\langle x'|f(\hat{x},\hat{p})|x'-\alpha\rangle\exp(i\beta(x-x'+\alpha))|x+\alpha\rangle \\
+&=& \int d\alpha dx'\langle x'|f(\hat{x},\hat{p})|x'-\alpha\rangle\delta(x-x'+\alpha)|x+\alpha\rangle \\
+&=& \int dx'\langle x'|f(\hat{x},\hat{p})|x'-x'+x\rangle\delta(x-x'+\alpha)|x+x'-x\rangle \\
+&=& \int dx'\langle x'|f(\hat{x},\hat{p})|x\rangle|x'\rangle \\
+&=& \int dx'|x'\rangle\langle x'|f(\hat{x},\hat{p})|x\rangle \\
+&=& f(\hat{x},\hat{p})|x\rangle \\
+\end{eqnarray}
+
+\section{Fermi-Dirac Statistics}
+\begin{eqnarray}g_i &=& \mbox{number of possible states at level } i\\
+n_i &=& \mbox{number of particles at level } i\\
+n_i\mbox{ particles into }g_i\mbox{ states} &=& {g_i! \over n_i!(g_i-n_i)!}\\
+Z &=& \prod_i{g_i! \over n_i!(g_i-n_i)!}\\
+\log Z &=& \mbox{const}-\sum_i(\log{n!}-\log(g_i-n_i)!)\\
+&\approx& \mbox{const}-\sum_i(n_i\log n_i-n_i+(g_i-n_i)\log(g_i-n_i)-g_i+n_i)\\
+\end{eqnarray}
+
+\begin{eqnarray}
+W &=& \mbox{const}-\sum_i(n_i\log n_i-n_i+(g_i-n_i)\log(g_i-n_i)-g_i+n_i)+\alpha(N-\sum_in_i)+\beta(E-\sum_i\epsilon_in_i) \\
+{\partial W\over\partial n_i} &=& -(\log n_i+1-1-\log(g_i-n_i)-1+1)-\alpha-\beta\epsilon_i \\
+\log(g_i-n_i)-\log n_i &=& \alpha+\beta\epsilon_i \\
+\log(g_i/n_i-1) &=& \alpha+\beta\epsilon_i \\
+g_i/n_i-1 &=& \exp{(\alpha+\beta\epsilon_i)} \\
+n_i &=& {g_i\over1+\exp{(\alpha+\beta\epsilon_i)}} \\
+\end{eqnarray}
+
+\section{The Adiabatic Theorem}
+Schr\"odinger equation:
+\begin{equation}
+\label{eq:schrod}
+i\hbar\dt\wpsn=H(t)\wpsn
+\end{equation}
+
+Consider $\phase\wpsn$. Not a solution as
+
+\[
+i\dt\phase\wpsn \ne H(t)\phase\wpsn
+\]
+
+LHS:
+\begin{eqnarray*}
+& & (i\cdot(-i)E_n(t)\phase+i\phase\dt)\wpsn \\
+& = & \phase(E_n(t)+i\dt)\wpsn
+\end{eqnarray*}
+
+RHS:
+\[
+E_n(t)\phase\wpsn
+\]
+
+Mismatch of: $\phase i\dt\wpsn$.
+
+Expand wavefunction $\wPs$ in terms of $\phase\wpsn$ anyway:
+\[
+\wPs = \sum_nc_n(t)\phase\wpsn
+\]
+
+Substitute in \ref{eq:schrod}:
+
+LHS:
+\[
+\sum_nc_n(t)\phase E_n(t)\wpsn
+\]
+RHS:
+\begin{eqnarray*}
+& & i\hbar\sum_n((\dt c_n(t))\phase\wpsn + c_n(t)(-iE_n(t))\phase\wpsn+ \\
+& &                                      + c_n(t)\phase\dt\wpsn \\
+&=& (i\hbar\dt c_n(t)+c_n(t)E_n(t))\phase\wpsn+c_n(t)\phase\dt\wpsn
+\end{eqnarray*}
+
+\[
+\sum_nc_n(t)\phase i\hbar\wpsn+i\hbar(\dt c_n(t))\phase\wpsn = 0
+\]
+
+\subsection{Differentiating the energy}
+\[
+H(t)\wpsn=E_n(t)\wpsn
+\]
+
+Differentiating this:
+\[
+(\dt H(t))\wpsn+H_n(t)\dt\wpsn=(\dt E_n(t))\wpsn+E_n(t)\dt\wpsn
+\]
+LHS:
+
+\begin{eqnarray*}
+& & \awpsm(\dt H(t))\wpsn+\awpsm H_n(t)\dt\wpsn \\
+&=& \awpsm(\dt H(t))\wpsn+E_m(t)\awpsm\dt\wpsn
+\end{eqnarray*}
+RHS:
+
+\[
+\dt E_n(t)+E_n(t)\awpsm\dt\wpsn
+\]
+
+Therefore:
+\[
+\awpsm(\dt H(t))\wpsn+(E_m(t)-E_n(t))\awpsm\dt\wpsn=\delta_{mn}\dt E_n(t)
+\]
+
+If $m\ne n$:
+
+\[
+\awpsm\dt\wpsn={\awpsm(\dt -H(t))\wpsn \over E_n(t)-E_m(t)}
+\]
+
+% http://www.phy.cuhk.edu.hk/course/2011-2012/2/phys5410/download/0/Lecture10%20Adiabatic%20evolution%20and%20Berry%20phase.pdf
+% page 9 still needed
+
+\section{Kubo Formula}
+\begin{eqnarray}i{\partial\over\partial t}|\psi\rangle &=& H|\psi\rangle\\
+i{\partial\over\partial t}|\psi'\rangle &=& H'|\psi'\rangle\\
+|\psi'\rangle &=&|\psi\rangle+|\delta\psi\rangle\\
+H' &=&H+\delta H(t)\\
+i{\partial\over\partial t}(|\psi\rangle+|\delta\psi\rangle) &=& (H+\delta H(t))|(\psi\rangle+|\delta\psi\rangle)\\
+i{\partial\over\partial t}(|\psi\rangle+|\delta\psi\rangle) &=& H|(\psi\rangle+|\delta\psi\rangle)+\delta H(t)|(\psi\rangle+|\delta\psi\rangle)\\
+i{\partial\over\partial t}|\delta\psi\rangle &=& H|\delta\psi\rangle+\delta H(t)|\psi\rangle+O(\delta^2)\\
+i({\partial\over\partial t}+iH)|\delta\psi\rangle &=& \delta H(t)|\psi\rangle\\
+\exp(iHt)i({\partial\over\partial t}+iH)|\delta\psi\rangle &=& \exp(iHt)\delta H(t)|\psi\rangle\\
+i{\partial\over\partial t}\exp(iHt)|\delta\psi\rangle &=& \exp(iHt)\delta H(t)|\psi\rangle\\
+i\exp(iHt)|\delta\psi\rangle &=& \int dt'\exp(iHt')\delta H(t')|\psi\rangle\\
+|\delta\psi\rangle &=& -i\int dt'\exp(iH(t'-t))\delta H(t')|\psi\rangle\\
+\langle\psi'|B|\psi'\rangle &=& (\langle\psi|+\langle\delta\psi|)B(|\psi\rangle+|\delta\psi\rangle)\\
+\delta \langle\psi'|B|\psi'\rangle &=& \langle\psi|B|\delta\psi\rangle+\langle\delta\psi|B|\psi\rangle\\
+\delta\langle\psi'|B|\psi'\rangle &=& -i\int dt'\langle\psi(t)|B\exp(iH(t'-t))\delta H(t')|\psi(t')\rangle+\langle\delta\psi|B|\psi\rangle\\
+\delta\langle\psi'|B|\psi'\rangle &=& -i\int dt'\langle\psi(t)|B\exp(iH(t'-t))\delta H(t')\exp(-iH(t'-t))\exp(iH(t'-t))|\psi(t')\rangle+\langle\delta\psi|B|\psi\rangle\\
+\delta\langle\psi'|B|\psi'\rangle &=& -i\langle\psi(t)|\int dt'B\exp(iH(t'-t))\delta H(t')\exp(-iH(t'-t))|\psi(t)\rangle+\langle\delta\psi|B|\psi\rangle\\
+\delta\langle\psi'|B|\psi'\rangle &=& -i\langle\psi(t)|\int dt'[B,\exp(iH(t'-t))\delta H(t')\exp(-iH(t'-t))]|\psi(t)\rangle\\
+\delta\langle\psi'|B|\psi'\rangle &=& -i\langle\int dt'[B,\exp(iH(t'-t))\delta H(t')\exp(-iH(t'-t))]\rangle\\
+\end{eqnarray}
+
+-------------------------
+
+\begin{eqnarray}i{\partial\over\partial t}|\psi\rangle &=& H|\psi\rangle\\
+i\exp(iHt)|\delta\psi\rangle &=& \int dt'\exp(iHt')\delta H(t')|\psi\rangle\\
+|\delta\psi\rangle &=& -i\int dt'\exp(iH(t'-t))\delta H(t')|\psi\rangle\\
+\langle\psi'|B|\psi'\rangle &=& (\langle\psi|+\langle\delta\psi|)B(|\psi\rangle+|\delta\psi\rangle)\\
+\delta \langle\psi'|B|\psi'\rangle &=& \langle\psi|B|\delta\psi\rangle+\langle\delta\psi|B|\psi\rangle\\
+\delta\langle\psi'|B|\psi'\rangle &=& -i\int dt'\langle\psi(t)|B\exp(iH(t'-t))\delta H(t')|\psi(t')\rangle+\langle\delta\psi|B|\psi\rangle\\
+\delta\langle\psi'|B|\psi'\rangle &=& -i\int dt'\langle\psi(t)|\exp(iH(t'-t))\exp(-iH(t'-t))B\exp(iH(t'-t))\delta H(t')|\psi(t')\rangle+\langle\delta\psi|B|\psi\rangle\\
+\delta\langle\psi'|B|\psi'\rangle &=& -i\int dt'\langle\psi(t')|\exp(-iH(t'-t))B\exp(iH(t'-t))\delta H(t')|\psi(t')\rangle+\langle\delta\psi|B|\psi\rangle\\
+\hat{B}(t,t') &=& \exp(-iH(t'-t))B\exp(iH(t'-t))\\
+\delta\langle\psi'|B|\psi'\rangle &=& -i\int dt'\langle\psi(t')|\hat{B}(t,t')\delta H(t')|\psi(t')\rangle+\langle\delta\psi|B|\psi\rangle\\
+\delta\langle\psi'|B|\psi'\rangle &=& -i\langle\int dt'[\hat{B}(t,t'),\delta H(t')]\rangle\\
+C(t,t') &=& -i\langle[\hat{B}(t,t'),\delta H(t')]\rangle\\
+\delta\langle\psi'(t)|B|\psi'(t)\rangle &=& \int dt' C(t,t')
+\end{eqnarray}
+
+\section{Position operator in bloch representation}
+\begin{eqnarray}\Psi(x) &=& \sum_n\int_{BZ} dk\Psi_n(k)u_{n,k}(x)e^{ik\cdot x}\\
+\mbox{want }x\Psi(x) &=& \sum_n\int_{BZ} dk X\Psi_n(k)u_{n,k}(x)e^{ik\cdot x}\\
+x\Psi(x) &=& x\sum_n\int_{BZ} dk\Psi_n(k)u_{n,k}(x)e^{ik\cdot x}\\
+&=& \sum_n\int_{BZ} dk\Psi_n(k)u_{n,k}(x)xe^{ik\cdot x}\\
+&=& \sum_n\int_{BZ} dk\Psi_n(k)u_{n,k}(x)(-i\partial_k)e^{ik\cdot x}\\
+&=& \sum_n\int_{BZ} dki\partial_k(\Psi_n(k)u_{n,k}(x))e^{ik\cdot x}\\
+&=& \sum_n\int_{BZ} dki\partial_k\Psi_n(k)u_{n,k}(x)+\Psi_n(k)i\partial_ku_{n,k}(x))e^{ik\cdot x}\\
+&=& \sum_n\int_{BZ} dki\partial_k\Psi_n(k)u_{n,k}(x)+\Psi_n(k)\int dx'\delta(x-x')i\partial_ku_{n,k}(x'))e^{ik\cdot x}\\
+&=& \sum_n\int_{BZ} dki\partial_k\Psi_n(k)u_{n,k}(x)+\Psi_n(k)\int dx'\sum_mu^\ast_{m,k}(x') u_{m,k}(x)i\partial_ku_{n,k}(x'))e^{ik\cdot x}\\
+&=& \sum_n\int_{BZ} dki\partial_k\Psi_n(k)u_{n,k}(x)+\Psi_n(k)\sum_m u_{m,k}(x)\int dx'u^\ast_{m,k}(x')i\partial_ku_{n,k}(x'))e^{ik\cdot x}\\
+&=& \sum_n\int_{BZ} dki\partial_k\Psi_n(k)u_{n,k}(x)+\Psi_n(k)\sum_m u_{m,k}(x)(-A_{mn}(k)))e^{ik\cdot x}\\
+\end{eqnarray}
+
+So in Bloch representation, $X = \partial_k-(A_{mn})$
+
+\section{Orthogonality in $kq$-representation}
+\begin{eqnarray}|q-q'| &<& a \mbox{ by definition} \\
+|k-k'| &<& b \mbox{ by definition} \\
+\psi_{kq}(x) &=& \sum_n\delta(x-q-na)e^{inka}\\
+\int dx\psi_{kq}^\ast(x)\psi_{k'q'}(x) &=& \int dx\sum_{n,n'}\delta(x-q-na)e^{-inka}\delta(x-q'-n'a)e^{in'k'a}\\
+&=& \int dx\sum_{n,n'}e^{in'k'a-inka}\delta(x-q-na)\delta(x-q'-n'a)\\
+&=& \sum_{n,n'}e^{ia(n'k'-nk)}\delta(q-q'-(n+n')a)\\
+&=& \sum_{n,n'}e^{ia(n'k'-n'k+n'k-nk)}\delta(q-q'-(n-n')a)\\
+&=& \sum_{n,n'}e^{ian'(k'-k)+ia(n'-n)k)}\delta(q-q'-(n-n')a)\\
+&=& \sum_{n,n'}e^{ian'(k'-k)+i(q'-q)k)}\delta(q-q'-(n-n')a)\\
+&=& \sum_{n,n'}e^{ian'(k'-k))}\delta(q-q'-(n-n')a), \mbox{ because }|q-q'|<a \mbox{ and } q-q'=(n-n')a\\
+\end{eqnarray}
+
+\section{Position operator in Zak basis}
+\begin{eqnarray}
+\langle k'q'|p|kq\rangle &=& \int dpdp'\langle kq|p\rangle\langle p|p|p'\rangle\langle p'|l'q'\rangle \\
+&=& \int dp p\langle kq|p\rangle\langle p|k'q'\rangle \\
+&=& \int dp p \psi^*_{kq}(p)\psi_{k'q'}(p) \\
+&=& \int dp p {1\over\sqrt a}e^{ikq}\sum_n\delta(p-k-nb)e^{iqnb} {1\over\sqrt a}e^{-ik'q'}\sum_{n'}\delta(p-k'-n'b)e^{-iq'n'b}\\
+&=& \int dp p {1\over a}\sum_{n,n'}\delta(p-k-nb)\delta(p-k'-n'b)e^{ib(qn-q'n')}e^{i(kq-k'q')}\\
+&=& {1\over a}\sum_{n,n'}(k+nb)\delta(k+nb-k'-n'b)e^{ib(qn-q'n')}e^{i(kq-k'q')}\\
+&=& {1\over a}\sum_{n,n'}(-i){\partial\over\partial q}\delta(k+nb-k'-n'b)e^{ib(qn-q'n')}e^{i(kq-k'q')}\\
+&=& -i{\partial\over\partial q}{1\over a}\sum_{n,n'}\delta(k+nb-k'-n'b)e^{ib(qn-q'n')}e^{i(kq-k'q')}\\
+&=& -i{\partial\over\partial q}\delta(q-q')\delta(k-k') \mbox{ because we've already proved orthogonality} \\
+\end{eqnarray}
+
+\section{Zak combinatorial formula}
+\begin{eqnarray}&& [\prod_{p=1}^mK_{i_p}][\prod_{q=1}^nK_{i_{m+q}}] \\
+&=& [\prod_{p=1}^{m+n}K_p]+{1\over(m+n)!}\sum_{p=1}^m\sum_{q=1}^n[K_{i_p},K_{i_{m+q}}]\sum_{\sigma\in S_{m+n},\sigma^{-1}(p)>\sigma^{-1}(m+q)}K_{i_\sigma(1)}\ldots\hat{K}_{i_{m+q}}\hat{K}_{i_{p}}\ldots K_{i_\sigma(m+n)} \\
+&=& [\prod_{p=1}^{m+n}K_p]+{(m+n)!\over(m+n-2)!}{(m+n-2)!\over(m+n)!}\sum_{p=1}^m\sum_{q=1}^n{1\over2} [K_{i_1}\ldots\hat{K}_{i_{n+q}}\ldots\hat{K}_p\ldots K_{i_{m+n}}] + \cdots \\
+&=& [\prod_{p=1}^{m+n}K_p]+\sum_{\alpha=1}^3\sum_{\beta=1}^3{1\over2}[K_\alpha,K_\beta][({\partial\over\partial K_\alpha}\prod_{s=1}^m K)({\partial\over\partial K_\beta}\prod_{t=1}^n K_t)]
+\end{eqnarray}
+
+\section{Kronig-Penney}
+\begin{align*}T(k, z) &=& \left(\begin{array}{ll}
+e^{ikz} & 0\\
+0 & e^{-ikz}\\
+\end{array}
+\right) & \mbox{ translate by }z\\
+S(k) &=& \left(\begin{array}{ll}
+1 & 1\\
+ik & -ik\\
+\end{array}
+\right)& \mbox{convert from }\{e^{ikx},e^{-ikx}\}\mbox{ basis to }\{\psi(x), \psi'(x)\}\mbox{ basis}\\
+S(k)T(k,z)S(k)^{-1} &=& \left(\begin{array}{ll}
+\cos(kz) & \sin(kz)/k\\
+-k\sin(kz) & \cos(kz)\\
+\end{array}
+\right)\\
+0 &=& |S(\beta)T(\beta,b)S(\beta)^{-1}S(\alpha)T(\alpha,a)S(\alpha)^{-1}-e^{ik(a+b)}\mathbb{1}|\\
+\cos((a+b)k) &=& -{\alpha^2+\beta^2\over2\alpha\beta}\sin(a\alpha)\sin(b\beta)+\cos(a\alpha)\cos(b\beta)
+\end{align*}
+
+\section{Su-Schrieffer-Heeger Model}
+\begin{eqnarray}
+H(\Delta) &=& t(1+\Delta)\sum_ic_{i,A}^\dagger c_{i,B}^{\hphantom{\dagger}}+t(1-\Delta)\sum_ic_{i+1,A}^\dagger c_{i,B}^{\hphantom{\dagger}}+\mbox{h.c.}+u\Delta^2 \\
+\end{eqnarray}
+
+\end{document}
