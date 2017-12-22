@@ -1,3 +1,5 @@
+https://arxiv.org/pdf/1712.05363.pdf
+
 σ-algebra closed under countable ∩∪ and and complement
 inner regular if m(B) is sup m(K) for all compact K⊆B
 locally finite: every point has nbrhd U∋x
