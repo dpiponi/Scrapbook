@@ -60,3 +60,65 @@ Morphisms of uniform card.
 Cartesian product
 
 X⁽⁻⁾:FinUnifᵒᵖ→CMet power functor in 3.1.3
+
+So suppose we have S, T
+
+f : S → T
+Xᶠ : X^(T) → X^(S)
+Xᶠ ϕ = ϕ ○ f
+
+N monoidal poset of natural numbers ℕ\{0} with n → m if m|n
+And multiplication for monoidal structure
+
+Canonical functor |·|:FinUnif → N
+
+Also symmetrized power functor: X_(.):Nᵒᵖ
+
+3.2 Empirical distributions
+---------------------------
+
+Def 3.2.1
+X ∈ Met
+S ∈ FinUnif
+i^S:X^S→PX defined by
+
+i^S(x_(-)) = 1/|S| ∑(s∈S)δ(x_s)
+
+Def 3.2.2
+---------
+For n∈N the symmetric empirical distribution is the map
+i_n : X_n → PX that takes
+{x₁,…,x_n} to measure
+i_n({x₁,…,x_n}) = (δ(x₁)+…+δ(x_n))/n
+
+Prop 3.2.3
+----------
+i_n:X_n → PX is an isometric embedding
+
+3.3 Universal property
+----------------------
+Def 3.3.1
+---------
+X complete metric space
+i_n:X_n → PX
+Define
+I(X) = ∪{n∈N) i_n(X_n) ⊆ PX
+
+Theorem 3.3.3
+-------------
+X metric space. I(X) is dense in PX
+
+Lemma 3.3.4
+-------------
+X compact metric space. I(X) is dense in PX
+
+Lemma 3.3.6
+-----------
+X metric space. Compactly supported prob. measures dense in PX.
+
+This is the key result I think:
+
+Theorem 3.3.7
+-------------
+PX is colimit of functor X_(-):Nᵒᵖ → CMet
+                         X^(-):FinUnifᵒᵖ → Met

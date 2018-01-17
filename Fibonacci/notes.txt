@@ -1,0 +1,81 @@
+Chapter 4
+---------
+
+Ex.1
+----
+RTP gcd(Fᵢ,Fᵢ₊₂) = 1
+
+F₀ = 0
+F₁ = 1
+F₂ = 1
+
+gcd(F₀,F₂) = 1
+
+Let i be smallest case that fails
+
+gcd(Fᵢ,Fᵢ₊₂) = d > 1
+gcd(Fᵢ,Fᵢ+Fᵢ₊₁) = d > 1
+gcd(Fᵢ,Fᵢ₊₁) = d > 1
+⨳
+
+2. Find i s.t. gcd(Fᵢ,Fᵢ₊₃) ≠ 1
+
+Trivial. i = 0
+
+3. RTP F(2(n+1)) = 2F(2n)+F(2n-1)
+
+F(2n+2) = F(2n+1)+F(2n) = F(2n)+F(2n-1)+F(2n) = 2F(2n)+F(2n-1)
+
+4. RTP For n≥2 F(n+2)+F(n-2) = 3F(n)
+
+F(n+2)+F(n-2) = F(n+1)+F(n)+F(n-2) = F(n)+F(n-1)+F(n)+F(n-2)
+= 3F(n)
+
+5. RTP For n≥2 F(n+2)+F(n)+F(n-2) = 4F(n)
+
+  F(n+2)+F(n)+F(n-2)
+= F(n+1)+F(n)+F(n)+F(n-2)
+= F(n)+F(n-1)+2F(n)+F(n-2)
+= 3F(n)+F(n)
+= 4F(n)
+
+6. RTP For n≥1 F(n+1)³=F(n)³+F(n-1)³+3F(n-1)F(n)F(n+1)
+
+F(n+1)³ = F(n)³+3F(n)²F(n-1)+3F(n)F(n-1)²+F(n-1)³
+        = F(n)³+F(n-1)³+3F(n)F(n-1)(F(n)+F(n-1))
+        = F(n)³+F(n-1)³+3F(n-1)F(n)F(n+1)
+
+7. RTP For n≥2 F(3n) = 4F(3n-3)+F(3n-6)
+
+F(3n) = F(3n-1)+F(3n-2)
+      = F(3n-2)+F(3n-3)+F(3n-3)+F(3n-4)
+      = 2F(3n-3)+F(3n-3)+F(3n-4)+F(3n-5)+F(3n-6)
+      = 3F(3n-3)+F(3n-3)+F(3n-6)
+      = 4F(3n-3)+F(3n-6)
+
+8. RTP ∑(r=0…9) F(n+r) = 11F(n+6)
+
+Define f(r) = ∑(r=0…9) F(n+r)
+f(n+1)-f(n) = F(n+10)-F(n)
+
+RTP 11(F(n+7)-F(n+6)) = F(n+10)-F(n)
+
+RTP F(n)+11F(n+5) = F(n+10)
+Suppose true for n, n+1
+Then true for n+2
+So follows by induction
+Then original follows by induction
+
+9. RTP ∑(r=0…n)F(r) = F(n+2)-1
+f(n) = ∑(r=0…n)F(r)
+
+f(n+1)-f(n) = F(n+1)
+F(n+3)-F(n+2) = F(n+1)
+
+So equal as F(2)-1=0
+
+10. RTP ∑(r=1…m)F(n+r) = F(m+n+2)-F(n+2)
+Follows using principle above that
+linear true for n, n+1 also true for n+2
+
+11. RTP ∑(r=1…n)F(2r-1) = F(2n)
