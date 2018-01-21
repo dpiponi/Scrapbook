@@ -504,3 +504,59 @@ F(n+1) compositions of n using 1 and 2
                       |
 
 Example 6.5 palindromes
+Palindromic sums not using 1.
+Sums to 15.
+First: without palindromic restriction: F(n-1)
+
+n=15.
+Central = minimum 3.
+6 on each side.
+
+So F(6-1)+F(6-1)+F(5-1)+F(5-1)+…+(1+1 missing)+1
+
+Ex 6.1
+------
+(a)
+RTP 2ⁿ⁻¹ compositions of n
+
+l(1) = 1
+l(n) = l(n-1)+l(n-2)+…+l(1)+1
+     = 2^(n-2)+…+2^0+1
+     = 2^(n-1)/(2-1)+1
+     = 2^(n-1)
+
+(b) Suppose n even
+If there is a middle number it must be even.
+So we can just split it in two and consider
+compositions of n/2 : l(n/2-1)
+Suppose no middle number. Then l(n/2-1).
+So 2l(n/2-1) = l(n/2) = 2^(n/2).
+
+Suppose n odd.
+There must be an odd middle number
+If it is 1 then l((n-1)/2)
+If it is >=3 then split as 2n+1 and so l((n-1)/2)
+So l((n+1)/2) = 2^((n-1)/2)
+
+Ex 6.2
+------
+Inherit l(n) from before
+(a)
+Even compositions of 24:
+Just compositions of 12 = l(12) = 2¹¹ = 2048
+(b)
+l(24/3) = l(8) = 2⁷ = 128
+(c) l(24)-l(12) = 2²³-2¹¹
+
+(d) All summands odd
+s(n)
+Suppose first = 1. Then s(n-1)
+Otherwise add 2 to a composition of n-2
+So l(n) = l(n-1)+l(n-2)
+l(0) = 0
+l(1) = 1
+l(2) = 1
+l(3) = 2
+l(4) = 3
+l(n) = F(3)
+
