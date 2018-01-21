@@ -1,0 +1,104 @@
+\documentclass{article}
+\usepackage{amsmath}
+
+\begin{document}
+\section{Introduction}
+Many of the useful properties of the Fourier transform arise because it diagonalises translation.
+More precisely, it expresses a function $f$ in the form
+\[
+f(x) = \frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty F(\omega)\exp(i\omega x)d\omega
+\]
+i.e. as a kind of linear combination of functions $x\rightarrow\exp(i\omega x)$.
+These functions have the property that under translation they are multiplied by $i\omega$.
+This gives a representation of functions that behaves particularly simply under translations.
+It also gives a representation of functions that behaves well with a wide variety of other operations such as differentiation, integration and convolution.
+These operations can be thought of as being conceptually built from translations.
+For example differentiation is a bit like subtracting a function from its infinitesimal translate.
+
+The $n$-dimensional Fourier transform gives a nice representation of functions in $n$ variables where we're interested in operations related to translations in $n$-dimensions.
+
+The translations form a Lie group.
+What about different groups like the rotations in 3D, $SO(3)$?
+This group is non-commutative so we can't expect non-trivial diagonal representations.
+But we can start with one axis, say the $z$-axis, and start by diagoinalising with respect to just the rotations around that axis.
+If we use the usual coordinates $x$, $y$ and $z$ in 3D then we can write functions of $x$, $y$, and $z$ as functions of polar coordinates $r$, $\theta$ and $\phi$ where
+\begin{align*}
+x & = & r\cos(\phi)\sin(\theta) \\
+y & = & r\sin(\phi)\sin(\theta) \\
+z & = & r\cos(\theta) \\
+\end{align*}
+For integer $m$, any function $f$ of the form $f(r,\theta,\phi) = g(r,\theta)\exp(im\phi)$ is multiplied by a constant when rotated around the $z$-axis.
+We can then seek to find functions $g$ that make $f$ as well behaved as possible when rotated around the other axes.
+A good choice turns out to be the spherical harmonics.
+
+Now consider another group: the Euclidean group $E(2)$ consisting of rotations and translations in the plane.
+Can we find a family of functions that is well behaved under the action of this group?
+
+\section{Partially diagonalising $E(2)$}
+$E(2)$ is not commutative so we can't expect to completely diagonalise it.
+Let's start by defining 2D polar coordinates by
+\begin{align*}
+x & = & r\cos(\theta) \\
+y & = & r\sin(\theta) \\
+\end{align*}
+Now consider functions of the form $f_m(r,\theta)=b_m(r)\exp(im\theta)$.
+This mimics how the spherical harmonics work with $SO(3)$ and are clearly very well behaved with respect to rotations around the origin.
+Write $R(\phi)$ for such a rotation by angle $\phi$.
+Then 
+\[
+(R(\phi)f)(x,y) = f(x,y)\exp(-im\phi).
+\]
+So now we need to pick functions $b_m$ that behave nicely under translation.
+We can make our life easier by focusing on infinitesimal translations.
+So let's pick $b_n$ so that the $f_m$ take a particularly simple form when differentiated.
+For convenience also define $z=x+iy$.
+
+Differentiating and simplifying we get both
+\[
+\frac{\partial f_n}{\partial x} = 
+    \Big(-\frac{inyb_n(r)}{r}+xb_n'(r)\Big)\exp(i(n+1)\theta)
+\]
+and
+\[
+\frac{\partial f_n}{\partial y} = 
+    \Big(-\frac{inxb_n(r)}{r}+yb_n'(r)\Big)\exp(i(n+1)\theta)
+\]
+This is a little messy.
+But there's a trick to simplify.
+We have $x$ and $y$ appearing in different places in both of the right hand sides, but by forming $\partial f_n/\partial x+i\partial f_n/\partial y$ they both become multiples of $z$ which can be factored out.
+We could do the same using $-i$ instead.
+We get both:
+\[
+\frac{\partial f_n}{\partial x}+i\frac{\partial f_n}{\partial y} =
+    \Big(-\frac{nb_n(r)}{r}+b_n'(r)\Big)\exp(i(n+1)\theta)
+\]
+and
+\[
+\frac{\partial f_n}{\partial x}-i\frac{\partial f_n}{\partial y} =
+    \Big(\frac{nb_n(r)}{r}+b_n'(r)\Big)\exp(i(n-1)\theta)
+\]
+
+We're interested in functions of the form
+$f_n(r,\theta)=b_n(r)\exp(im\theta)$
+and these become particularly nice if we choose
+\begin{align*}
+b_{n+1}(r) & = & -\frac{nb_n(r)}{r}+b_n'(r) \\
+b_{n-1}(r) & = & \frac{nb_n(r)}{r}+b_n'(r) \\
+\end{align*}
+or equivalently
+\begin{align*}
+\frac{2b_n(r)}{r} & = & b_{n-1}(r)-b_{n+1}(r) \\
+2b_n'(r) & = & b_{n-1}(r)+b_{n+1}(r) \\
+\end{align*}
+Any family of functions $b_n$ satisfying these properties will result in the simple relations:
+\[
+\frac{\partial f_n}{\partial x}+i\frac{\partial f_n}{\partial y} =
+    f_{n+1}(x,y)
+\]
+and
+\[
+\frac{\partial f_n}{\partial x}-i\frac{\partial f_n}{\partial y} =
+    f_{n-1}(x,y).
+\]
+
+\end{document}
