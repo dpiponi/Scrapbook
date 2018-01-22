@@ -1,5 +1,8 @@
 \documentclass{article}
-\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
 
 \begin{document}
 \section{Introduction}
@@ -86,10 +89,11 @@ b_{n+1}(r) & = & -\frac{nb_n(r)}{r}+b_n'(r) \\
 b_{n-1}(r) & = & \frac{nb_n(r)}{r}+b_n'(r) \\
 \end{align*}
 or equivalently
-\begin{align*}
-\frac{2b_n(r)}{r} & = & b_{n-1}(r)-b_{n+1}(r) \\
-2b_n'(r) & = & b_{n-1}(r)+b_{n+1}(r) \\
-\end{align*}
+(XXX I got opposite of this. Redo.)
+\begin{align}
+\frac{2b_n(r)}{r} & = & b_{n-1}(r)+b_{n+1}(r) \\
+2b_n'(r) & = & b_{n-1}(r)-b_{n+1}(r) \label{deriv}
+\end{align}
 Any family of functions $b_n$ satisfying these properties will result in the simple relations:
 \[
 \frac{\partial f_n}{\partial x}+i\frac{\partial f_n}{\partial y} =
@@ -99,6 +103,79 @@ and
 \[
 \frac{\partial f_n}{\partial x}-i\frac{\partial f_n}{\partial y} =
     f_{n-1}(x,y).
+\]
+
+\section{Exponentiating up to translation}
+By Equation~(\ref{deriv}) we can collect up all of the recurrence relations for the derivatives of the $b_n$ as
+\[
+\begin{pmatrix}
+\vdots \\
+b'_{-1}(x) \\
+\boxed{b'_0(x)} \\
+b'_1(x) \\
+\vdots \\
+\end{pmatrix}
+=
+M
+\begin{pmatrix}
+\vdots \\
+b_{-1}(x) \\
+\boxed{b_0(x)} \\
+b_1(x) \\
+\vdots \\
+\end{pmatrix}
+\]
+where
+\[
+M=\frac{1}{2}
+\begin{pmatrix*}[r]
+\ddots & \ddots &   &    &   &   &        \\
+\ddots & \hphantom{-{}}1 & 0 & -1 &   &   &        \\
+       &   & \phantom{-{}}1 & \boxed{0} & -1 &   &        \\
+       &   &   & 1 & 0 & -1 & \ddots \\
+       &   &   &   &   & \ddots & \ddots \\
+\end{pmatrix*}.
+\]
+These are vectors and a matrix that are infinite in both directions so I've used a box to indicate the $0$-th and $(0,0)$-th elements.
+
+We can view that matrix as the transition matrix for the non-deterministic automaton in Figure~\ref{automaton} with states labelled $\ldots, -1, 0, 1, \ldots$ and such that it emits a $1$ every time it takes a step to the left and a $-1$ every time it takes a step to the ight.
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[shorten >=1pt,node distance=2cm,auto,bend angle=45]
+\node[state]          (q_0)                      {$0$};
+\node[state]          (q_-1) [left of =q_0] {$-1$};
+\node[]          (q_-2) [left of=q_-1] {$\cdots$};
+\node[state]          (q_1) [right of=q_0] {$1$};
+\node[]          (q_2) [right of=q_1] {$\cdots$};
+\path[->]
+          (q_-2)  edge [bend left] node        {-1} (q_-1) 
+          (q_-1)  edge [bend left] node        {-1} (q_0) 
+          (q_0)   edge [bend left] node        {-1} (q_1) 
+          (q_1)   edge [bend left] node        {-1} (q_2)
+          (q_2)  edge [bend left] node        {1} (q_1) 
+          (q_1)  edge [bend left] node        {1} (q_0) 
+          (q_0)   edge [bend left] node        {1} (q_-1) 
+          (q_-1)   edge [bend left] node        {1} (q_-2);
+\end{tikzpicture}
+\caption{An automaton}
+\label{automaton}
+\end{figure}
+With that in mind, the $(i,j)$th element of $M^n$ is the number of ways to take a path from $i$ to $j$ in $n$ steps but counting with a weight of $(-1)^R$ for paths that take $R$ steps to the right.
+I.e.
+\[
+(M^n)_{ij} = \sum_{\mbox{paths }i\rightarrow j} (-1)^R (\frac{a}{2})^{\#\mbox{steps in path}}
+\]
+If the number of steps left for a path is $L$ then $j-i=R-L$ and $L+R=n$.
+So as a function of $L$, the number of steps in a path is $n=j-i+L$.
+The terms in $\exp(aM)$ sums over all paths of any length, but with paths of length $n$ weighted by $\frac{1}{n!}$.
+There are $\binom{n}{L}=\binom{j-i+2L}{L}$ ways to pick a path with $n$ steps that moves left $L$ times.
+
+\[
+b_i(x+a) = \exp(aM)b_i(x)
+\]
+\[
+b_i(x+a) = \sum_{j=-\infty}^\infty\sum_{L=0}^\infty\frac{(-1)^{j-i+L}}{L!(j-i+L)!}(\frac{a}{2})^{j-i+2L} b_j(x)
 \]
 
 \end{document}
