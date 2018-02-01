@@ -91,7 +91,7 @@ b_{n-1}(r) & = & \frac{nb_n(r)}{r}+b_n'(r) \\
 or equivalently
 (XXX I got opposite of this. Redo.)
 \begin{align}
-\frac{2b_n(r)}{r} & = & b_{n-1}(r)+b_{n+1}(r) \\
+\frac{2b_n(r)}{r} & = & b_{n-1}(r)+b_{n+1}(r) \label{sum} \\
 2b_n'(r) & = & b_{n-1}(r)-b_{n+1}(r) \label{deriv}
 \end{align}
 Any family of functions $b_n$ satisfying these properties will result in the simple relations:
@@ -138,7 +138,23 @@ M=\frac{1}{2}
 \]
 These are vectors and a matrix that are infinite in both directions so I've used a box to indicate the $0$-th and $(0,0)$-th elements.
 
-We can view that matrix as the transition matrix for the non-deterministic automaton in Figure~\ref{automaton} with states labelled $\ldots, -1, 0, 1, \ldots$ and such that it emits a $1$ every time it takes a step to the left and a $-1$ every time it takes a step to the ight.
+We have
+\[
+f(x+a) = f(x)+f'(x)a+f''(x)a^2/2+f^{(3)}(x)a^3/3!+\ldots
+\]
+which we can write succinctly as the ``shift rule''
+\[
+\exp(aD)f(x) = f(x+a).
+\]
+where $D=d/dx$.
+For our vector of $b_i$'s we can represent $D$ as $M$.
+Se we have
+\[
+b_i(x+a) = \exp(aM)b_i(x).
+\]
+So we now have to exponentiate $aM$.
+
+We can view the matrix $M$ as the transition matrix for the non-deterministic automaton in Figure~\ref{automaton} with states labelled $\ldots, -1, 0, 1, \ldots$ and such that it emits a $1$ every time it takes a step to the left and a $-1$ every time it takes a step to the ight.
 
 \begin{figure}
 \centering
@@ -164,18 +180,29 @@ We can view that matrix as the transition matrix for the non-deterministic autom
 With that in mind, the $(i,j)$th element of $M^n$ is the number of ways to take a path from $i$ to $j$ in $n$ steps but counting with a weight of $(-1)^R$ for paths that take $R$ steps to the right.
 I.e.
 \[
-(M^n)_{ij} = \sum_{\mbox{paths }i\rightarrow j} (-1)^R (\frac{a}{2})^{\#\mbox{steps in path}}
+(M^n)_{ij} = \sum_{P:\mbox{$n$ step paths $i\rightarrow j$}} (-1)^{R(P)}\Big(\frac{1}{2}\Big)^n
 \]
 If the number of steps left for a path is $L$ then $j-i=R-L$ and $L+R=n$.
 So as a function of $L$, the number of steps in a path is $n=j-i+L$.
 The terms in $\exp(aM)$ sums over all paths of any length, but with paths of length $n$ weighted by $\frac{1}{n!}$.
-There are $\binom{n}{L}=\binom{j-i+2L}{L}$ ways to pick a path with $n$ steps that moves left $L$ times.
-
 \[
-b_i(x+a) = \exp(aM)b_i(x)
+\exp(aM)_{ij} = \sum_{P:\mbox{paths }i\rightarrow j} \frac{1}{n(P)!}(-1)^{R(P)} (\frac{a}{2})^{n(P)}
 \]
+There are $\binom{n}{L}=\binom{j-i+2L}{L}$ ways to pick a path with $n$ steps that moves left $L$ times.
 \[
 b_i(x+a) = \sum_{j=-\infty}^\infty\sum_{L=0}^\infty\frac{(-1)^{j-i+L}}{L!(j-i+L)!}(\frac{a}{2})^{j-i+2L} b_j(x)
+\]
+Any $(b_i)$ that satisfies this property will satisfy Equations~(\ref{sum}) and (\ref{deriv}).
+Given our freedom of choice we may as well pick $b_j(0)=\delta_{j0}$ giving us
+\[
+b_i(a) = \sum_{L=0}^\infty\frac{(-1)^{-i+L}}{L!(-i+L)!}(\frac{a}{2})^{-i+2L} .
+\]
+There's another way to sumover these weighted paths.
+When expanding $(t+t^{-1})^n$, the coefficient of $t^m$ is the number of paths with $n$ steps that end up $m$ positions to the right.
+Similarly the coefficient of $t^m$ in $(t-t^{-1})^n$ is the weighted count with weight equal to $(-1)^{\mbox{$\#$ of right steps in path}}$.
+The coefficient
+\[
+\exp(a(t-t^{-1})/2)
 \]
 
 \end{document}
