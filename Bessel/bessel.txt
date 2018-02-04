@@ -3,7 +3,7 @@ Wirtinger derivative
 ∂ = ½(∂ₓ-i∂_y)
 ∂̅ = ½(∂ₓ+i∂_y)
 
-|n> = J_n(r)exp(ikθ), z = rexp(iθ) -- checked in M
+|n> = J_n(r)exp(inθ), z = rexp(iθ) -- checked in M
 
 2∂|n> = |n-1>
 2∂̅|n> = -|n+1>
