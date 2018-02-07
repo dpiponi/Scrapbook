@@ -114,8 +114,8 @@ Any family of functions $b_n$ satisfying these properties will result in the nic
 which are equivalent to
 \begin{align}
 2\frac{\partial f_n}{\partial x} & = f_{n-1}-f_{n+1} \label{sum3} \\
--2i\frac{\partial f_n}{\partial y} & = f_{n+1}+f_{n-1} \label{sum4}
-\end{align}.
+-2i\frac{\partial f_n}{\partial y} & = f_{n+1}+f_{n-1} \label{sum4}.
+\end{align}
 
 \section{Exponentiating up to translation}
 Let's collect together the $b_i$ in a single generating function
@@ -135,11 +135,21 @@ G(r,t) = e^{\frac{1}{2}r(t-t^{-1})}g(t)
 for some $g$.
 For simplicity we can pick $g(t) = 1$ and define $J_k(r)$ by
 \begin{equation}
-\sum_{k=-\infty}^\infty J_k(r)t^k = G(r,t) = e^{\frac{1}{2}r(t-t^{-1})}\label{defn}
+\boxed{\sum_{k=-\infty}^\infty J_k(r)t^k = G(r,t) = e^{\frac{1}{2}r(t-t^{-1})}}\label{defn}
 \end{equation}
 We can determine each of the $J_k(r)$ by expanding the Taylor series for $G(r, t)$.
 The $J_k(r)$ are the Bessel functions of the first kind and Equation~(\ref{defn}) is often taken as their definition.
 I hope it can be seen that the form of Equation~(\ref{defn}) comes directly from Equation~(\ref{sum3}) which in turn is what makes Equations~(\ref{partialx}) and (\ref{partialy}) as simple as possible.
+
+Note that
+\begin{align*}
+\sum_{k=-\infty}^\infty (-1)^kJ_{-k}(r)t^k
+&= \sum_{k=-\infty}^\infty J_{-k}(r)(-t)^k \\
+&= \sum_{k=-\infty}^\infty J_k(r)(-t^{-1})^k \\
+&= G(r,-t^{-1}) \\
+&= G(r,t)
+\end{align*}
+meaning that $J_{-k}(r) = (-1)^kJ_{k}(r)$.
 
 \section{An addition law}
 We immediately get an addition law.
@@ -165,9 +175,9 @@ But this addition law is a 1-dimensional addition law.
 We need to go back to Equation~(\ref{rot}) and consider functions in the plane.
 So define
 \[
-B_n(r,\theta) = J_n(r)e^{in\theta}.
+\boxed{B_n(r,\theta) = J_n(r)e^{in\theta}}.
 \]
-Because of Equation~(\ref{deriv}) we expect these to have behaviour under translation.
+Because of Equation~(\ref{deriv}) we expect these to have nice behaviour under translation.
 In fact, define
 \begin{align*}
 H(r,\theta,t) &= \sum_{k=-\infty}^\infty B_k(r,\theta)t^k \\
@@ -181,7 +191,13 @@ So if we have 2D vectors $\myvec{p}$ and $\myvec{q}$, then
 \[
 H(\myvec{p}+\myvec{q},t) = H(\myvec{p},t)H(\myvec{q},t)
 \]
-In other words
+This tells us that
+\begin{equation}
+\boxed{B_n(\myvec{p}+\myvec{q}) = \sum_{k=-\infty}^\infty B_k(\myvec{p})B_{n-k}(\myvec{q})}\label{addition}
+\end{equation}
+
+Using Figure~\ref{triangle} we can write this in a more traditional, but also more obfuscated fashion.
+Using the notation $\angle\myvec{p}$ to mean the angle between the vector $\myvec{p}$ and the $x$-axis:
 \[
 J_k(|\myvec{p}+\myvec{q}|)e^{ik\angle(\myvec{p}+\myvec{q})} = \sum_{m=-\infty}^\infty J_m(|\myvec{p}|)J_{k-m}(|\myvec{q}|)e^{im\angle\myvec{p}}e^{i(k-m)\angle\myvec{q}}
 \]
@@ -199,6 +215,8 @@ J_k(|\myvec{p}+\myvec{q}|)e^{ik\angle(\myvec{p}+\myvec{q})} = \sum_{m=-\infty}^\
 \draw[->-=0.5] (4,-2) node[shift={(-0.15,0.4)}]{$\phi$} -- (5,3) node[midway,right] {$\myvec{q}$};
 \draw[->-=0.5] (0,0) -- (5,3) node[midway,above left] {$\myvec{p}+\myvec{q}$} node[shift={(-0.3,-0.4)}]{$\psi$};
 \end{tikzpicture}
+\caption{A triangle of vectors}
+\label{triangle}
 \end{figure}
 
 We have
@@ -226,7 +244,8 @@ Our carrier space is the space of ``Laurent'' series $\sum_{k=-\infty}^\infty a_
 The representation is given by:
 \begin{align*}
 r(R_\phi) & : p(t) \rightarrow p(e^{i\phi}t)\\
-r(T_{x,y}) & : p(t) \rightarrow e^{\frac{1}{2}(x(t-t^{-1})+iy(t+t^{-1}))}p(t)
+r(T_{x,y}) & : p(t) \rightarrow e^{\frac{1}{2}(x(t-t^{-1})+iy(t+t^{-1}))}p(t) \\
+r(C) & : p(t) \rightarrow p(-t^{-1})
 \end{align*}
 
 So in summary, we sought a basis of functions that is well behaved under rotation and translation.
