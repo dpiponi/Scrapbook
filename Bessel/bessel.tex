@@ -3,7 +3,7 @@
 \usepackage{pgf}
 \usepackage{tikz}
 \usepackage{mathdots}
-\usetikzlibrary{arrows,automata}
+\usetikzlibrary{arrows,automata,decorations.markings}
 \makeatletter
 \newcommand\mathcircled[1]{%
   \mathpalette\@mathcircled{#1}%
@@ -11,6 +11,7 @@
 \newcommand\@mathcircled[2]{%
   \tikz[baseline=(math.base)] \node[draw,circle,inner sep=1pt] (math) {$\m@th#1#2$};%
 }
+\newcommand\myvec[1]{\vec{#1}\hspace{0.5mm}}
 \makeatother
 
 \begin{document}
@@ -35,9 +36,9 @@ This group is non-commutative so we can't expect non-trivial diagonal representa
 But we can start with one axis, say the $z$-axis, and start by diagoinalising with respect to just the rotations around that axis.
 If we use the usual coordinates $x$, $y$ and $z$ in 3D then we can write functions of $x$, $y$, and $z$ as functions of polar coordinates $r$, $\theta$ and $\phi$ where
 \begin{align*}
-x & = & r\cos(\phi)\sin(\theta) \\
-y & = & r\sin(\phi)\sin(\theta) \\
-z & = & r\cos(\theta) \\
+x & = r\cos(\phi)\sin(\theta) \\
+y & = r\sin(\phi)\sin(\theta) \\
+z & = r\cos(\theta) \\
 \end{align*}
 For integer $m$, any function $f$ of the form $f(r,\theta,\phi) = g(r,\theta)e^{im\phi}$ is multiplied by a constant when rotated around the $z$-axis.
 We can then seek to find functions $g$ that make $f$ as well behaved as possible when rotated around the other axes.
@@ -50,10 +51,13 @@ Can we find a family of functions that is well behaved under the action of this 
 $E(2)$ is not commutative so we can't expect to completely diagonalise it.
 Let's start by defining 2D polar coordinates by
 \begin{align*}
-x & = & r\cos(\theta) \\
-y & = & r\sin(\theta) \\
+x & = r\cos(\theta) \\
+y & = r\sin(\theta) \\
 \end{align*}
-Now consider functions of the form $f_n(r,\theta)=b_n(r)e^{in\theta}$.
+Now consider functions of the form
+\begin{equation}
+f_n(r,\theta)=b_n(r)e^{in\theta}. \label{rot}
+\end{equation}
 This mimics how the spherical harmonics work with $SO(3)$ and are clearly very well behaved with respect to rotations around the origin.
 Write $R(\phi)$ for such a rotation by angle $\phi$.
 Then 
@@ -66,15 +70,12 @@ So let's pick $b_n$ so that the $f_m$ take a particularly simple form when diffe
 For convenience also define $z=x+iy$.
 
 Differentiating and simplifying we get both
-\[
-\frac{\partial f_n}{\partial x} = 
-    \frac{e^{in\theta}}{r}\Big(-\frac{inyb_n(r)}{r}+xb_n'(r)\Big)
-\]
-and
-\[
-\frac{\partial f_n}{\partial y} = 
-    \frac{e^{in\theta}}{r}\Big(\frac{inxb_n(r)}{r}+yb_n'(r)\Big)
-\]
+\begin{align}
+\frac{\partial f_n}{\partial x} &= 
+    \frac{e^{in\theta}}{r}\Big(-\frac{inyb_n(r)}{r}+xb_n'(r)\Big) \label{partialx}\\
+\frac{\partial f_n}{\partial y} &= 
+    \frac{e^{in\theta}}{r}\Big(\frac{inxb_n(r)}{r}+yb_n'(r)\Big) \label{partialy}
+\end{align}
 This is a little messy.
 But there's a trick to simplify.
 We have $x$ and $y$ appearing in different places in both of the right hand sides, but by forming $\partial f_n/\partial x+i\partial f_n/\partial y$ they both become multiples of $z$ which can be factored out.
@@ -117,279 +118,119 @@ which are equivalent to
 \end{align}.
 
 \section{Exponentiating up to translation}
-By Equation~(\ref{deriv}) we can collect up all of the recurrence relations for the derivatives of the $b_n$ as
+Let's collect together the $b_i$ in a single generating function
 \[
-\begin{pmatrix}
-\vdots \\
-b'_{-1}(x) \\
-\mathcircled{b'_0(x)} \\
-b'_1(x) \\
-\vdots \\
-\end{pmatrix}
-=
-M
-\begin{pmatrix}
-\vdots \\
-b_{-1}(x) \\
-\mathcircled{b_0(x)} \\
-b_1(x) \\
-\vdots \\
-\end{pmatrix}
+G(r,t) = \sum_{k=-\infty}^\infty b_k(r)t^k
 \]
-where
-\[
-M=\frac{1}{2}
-\begin{pmatrix*}[c]
-\ddots & \ddots &   &    &   &   &        \\
-\ddots & 1 & 0 & -1 &   &   &        \\
-       &   & 1 & \mathcircled{0} & -1 &   &        \\
-       &   &   & 1 & 0 & -1 & \ddots \\
-       &   &   &   &   & \ddots & \ddots \\
-\end{pmatrix*}.
-\]
-These are vectors and a matrix that are infinite in both directions so I've used a circle to indicate the $0$-th and $(0,0)$-th elements.
-
-I'm calling any family of functions $(b_i)$ satisfying a relation of this type a \textit{family of Bessel type}.
-
-In general the Taylor's theorem tells us that
-\[
-f(x+a) = f(x)+f'(x)a+f''(x)a^2/2+f^{(3)}(x)a^3/3!+\ldots
-\]
-which we can write succinctly as the ``shift rule''
-\[
-e^{aD}f(x) = f(x+a).
-\]
-where $D=d/dx$.
-For our vector of $b_i$'s we can represent $D$ as $M$.
-Se we have
-\[
-b_i(x+a) = e^{aM}b_i(x).
-\]
-So we now have to exponentiate $aM$.
-
-We can view that matrix as the transition matrix for the non-deterministic automaton in Figure~\ref{automaton} with states labelled $\ldots, -1, 0, 1, \ldots$ and such that it emits a $\frac{1}{2}$ every time it takes a step to the right and a $-\frac{1}{2}$ every time it takes a step to the left. We can associate a weight with any sequence of transitions this system could take by multiplying togther the values emitted at each step. For example the path $0\rightarrow 1\rightarrow 0\rightarrow -1$ would emit $\frac{1}{2},-\frac{1}{2},-\frac{1}{2}$ giving that path a total weight of $\frac{1}{8}$.
-
-\begin{figure}
-\centering
-\begin{tikzpicture}[shorten >=1pt,node distance=2cm,auto,bend angle=45]
-\node[state]          (q_0)                      {$0$};
-\node[state]          (q_-1) [left of =q_0] {$-1$};
-\node[]          (q_-2) [left of=q_-1] {$\cdots$};
-\node[state]          (q_1) [right of=q_0] {$1$};
-\node[]          (q_2) [right of=q_1] {$\cdots$};
-\path[->]
-          (q_-2)  edge [bend left] node        {$\frac{1}{2}$} (q_-1) 
-          (q_-1)  edge [bend left] node        {$\frac{1}{2}$} (q_0) 
-          (q_0)   edge [bend left] node        {$\frac{1}{2}$} (q_1) 
-          (q_1)   edge [bend left] node        {$\frac{1}{2}$} (q_2)
-          (q_2)  edge [bend left] node        {$-\frac{1}{2}$} (q_1) 
-          (q_1)  edge [bend left] node        {$-\frac{1}{2}$} (q_0) 
-          (q_0)   edge [bend left] node        {$-\frac{1}{2}$} (q_-1) 
-          (q_-1)   edge [bend left] node        {$-\frac{1}{2}$} (q_-2);
-\end{tikzpicture}
-\caption{An automaton}
-\label{automaton}
-\end{figure}
-With that in mind, the $(i,j)$th element of $M^n$ is the number of ways to take a path from $j$ to $i$ in $n$ steps but counting with the given weight.
-So
-\[
-(M^n)_{ij} = \sum_{P:\mbox{$n$ step paths $j\rightarrow i$}} (-1)^{L(P)}\Big(\frac{1}{2}\Big)^n
-\]
-where I define $L(P), R(P)$ and $n(P)$ to be the number of left steps, right steps and steps respectively in the path $P$.
-We have
+We get
 \begin{align*}
-R+L &= n \\
-R-L &= i-j \\
+\frac{\partial G(r,t)}{\partial r} &= \sum_{k=-\infty}^\infty \frac{1}{2}(b_{k-1}(r)-b_{k+1}(r))t^k\\
+&= \sum_{k=-\infty}^\infty \frac{1}{2}(t-t^{-1})b_k(r)t^k \\
+&= \frac{1}{2}(t-t^{-1})G(r,t)
 \end{align*}
-and so also
-\[
-n = 2L+i-j 
-\]
-The terms in $e^{aM}$ sum over all paths of any length, but with paths of length $n$ additionally weighted by $\frac{a^n}{n!}$.
-This gives us
-\[
-(e^{aM})_{ij} = \sum_{P:\mbox{paths }j\rightarrow i} \frac{1}{n(P)!}(-1)^{L(P)} (\frac{a}{2})^{n(P)}
-\]
-There are $\binom{n}{L}=\binom{j-i+2L}{L}$ ways to pick a path with $n$ steps that moves left $L$ times.
 So we have
 \[
-(e^{aM})_{ij} = \sum_{L=0}^\infty\frac{(-1)^{j-i+L}}{L!(j-i+L)!}(\frac{a}{2})^{j-i+2L}
+G(r,t) = e^{\frac{1}{2}r(t-t^{-1})}g(t)
 \]
-Performing the matrix multiplication gives
-\[
-b_i(x+a) = \sum_{j=-\infty}^\infty\sum_{L=0}^\infty\frac{(-1)^{j-i+L}}{L!(j-i+L)!}(\frac{a}{2})^{j-i+2L} b_j(x)
-\]
-Any $(b_i)$ that satisfies this property will satisfy Equations~(\ref{sum}) and (\ref{deriv}).
-Just about the simplest thing we could pick for $b_i(x)$ is the sequence with one non-zero element at $x=0$.
-So let's define $J_i$ to be the family of Bessel type with $J_i(0)=\delta_{i0}$ giving us
-\[
-J_i(a) = \sum_{L=0}^\infty\frac{(-1)^{-i+L}}{L!(-i+L)!}(\frac{a}{2})^{-i+2L}.
-\]
-(Cf. AS-9.1.10)
-%There's another way to sum over these weighted paths.
+for some $g$.
+For simplicity we can pick $g(t) = 1$ and define $J_k(r)$ by
+\begin{equation}
+\sum_{k=-\infty}^\infty J_k(r)t^k = G(r,t) = e^{\frac{1}{2}r(t-t^{-1})}\label{defn}
+\end{equation}
+We can determine each of the $J_k(r)$ by expanding the Taylor series for $G(r, t)$.
+The $J_k(r)$ are the Bessel functions of the first kind and Equation~(\ref{defn}) is often taken as their definition.
+I hope it can be seen that the form of Equation~(\ref{defn}) comes directly from Equation~(\ref{sum3}) which in turn is what makes Equations~(\ref{partialx}) and (\ref{partialy}) as simple as possible.
 
-With this definition, we get
+\section{An addition law}
+We immediately get an addition law.
+We can think of multiplication by $G(r,t)$ as corresponding to translation by $r$ so we expect an equation coming from performing a pair of translations in a row, i.e.
 \[
-e^{aM} = 
-M= \begin{pmatrix*}[c]
-\ddots & &   &    &   &   &      \iddots  \\
- & J_1(a) & J_0(a) & J_{-1}(a) & J_{-2}(a)  & J_{-3}(a)  &        \\
- & J_2(a)  & J_1(a) & \mathcircled{J_0(a)} & J_{-1}(a) & J_{-2}(a)  &        \\
-       & J_3(a)  & J_2(a)  & J_1(a) & J_0(a) & J_{-1}(a) & \\
-   \iddots    &   &   &   &   &  & \ddots \\
-\end{pmatrix*}.
+G(r+s,t) = G(r,t)G(s,t)
 \]
-
-Note that the addition rule for exponentials now gives us an addition rule for bessel functions.
-\[
-e^{aM}e^{bM} = e^{(a+b)M}
-\]
+This also follows directly from the definition of $G$ as an exponential.
+We get
+\begin{align*}
+G(r+s,t) &= \sum_{k=-\infty}^\infty J_k(r)t^k\sum_{l=-\infty}^\infty J_l(r)t^l\\
+&= \sum_{k=-\infty}^\infty \Big(\sum_{m=-\infty}^\infty J_{m}(r)J_{k-m}(s) \Big) t^k
+\end{align*}
 and so
 \[
-J_i(x+y) = \sum_{k=-\infty}^\infty J_{k-i}(x)J_{i}(y)
+J_k(r+s) = \sum_{m=-\infty}^\infty J_{m}(r)J_{k-m}(s)
 \]
-(Cf. AS-9.1.75)
-More generally, for any family of functions of Bessel type we have
+This is the well known addition law for Bessel functions, AS-???.
+We appear to have succeeded in our quest.
+But this is not the addition law we were looking for.
+Our goal was to find addition laws corresponding to multiplication in the group $E(2)$.
+But this addition law is a 1-dimensional addition law.
+We need to go back to Equation~(\ref{rot}) and consider functions in the plane.
+So define
 \[
-b_i(x+y) = \sum_{k=-\infty}^\infty J_{k-i}(x)b_{i}(y)
+B_n(r,\theta) = J_n(r)e^{in\theta}.
+\]
+Because of Equation~(\ref{deriv}) we expect these to have behaviour under translation.
+In fact, define
+\begin{align*}
+H(r,\theta,t) &= \sum_{k=-\infty}^\infty B_k(r,\theta)t^k \\
+&= \sum_{k=-\infty}^\infty J_k(r)(te^{i\theta})^k \\
+&= G(r,te^{i\theta}) \\
+&= \exp\frac{1}{2}r(te^{i\theta}-t^{-1}e^{-i\theta}) \\
+&= \exp\frac{1}{2}(tz-t^{-1}\bar{z}) \\
+&= \exp\frac{1}{2}(x(t-t^{-1})+iy(t+t^{-1}))
+\end{align*}
+So if we have 2D vectors $\myvec{p}$ and $\myvec{q}$, then
+\[
+H(\myvec{p}+\myvec{q},t) = H(\myvec{p},t)H(\myvec{q},t)
+\]
+In other words
+\[
+J_k(|\myvec{p}+\myvec{q}|)e^{ik\angle(\myvec{p}+\myvec{q})} = \sum_{m=-\infty}^\infty J_m(|\myvec{p}|)J_{k-m}(|\myvec{q}|)e^{im\angle\myvec{p}}e^{i(k-m)\angle\myvec{q}}
 \]
 
-We can think of this as group theoretical. The matrix $e^{aM}$ represents translation by $a$ in one dimension and the addition law is the multiplication in this group.
-But this is just a representation of the group of the one dimensional group of translations in one dimension.
-We need to return to the three dimensional group of Euclidean motions of the two dimensional plane.
-
-\section{Translations in two dimensions}
-We can mimic what we did above in two dimensions.
-From (\ref{sum3}) and (\ref{sum4}) we have
-\[
-\begin{pmatrix}
-\vdots \\
-\frac{\partial f_{-1}(x,y)}{\partial x} \\
-\mathcircled{\frac{\partial f_0(x,y)}{\partial x}} \\
-\frac{\partial f_1(x,y)}{\partial x} \\
-\vdots \\
-\end{pmatrix}
-=
-M
-\begin{pmatrix}
-\vdots \\
-f_{-1}(x,y) \\
-\mathcircled{f_0(x,y)} \\
-f_1(x,y) \\
-\vdots \\
-\end{pmatrix}
-\]
-and
-\[
-\begin{pmatrix}
-\vdots \\
-\frac{\partial f_{-1}(x,y)}{\partial y} \\
-\mathcircled{\frac{\partial f_0(x,y)}{\partial y}} \\
-\frac{\partial f_1(x,y)}{\partial y} \\
-\vdots \\
-\end{pmatrix}
-=
-N
-\begin{pmatrix}
-\vdots \\
-f_{-1}(x,y) \\
-\mathcircled{f_0(x,y)} \\
-f_1(x,y) \\
-\vdots \\
-\end{pmatrix}
-\]
-where
-\[
-N=\frac{i}{2}
-\begin{pmatrix*}[c]
-\ddots & \ddots &   &    &   &   &        \\
-\ddots & 1 & 0 & 1 &   &   &        \\
-       &   & 1 & \mathcircled{0} & 1 &   &        \\
-       &   &   & 1 & 0 & 1 & \ddots \\
-       &   &   &   &   & \ddots & \ddots \\
-\end{pmatrix*}.
-\]
-Let's call any family of functions $(f_i)$ satisfying these equations a \textit{2-dimensional family of Bessel type}.
-
-If, as usual, we let $z=x+iy$ then the action of translation by $(x,y)$ on $(\ldots,f_{-1}(x,y),f_0(x,y),f_1(x,y),\ldots)$ is given by $e^{P(z)}$ where
-\[
-P(z) = \frac{1}{2}
-\begin{pmatrix*}[c]
-\ddots & \ddots &   &    &   &   &        \\
-\ddots & \bar{z} & 0 & -z &   &   &        \\
-       &   & \bar{z} & \mathcircled{0} & -z &   &        \\
-       &   &   & \bar{z} & 0 & -z & \ddots \\
-       &   &   &   &   & \ddots & \ddots \\
-\end{pmatrix*}.
-\]
-
-Just like before, we can view this as a state transition matrix for the automaton in Figure~\ref{automaton2}.
+\tikzset{->-/.style={decoration={
+    markings,
+    mark=at position #1 with {\arrow{>}}},postaction={decorate}}}
 
 \begin{figure}
 \centering
-\begin{tikzpicture}[shorten >=1pt,node distance=2cm,auto,bend angle=45]
-\node[state]          (q_0)                      {$0$};
-\node[state]          (q_-1) [left of =q_0] {$-1$};
-\node[]          (q_-2) [left of=q_-1] {$\cdots$};
-\node[state]          (q_1) [right of=q_0] {$1$};
-\node[]          (q_2) [right of=q_1] {$\cdots$};
-\path[->]
-          (q_-2)  edge [bend left] node        {$\frac{\bar{z}}{2}$} (q_-1) 
-          (q_-1)  edge [bend left] node        {$\frac{\bar{z}}{2}$} (q_0) 
-          (q_0)   edge [bend left] node        {$\frac{\bar{z}}{2}$} (q_1) 
-          (q_1)   edge [bend left] node        {$\frac{\bar{z}}{2}$} (q_2)
-          (q_2)  edge [bend left] node        {$-\frac{z}{2}$} (q_1) 
-          (q_1)  edge [bend left] node        {$-\frac{z}{2}$} (q_0) 
-          (q_0)   edge [bend left] node        {$-\frac{z}{2}$} (q_-1) 
-          (q_-1)   edge [bend left] node        {$-\frac{z}{2}$} (q_-2);
+\begin{tikzpicture}[>=stealth]
+\draw[->-=0.5] (0,0) node[left]{$0$}
+%node[shift={(0.5,0.05)}]{$\theta$}
+-- (4,-2) node[midway,below left]{$\myvec{p}$};
+\draw[->-=0.5] (4,-2) node[shift={(-0.15,0.4)}]{$\phi$} -- (5,3) node[midway,right] {$\myvec{q}$};
+\draw[->-=0.5] (0,0) -- (5,3) node[midway,above left] {$\myvec{p}+\myvec{q}$} node[shift={(-0.3,-0.4)}]{$\psi$};
 \end{tikzpicture}
-\caption{An automaton}
-\label{automaton2}
 \end{figure}
 
-We can repeat the counting argument.
-Let $z=re^{i\theta}$ as usual.
-Then if there are $L$ steps left and $R$ steps right then we have a weight of
-\[
-(-re^{-i\theta})^L(re^{i\theta})^R=r^n(-1)^Le^{i\theta(i-j)}.
-\]
-It's exactly like before except that each weight is now twisted by $e^{i(i-j)\theta}$.
-So the $(i,j)$-th element of $e^{P(z)}$ is given by
+We have
 \begin{align*}
-(e^{aM})_{ij} &= \sum_{L=0}^\infty\frac{(-1)^{j-i+L}}{L!(j-i+L)!}(\frac{r}{2})^{j-i+2L}e^{i(i-j)\theta}\\
-              & = J_{i-j}(r)e^{i(i-j)\theta}
+%\angle\myvec{p}+\theta & = \angle(\myvec{p}+\myvec{q}) \\
+\angle\myvec{p}+\pi-\phi & = \angle(\myvec{q}) \\
+\angle(\myvec{p}+\myvec{q})+\psi & = \angle(\myvec{q}) 
 \end{align*}
 
-\section{The complete representation of $E(2)$}
-So for families of two-dimensional functions of Bessel type we have rotations given by the matrix
+Therefore
 \[
-R(\phi) = \begin{pmatrix*}[c]
-\ddots & \ddots &   &    &   &   &        \\
-\ddots & 0 & e^{-i\phi} & 0   &   &        \\
-       &   & 0 & \mathcircled{1} & 0 &   &        \\
-       &   &   & 0 & e^{i\phi} & 0 & \ddots \\
-       &   &   &   &   & \ddots & \ddots \\
-\end{pmatrix*}.
+J_k(|\myvec{p}+\myvec{q}|)e^{ik(\angle(\myvec{p}+\myvec{q})-\angle\myvec{q})} = \sum_{m=-\infty}^\infty J_m(|\myvec{p}|)J_{k-m}(|\myvec{q}|)e^{im(\angle\myvec{p}-\angle\myvec{q})}
 \]
-and translations given by
-\[
-T(x,y)= \begin{pmatrix*}[c]
-\ddots & &   &    &   &   &      \iddots  \\
- & J_1(r)e^{i\theta} & J_0(r) & J_{-1}(r)e^{-i\theta} & J_{-2}(r)e^{-2i\theta}  & J_{-3}(r)e^{-3i\theta}  &        \\
- & J_2(r)e^{2i\theta}  & J_1(r)e^{i\theta} & \mathcircled{J_0(r)} & J_{-1}(r)e^{-i\theta} & J_{-2}(r)e^{-2i\theta}  &        \\
-       & J_3(r)e^{3i\theta}  & J_2(r)e^{2i\theta}  & J_1(r)e^{i\theta} & J_0(r) & J_{-1}(r)e^{-i\theta} & \\
-   \iddots    &   &   &   &   &  & \ddots \\
-\end{pmatrix*}.
-\]
+so
+\begin{align*}
+J_k(|\myvec{p}+\myvec{q}|)e^{ik\psi} & = \sum_{m=-\infty}^\infty J_m(|\myvec{p}|)J_{k-m}(|\myvec{q}|)e^{im(\phi-\pi)} \\
+                                 & = \sum_{m=-\infty}^\infty J_m(|\myvec{p}|)J_{k-m}(|\myvec{q}|)(-1)^me^{im\phi}
+\end{align*}
 
-The group law $T(x,y)T(x',y')=T(x+x',y+y')$ should give us another addition formula.
-Graf's addition theorem AS-9.1.79.
+This is essentially Graf's addition theorem AS-9.1.79.
 
-%When expanding $(t+t^{-1})^n$, the coefficient of $t^m$ is the number of paths with $n$ steps that end up $m$ positions to the right.
-%Similarly the coefficient of $t^m$ in $(t-t^{-1})^n$ is the weighted count with weight equal to $(-1)^{\mbox{$\#$ of right steps in path}}$.
-%The coefficient
-%\[
-%e^{a(t-t^{-1})/2}
-%\]
+\section{A representation of $E(2)$}
+We can now state a representation of $E(2)$.
+Our carrier space is the space of ``Laurent'' series $\sum_{k=-\infty}^\infty a_kt^k$.
+The representation is given by:
+\begin{align*}
+r(R_\phi) & : p(t) \rightarrow p(e^{i\phi}t)\\
+r(T_{x,y}) & : p(t) \rightarrow e^{\frac{1}{2}(x(t-t^{-1})+iy(t+t^{-1}))}p(t)
+\end{align*}
+
+So in summary, we sought a basis of functions that is well behaved under rotation and translation.
+We were ultimately led to the representation of $E(2)$ above.
+And all of the properties of Bessel functions of the first kind (for integer modulus) follow from the fact that this is a true group representation, in particular the additions laws.
 
 \end{document}
