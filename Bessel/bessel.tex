@@ -24,6 +24,11 @@
 
 \begin{document}
 \section{Introduction}
+I've long been bothered by Bessel functions.
+They often get introduced as a convenient name for the solutions of certain ordinary or partial differential equations that pop up surprisingly frequently, especially in the context of physics.
+But there's a slightly different perspective on Bessel functions where the primary motivation isn't necessarily to solve a PDE but to find a representation of a group.
+In fact, the properties of many transcendental functions are intimately tied up with the properties of various groups and one place this becomes visible is in addition formulae.
+
 Many transcendental functions have associated addition formulae.
 For example
 \begin{align}
@@ -72,14 +77,14 @@ Now consider functions of the form
 \begin{equation}
 f_n(r,\theta)=b_n(r)e^{in\theta}. \label{rot}
 \end{equation}
-These have a particularly nice behaviour when acted on my rotations.
+These have a particularly nice behaviour when acted on by rotations.
 In fact
 \[
 (R_\phi f_n)(x,y) = f(x,y)e^{in\phi}.
 \]
 Rotations are turned into multiplications.
 It'd be nice if we could also turn translations into multiplications (as the Fourier transform does) but this is impossible because $E(2)$ is not a commutative group and rotations don't commute with translations.
-We'll do the next best thing, pick functions $b_m$ that behave nicely under translation.
+We'll do the next best thing, pick functions $b_n$ that behave nicely under translation.
 
 We can make our life easier by first considering infinitesimal translations.
 Conceptually, the derivative of a function is the amount it changes under infinitesimal translations.
@@ -125,7 +130,7 @@ or equivalently
 2b_n'(r) & =  b_{n-1}(r)-b_{n+1}(r) \label{deriv}
 \end{align}
 (See AS-9.1.27. Note that I use the notation AS-aa.bb.cc to refer to formulae in Abramowitz and Stegun.)
-Any family of functions $(b_n)$ satisfying these properties will result in the nice relations:
+Any family of functions $(b_n)$ satisfying these properties will have the surprisingly simple properties
 \begin{align*}
 2\frac{\partial f_n}{\partial\bar{z}} & = -f_{n+1} \\
 2\frac{\partial f_n}{\partial z} & = f_{n-1}.
@@ -136,8 +141,8 @@ which are equivalent to
 -2i\frac{\partial f_n}{\partial y} & = f_{n+1}+f_{n-1} \label{sum4}.
 \end{align}
 
-\section{Exponentiating up to translation}
-Let's collect together the $(b_n)$ in a single generating function
+\section{A generating function}
+Let's collect together the $(b_n)$ into a single generating function
 \[
 G(r,t) = \sum_{k=-\infty}^\infty b_k(r)t^k
 \]
@@ -215,9 +220,16 @@ This tells us that
 \end{equation}
 \textit{This} is the addition law we're after.
 It expresses the group law in $E(2)$ that $T_{\myvec{p}+\myvec{q}}=T_{\myvec{p}}T_{\myvec{q}}$.
+There is something slightly surprising about this formula.
+The function $\myvec{p}\rightarrow H_n(\myvec{p}+\myvec{q})$ has a certain rotational symmetry around the point $\myvec{q}$.
+It's surprising that it can be written as a sum of terms that each have rotational symmetries about the origin.
 
-Using Figure~\ref{triangle} we can write (\ref{addition}) this in a more traditional, but also more obfuscated fashion.
-Using the notation $\angle\myvec{p}$ to mean the angle between the vector $\myvec{p}$ and the $x$-axis:
+Note that on its own Equation~(\ref{addition}) isn't special.
+It's easy to use generating functions to create families of functions with this property.
+What's special about this case is that we have an addition rule for functions that take the special form $b_n(r)e^{in\theta}$.
+We can make this more explicit.
+We use the notation $\angle\myvec{p}$ to mean the angle between the vector $\myvec{p}$ and the $x$-axis.
+Using Figure~\ref{triangle} we can write (\ref{addition}) as:
 \[
 J_k(|\myvec{p}+\myvec{q}|)e^{ik\angle(\myvec{p}+\myvec{q})} = \sum_{m=-\infty}^\infty J_m(|\myvec{p}|)J_{k-m}(|\myvec{q}|)e^{im\angle\myvec{p}}e^{i(k-m)\angle\myvec{q}}
 \]
@@ -238,7 +250,6 @@ J_k(|\myvec{p}+\myvec{q}|)e^{ik\angle(\myvec{p}+\myvec{q})} = \sum_{m=-\infty}^\
 \caption{A triangle of vectors}
 \label{triangle}
 \end{figure}
-
 We have
 \begin{align*}
 %\angle\myvec{p}+\theta & = \angle(\myvec{p}+\myvec{q}) \\
@@ -252,26 +263,35 @@ J_k(|\myvec{p}+\myvec{q}|)e^{ik(\angle(\myvec{p}+\myvec{q})-\angle\myvec{q})} = 
 \]
 so
 \begin{align*}
-J_k(|\myvec{p}+\myvec{q}|)e^{ik\psi} & = \sum_{m=-\infty}^\infty J_m(|\myvec{p}|)J_{k-m}(|\myvec{q}|)e^{im(\phi-\pi)} \\
-                                 & = \sum_{m=-\infty}^\infty J_m(|\myvec{p}|)J_{k-m}(|\myvec{q}|)(-1)^me^{im\phi}
+J_k(|\myvec{p}+\myvec{q}|)e^{-ik\psi} & = \sum_{m=-\infty}^\infty J_m(|\myvec{p}|)J_{k-m}(|\myvec{q}|)e^{im(\phi-\pi)} \\
+                                 & = \sum_{m=-\infty}^\infty J_m(|\myvec{p}|)J_{k-m}(|\myvec{q}|)(-1)^me^{im\phi} \\
+                                 & = \sum_{m=-\infty}^\infty J_{-m}(|\myvec{p}|)J_{k-m}(|\myvec{q}|)e^{im\phi} \\
+                                 & = \sum_{m=-\infty}^\infty J_m(|\myvec{p}|)J_{k+m}(|\myvec{q}|)e^{-im\phi}
 \end{align*}
 
 This is essentially Graf's addition theorem AS-9.1.79.
 
 \section{A representation of $E(2)$}
-We can now state a representation of $E(2)$.
-Our carrier space is the space of ``Laurent'' series $\sum_{k=-\infty}^\infty a_kt^k$.
+We can now explicitly give a representation of $E(2)$.
+Our carrier space is the space of ``Laurent'' series $p(t)=\sum_{k=-\infty}^\infty a_kt^k$.
 The representation $r$ is given by:
 \begin{align*}
 r(R_\phi) & : p(t) \rightarrow p(e^{i\phi}t)\\
 r(T_{x,y}) & : p(t) \rightarrow e^{\frac{1}{2}(x(t-t^{-1})+iy(t+t^{-1}))}p(t) \\
 r(C) & : p(t) \rightarrow p(-t^{-1})
 \end{align*}
+I'll leave it an exercise do check that $r$ is indeed a homomorphism.
+For example we require that $r(CT_{x,y}) = r(T_{x,-y}C)$ and so on for all of the products in $E(2)$.
+I'll also leave it as an exercise the write out this representation explicitly as (infinitely sized) matrices.
+Of course the matrix for rotations should be diagonal.
 
-So in summary, we sought a basis of functions that is well behaved under rotation, translation and reflection.
+\section{Conclusion}
+In summary, we sought a basis of functions that is well behaved under rotation, translation and reflection.
 We were ultimately led to the representation of $E(2)$ above.
-And all of the properties of Bessel functions of the first kind (for integer modulus) follow from the fact the group representation, in particular the additions laws.
+And all of the properties of Bessel functions of the first kind (for integer modulus) follow from the group representation, in particular the additions laws.
 It could be argued that the relationship with $E(2)$ is what makes Bessel functions special.
+
+(I think the functions $B_n(x,y)$ are angular momentum eigenstates for a free particle in quantum mechanics, with the operators $\partial/\partial Z$ and $\partial/\partial\bar{z}$ serving as ladder operators that raise and lower angular momentum.)
 
 \section{Acknowledgements}
 I learnt about the relationship between Bessel functions and $E(2)$ from \textit{An Overview of the Relationship between Group Theory and Representation Theory to the Special Functions in Mathematical Physics} by Wasson and Gilmore.
