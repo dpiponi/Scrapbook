@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     17384,        559]
-NotebookOptionsPosition[     15714,        497]
-NotebookOutlinePosition[     16144,        514]
-CellTagsIndexPosition[     16101,        511]
+NotebookDataLength[     19162,        607]
+NotebookOptionsPosition[     17262,        538]
+NotebookOutlinePosition[     17692,        555]
+CellTagsIndexPosition[     17649,        552]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -493,7 +493,48 @@ Cell[BoxData[
  CellChangeTimes->{{3.727027432829214*^9, 3.727027438596754*^9}, {
   3.7270274893893347`*^9, 3.727027528382801*^9}, {3.7270275932088823`*^9, 
   3.7270275965366287`*^9}, {3.72702764440126*^9, 3.72702769697414*^9}}]
-}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"NIntegrate", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"BesselJ", "[", 
+     RowBox[{"2", ",", "x"}], "]"}], 
+    RowBox[{"BesselJ", "[", 
+     RowBox[{"3", ",", "x"}], "]"}], "x"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"r", ",", "0", ",", "\[Infinity]"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.72703002601418*^9, 3.727030086683983*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"NIntegrate", "::", "ncvb"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"NIntegrate failed to converge to prescribed accuracy after \
+\[NoBreak]\\!\\(9\\)\[NoBreak] recursive bisections in \[NoBreak]\\!\\(x\\)\
+\[NoBreak] near \[NoBreak]\\!\\({x}\\)\[NoBreak] = \
+\[NoBreak]\\!\\({4.810366851703783`*^7}\\)\[NoBreak]. NIntegrate obtained \
+\[NoBreak]\\!\\(11.628847593993388`\\)\[NoBreak] and \
+\[NoBreak]\\!\\(2.7408388588872987`\\)\[NoBreak] for the integral and error \
+estimates. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\
+\\\", ButtonFrame->None, ButtonData:>\\\"paclet:ref/message/NIntegrate/ncvb\\\
+\", ButtonNote -> \\\"NIntegrate::ncvb\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.727030071137629*^9}],
+
+Cell[BoxData["11.628847593993388`"], "Output",
+ CellChangeTimes->{{3.72703005449223*^9, 3.7270300711443157`*^9}}]
+}, Open  ]],
+
+Cell[TextData[StyleBox["", "Input"]], "Text",
+ CellChangeTimes->{{3.727351195702491*^9, 3.727351198983449*^9}, 
+   3.7273512357497253`*^9}],
+
+Cell["", "Text",
+ CellChangeTimes->{{3.727351339161942*^9, 3.727351340465529*^9}}]
 },
 WindowSize->{1681, 1055},
 WindowMargins->{{Automatic, 48}, {Automatic, 0}},
@@ -560,7 +601,14 @@ Cell[13856, 446, 410, 8, 28, "Output"]
 Cell[CellGroupData[{
 Cell[14303, 459, 930, 25, 33, "Input"],
 Cell[15236, 486, 462, 8, 28, "Output"]
-}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[15735, 499, 368, 10, 29, "Input"],
+Cell[16106, 511, 797, 14, 30, "Message"],
+Cell[16906, 527, 113, 1, 28, "Output"]
+}, Open  ]],
+Cell[17034, 531, 139, 2, 21, "Text"],
+Cell[17176, 535, 82, 1, 20, "Text"]
 }
 ]
 *)
