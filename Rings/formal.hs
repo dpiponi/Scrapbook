@@ -115,15 +115,15 @@ interpret rule (Bernoulli p f) = do
 expect :: (Fractional p, R.RandomGen g) =>
            (p -> Float) -> Random p p -> Int -> g -> (p, g)
 expect rule r n g = 
-    let (x, g') = sum rule 0 r n g
+    let (x, g') = runState (sum rule 0 r n ) g
     in (x/fromIntegral n, g')
 
 sum :: (Fractional p, R.RandomGen g) =>
-        (p -> Float) -> p -> Random p p -> Int -> g -> (p, g)
-sum rule t r 0 g = (t, g)
-sum rule t r n g =
-    let ((a, imp), g') = runState (interpret rule r) g
-    in sum rule (t+a*imp) r (n-1) g'
+        (p -> Float) -> p -> Random p p -> Int -> State g p
+sum rule t r 0 = return (t, g)
+sum rule t r n = do
+    (a, imp) <- interpret rule r)
+    sum rule (t+a*imp) r (n-1)
 
 -- Example from https://www.arxiv-vanity.com/papers/1802.05098/
 -- See section 3.3 "Simple Failing Example"
