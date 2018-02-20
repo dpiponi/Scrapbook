@@ -3,6 +3,7 @@
 \usepackage{pgf}
 \usepackage{tikz}
 \usepackage{mathdots}
+\usepackage{graphicx}
 \usepackage{amsfonts}
 \usetikzlibrary{arrows,automata,decorations.markings}
 \makeatletter
@@ -191,7 +192,6 @@ J_k(r+s) = \sum_{m=-\infty}^\infty J_{m}(r)J_{k-m}(s)
 \]
 This is the well known addition law for Bessel functions, AS-9.1.75.
 We appear to have succeeded in our quest!
-
 But this is not the addition law we were looking for.
 Our goal was to find addition laws corresponding to multiplication in the group $E(2)$.
 But this addition law is a 1-dimensional addition law.
@@ -223,17 +223,37 @@ It expresses the group law in $E(2)$ that $T_{\myvec{p}+\myvec{q}}=T_{\myvec{p}}
 There is something slightly surprising about this formula.
 The function $\myvec{p}\rightarrow H_n(\myvec{p}+\myvec{q})$ has a certain rotational symmetry around the point $\myvec{q}$.
 It's surprising that it can be written as a sum of terms that each have rotational symmetries about the origin.
+For example, plotting the real parts as heat maps we have
+\begin{equation*}
+\begin{split}
+\raisebox{-\height/2+\dp\strutbox}{\includegraphics[scale=0.15]{sum.png}}
+& \approx
+\raisebox{-\height/2+\dp\strutbox}{\includegraphics[scale=0.15]{term-0.png}}
++
+\raisebox{-\height/2+\dp\strutbox}{\includegraphics[scale=0.15]{term-1.png}}\\
+& +
+\raisebox{-\height/2+\dp\strutbox}{\includegraphics[scale=0.15]{term-2.png}}
++
+\raisebox{-\height/2+\dp\strutbox}{\includegraphics[scale=0.15]{term-3.png}} \\
+& +
+\raisebox{-\height/2+\dp\strutbox}{\includegraphics[scale=0.15]{term-4.png}}
++
+\raisebox{-\height/2+\dp\strutbox}{\includegraphics[scale=0.15]{term-5.png}} \\
+& +
+\raisebox{-\height/2+\dp\strutbox}{\includegraphics[scale=0.15]{term-6.png}}
++
+\raisebox{-\height/2+\dp\strutbox}{\includegraphics[scale=0.15]{term-7.png}}
+\end{split}
+\end{equation*}
 
-Note that on its own Equation~(\ref{addition}) isn't special.
+Note that on its own Equation~(\ref{addition}) isn't that special.
 It's easy to use generating functions to create families of functions with this property.
 What's special about this case is that we have an addition rule for functions that take the special form $b_n(r)e^{in\theta}$.
 We can make this more explicit.
-We use the notation $\angle\myvec{p}$ to mean the angle between the vector $\myvec{p}$ and the $x$-axis.
-Using Figure~\ref{triangle} we can write (\ref{addition}) as:
+Using the notation $\angle\myvec{p}$ to mean the angle between the vector $\myvec{p}$ and the $x$-axis we write
 \[
 J_k(|\myvec{p}+\myvec{q}|)e^{ik\angle(\myvec{p}+\myvec{q})} = \sum_{m=-\infty}^\infty J_m(|\myvec{p}|)J_{k-m}(|\myvec{q}|)e^{im\angle\myvec{p}}e^{i(k-m)\angle\myvec{q}}
 \]
-
 \tikzset{->-/.style={decoration={
     markings,
     mark=at position #1 with {\arrow{>}}},postaction={decorate}}}
@@ -250,18 +270,18 @@ J_k(|\myvec{p}+\myvec{q}|)e^{ik\angle(\myvec{p}+\myvec{q})} = \sum_{m=-\infty}^\
 \caption{A triangle of vectors}
 \label{triangle}
 \end{figure}
-We have
+
+Referring to Figure~\ref{triangle} we have
 \begin{align*}
 %\angle\myvec{p}+\theta & = \angle(\myvec{p}+\myvec{q}) \\
 \angle\myvec{p}+\pi-\phi & = \angle(\myvec{q}) \\
 \angle(\myvec{p}+\myvec{q})+\psi & = \angle(\myvec{q}) 
 \end{align*}
-
 Therefore
 \[
 J_k(|\myvec{p}+\myvec{q}|)e^{ik(\angle(\myvec{p}+\myvec{q})-\angle\myvec{q})} = \sum_{m=-\infty}^\infty J_m(|\myvec{p}|)J_{k-m}(|\myvec{q}|)e^{im(\angle\myvec{p}-\angle\myvec{q})}
 \]
-so
+and
 \begin{align*}
 J_k(|\myvec{p}+\myvec{q}|)e^{-ik\psi} & = \sum_{m=-\infty}^\infty J_m(|\myvec{p}|)J_{k-m}(|\myvec{q}|)e^{im(\phi-\pi)} \\
                                  & = \sum_{m=-\infty}^\infty J_m(|\myvec{p}|)J_{k-m}(|\myvec{q}|)(-1)^me^{im\phi} \\
@@ -280,10 +300,10 @@ r(R_\phi) & : p(t) \rightarrow p(e^{i\phi}t)\\
 r(T_{x,y}) & : p(t) \rightarrow e^{\frac{1}{2}(x(t-t^{-1})+iy(t+t^{-1}))}p(t) \\
 r(C) & : p(t) \rightarrow p(-t^{-1})
 \end{align*}
-I'll leave it an exercise do check that $r$ is indeed a homomorphism.
-For example we require that $r(CT_{x,y}) = r(T_{x,-y}C)$ and so on for all of the products in $E(2)$.
-I'll also leave it as an exercise the write out this representation explicitly as (infinitely sized) matrices.
-Of course the matrix for rotations should be diagonal.
+I'll leave it an exercise to check that $r$ is indeed a representation.
+For example we require that $r(C)r(T_{x,y}) = r(T_{x,-y})r(C)$ and so on for all of the products in $E(2)$.
+I'll also leave it as an exercise to write out this representation explicitly as (infinitely sized) matrices.
+The matrix for rotations should be diagonal.
 
 \section{Conclusion}
 In summary, we sought a basis of functions that is well behaved under rotation, translation and reflection.
@@ -291,7 +311,7 @@ We were ultimately led to the representation of $E(2)$ above.
 And all of the properties of Bessel functions of the first kind (for integer modulus) follow from the group representation, in particular the additions laws.
 It could be argued that the relationship with $E(2)$ is what makes Bessel functions special.
 
-(I think the functions $B_n(x,y)$ are angular momentum eigenstates for a free particle in quantum mechanics, with the operators $\partial/\partial Z$ and $\partial/\partial\bar{z}$ serving as ladder operators that raise and lower angular momentum.)
+(I think the functions $B_n(x,y)$ are angular momentum eigenstates for a free particle in quantum mechanics, with the operators $\partial/\partial z$ and $\partial/\partial\bar{z}$ serving as ladder operators that raise and lower angular momentum.)
 
 \section{Acknowledgements}
 I learnt about the relationship between Bessel functions and $E(2)$ from \textit{An Overview of the Relationship between Group Theory and Representation Theory to the Special Functions in Mathematical Physics} by Wasson and Gilmore.
