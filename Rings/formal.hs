@@ -103,7 +103,7 @@ interpret rule (Pure a) = return (a, 1)
 interpret rule (Bernoulli p f) = do
     r <- state R.random
     let prob = rule p
-    let (b, i) = if (r :: Float) <= prob
+    let (b, i) = if r <= prob
                       then (1, p/realToFrac prob)
                       else (0, (1-p)/realToFrac (1-prob))
     (a, i') <- interpret rule (f b)
@@ -120,9 +120,9 @@ expect rule r n g =
 
 sum :: (Fractional p, R.RandomGen g) =>
         (p -> Float) -> p -> Random p p -> Int -> State g p
-sum rule t r 0 = return (t, g)
+sum rule t r 0 = return t
 sum rule t r n = do
-    (a, imp) <- interpret rule r)
+    (a, imp) <- interpret rule r
     sum rule (t+a*imp) r (n-1)
 
 -- Example from https://www.arxiv-vanity.com/papers/1802.05098/
