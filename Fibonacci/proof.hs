@@ -86,7 +86,6 @@ i a = E [Term a mempty mempty]
 instance (Eq a, Eq b, Eq c, Ord b, Ord c, Num a, Abelian b, Abelian c) => Num (Expr a b c) where
     fromInteger a = reduce $ i (fromInteger a)
     E as+E bs = reduce $ E (as ++ bs)
-    --E as*E bs = reduce $ E [tmult a b | a <- as, b <- bs]
     E as*E bs = reduce $ E $ tmult <$> as <*> bs
     negate (E as) = E [Term (-a) b c | Term a b c <- as]
 
@@ -175,6 +174,20 @@ evalTerm' i j (Term a b c) = a*(-1)^^((if b `component` 0 then i else 0)+(if b `
 evalExpr' :: Int -> Int -> Expr Q (V Bool) (V Int) -> Q
 evalExpr' i j (E ts) = sum (map (evalTerm' i j) ts)
 
+--
+-- ∑ (-1)ᵇⁿϕᶜⁿ
+-- = ∑ ((-1)ᵇϕᶜ)ⁿ
+-- = (((-1)ᵇϕᶜ)ⁿ⁺¹-1) / ((-1)ᵇϕᶜ-1)
+-- = 1/((-1)¹ϕᶜ-1) * ((-1)ᵇⁿ⁺ᵇ-1)
+sigma' :: Term Q Bool Int -> [Term Q Bool Int]
+sigma' (Term a b c) =
+    let denominator = if b then (-α-1) else α-1
+    in [Term (a/denominator) (b `mappend` True) (c+1), Term (-a/denominator) False 0]
+
+sigma :: Expr' -> Expr'
+sigma (E ts) = reduce $ E $ concatMap sigma' ts
+
+{-
 ex2 = fib'' 1 1 0+nj*fib'' 1 (-1) 0 - fib'' 1 0 0*lucas'' 0 1 0
 ex3 = 2*fib'' 1 1 0-lucas'' 1 0 0*fib'' 0 1 0-lucas'' 0 1 0*fib'' 1 0 0
 ex4 = fib'' 0 1 0^2*fib'' 1 0 1*fib'' 1 0 (-1)-fib'' 1 0 0^2*fib'' 0 1 1*fib'' 0 1 (-1)+nj*fib'' 1 1 0*fib'' 1 (-1) 0
@@ -201,3 +214,4 @@ translate (a:*b) = translate a * translate b
 translate (Fib a) = ftranslate a
 
 ftranslate
+-}
