@@ -5,6 +5,7 @@ import qualified Data.Map.Strict as M
 import Data.Ratio
 import Data.Monoid
 import Data.Group
+--import Data.Semigroup
 import Control.Applicative
 
 fibonacci n = (α^^n-β^^n)/(α-β)
@@ -41,6 +42,7 @@ instance Fractional Q where
 
 sqrt5 = 2*ϕ-1
 
+-- Term a b d = a(-1)ᵇⁿϕᶜⁿ
 data Term a b c = Term a b c
 type Term' = Term Q Bool Int
 
@@ -68,11 +70,8 @@ instance Abelian Int
 instance (Show a, Show b, Show c) => Show (Term a b c) where
     show (Term a b c) = "(" ++ show a ++ ")*(-1)^" ++ show b ++"n*ϕ^(" ++ show c ++ "n)"
 
--- Term a b d = a(-1)ᵇⁿϕᶜⁿ
--- b = 0 or 1
-tmult :: (Num a, Abelian b, Abelian c) => Term a b c -> Term a b c -> Term a b c
-tmult (Term a b c) (Term a' b' c') =
-    Term (a*a') (b <> b') (c <> c')
+instance (Num a, Monoid b, Monoid c) => Monoid (Term a b c) where
+    Term a b c `mappend` Term a' b' c' = Term (a*a') (b <> b') (c <> c')
 
 tPower :: (Fractional a, Num a, Abelian b, Abelian c) => Term a b c -> Int -> Term a b c
 tPower (Term a b c) n = Term (a^^n) (b `pow` n) (c `pow` n)
@@ -83,10 +82,21 @@ type Expr' = Expr Q Bool Int
 i :: (Monoid b, Monoid c) => a -> Expr a b c
 i a = E [Term a mempty mempty]
 
+newtype GroupRing r g = GR [(g, r)]
+
+reduce' :: (Num r, Eq r, Ord g) => [(g, r)] -> [(g, r)]
+reduce' ts = filter (\(g, r) -> r /= 0) $ M.toList $ M.fromListWith (+) $ ts
+
+instance (Num r, Eq r, Group g, Ord g, Monoid r) => Num (GroupRing r g) where
+    fromInteger a = GR $ reduce' $ [(mempty, fromInteger a)]
+    GR as+GR bs = GR $ reduce' $ as ++ bs
+    GR as*GR bs = GR $ reduce' $ (<>) <$> as <*> bs
+    negate (GR as) = GR [(g, -r) | (g, r) <- as]
+
 instance (Eq a, Eq b, Eq c, Ord b, Ord c, Num a, Abelian b, Abelian c) => Num (Expr a b c) where
     fromInteger a = reduce $ i (fromInteger a)
     E as+E bs = reduce $ E (as ++ bs)
-    E as*E bs = reduce $ E $ tmult <$> as <*> bs
+    E as*E bs = reduce $ E $ (<>) <$> as <*> bs
     negate (E as) = E [Term (-a) b c | Term a b c <- as]
 
 reduce :: (Eq a, Eq b, Eq c, Num a, Ord b, Ord c) => Expr a b c -> Expr a b c
@@ -130,7 +140,7 @@ f n = f (n-1)+f (n-2)
 ex1 = fib' 1 (-1)^2*fib' 1 1^2-fib' 1 (-2)^2*fib' 1 2^2-4*nn*fib' 1 0^2
 
 vmappend :: Monoid a => [a] -> [a] -> [a]
-vmappend (a:as) (b:bs) = (a `mappend` b : vmappend as bs)
+vmappend (a:as) (b:bs) = (a <> b : vmappend as bs)
 vmappend a [] = a
 vmappend [] b = b
 
@@ -174,18 +184,20 @@ evalTerm' i j (Term a b c) = a*(-1)^^((if b `component` 0 then i else 0)+(if b `
 evalExpr' :: Int -> Int -> Expr Q (V Bool) (V Int) -> Q
 evalExpr' i j (E ts) = sum (map (evalTerm' i j) ts)
 
+{-
 --
 -- ∑ (-1)ᵇⁿϕᶜⁿ
 -- = ∑ ((-1)ᵇϕᶜ)ⁿ
 -- = (((-1)ᵇϕᶜ)ⁿ⁺¹-1) / ((-1)ᵇϕᶜ-1)
--- = 1/((-1)¹ϕᶜ-1) * ((-1)ᵇⁿ⁺ᵇ-1)
+-- = 1/((-1)ᵇϕᶜ-1) * ((-1)ᵇⁿϕᶜⁿ(-1)ᵇϕᶜ-1)
 sigma' :: Term Q Bool Int -> [Term Q Bool Int]
 sigma' (Term a b c) =
-    let denominator = if b then (-α-1) else α-1
-    in [Term (a/denominator) (b `mappend` True) (c+1), Term (-a/denominator) False 0]
+    let denominator = if b then (-ϕ^^c-1) else ϕ^^c-1
+    in [Term (a*(if b then -1 else 1)*ϕ^^c/denominator) b c, Term (-a/denominator) False 0]
 
 sigma :: Expr' -> Expr'
 sigma (E ts) = reduce $ E $ concatMap sigma' ts
+-}
 
 {-
 ex2 = fib'' 1 1 0+nj*fib'' 1 (-1) 0 - fib'' 1 0 0*lucas'' 0 1 0
