@@ -43,8 +43,8 @@ instance Fractional Q where
 sqrt5 = 2*ϕ-1
 
 -- Term a b d = a(-1)ᵇⁿϕᶜⁿ
-data Term a b c = Term a b c
-type Term' = Term Q Bool Int
+type Term b c = (b, c) -- Term a b c
+type Term' = Term Bool Int
 
 xor :: Bool -> Bool -> Bool
 a `xor` b = a /= b
@@ -67,49 +67,62 @@ instance Group Int where
 
 instance Abelian Int
 
-instance (Show a, Show b, Show c) => Show (Term a b c) where
-    show (Term a b c) = "(" ++ show a ++ ")*(-1)^" ++ show b ++"n*ϕ^(" ++ show c ++ "n)"
+--instance (Show a, Show b, Show c) => Show (Term b c) where
+--    show (b, c) = "(" ++ show a ++ ")*(-1)^" ++ show b ++"n*ϕ^(" ++ show c ++ "n)"
 
-instance (Num a, Monoid b, Monoid c) => Monoid (Term a b c) where
-    Term a b c `mappend` Term a' b' c' = Term (a*a') (b <> b') (c <> c')
+--instance (Num a, Monoid b, Monoid c) => Monoid (Term a b c) where
+--    Term a b c `mappend` Term a' b' c' = Term (a*a') (b <> b') (c <> c')
 
-tPower :: (Fractional a, Num a, Abelian b, Abelian c) => Term a b c -> Int -> Term a b c
-tPower (Term a b c) n = Term (a^^n) (b `pow` n) (c `pow` n)
+--tPower :: (Fractional a, Num a, Abelian b, Abelian c) => Term a b c -> Int -> Term a b c
+--tPower (Term a b c) n = Term (a^^n) (b `pow` n) (c `pow` n)
 
-newtype Expr a b c = E [Term a b c] deriving Show
+type Expr a b c = GroupRing a (b, c)
 type Expr' = Expr Q Bool Int
 
+{-
 i :: (Monoid b, Monoid c) => a -> Expr a b c
 i a = E [Term a mempty mempty]
+-}
 
-newtype GroupRing r g = GR [(g, r)]
+i :: Monoid g => r -> GroupRing r g
+i r = GR [(mempty, r)]
+
+j :: Num r => g -> GroupRing r g
+j g = GR [(g, 1)]
+
+newtype GroupRing r g = GR [(g, r)] deriving Show
 
 reduce' :: (Num r, Eq r, Ord g) => [(g, r)] -> [(g, r)]
 reduce' ts = filter (\(g, r) -> r /= 0) $ M.toList $ M.fromListWith (+) $ ts
 
-instance (Num r, Eq r, Group g, Ord g, Monoid r) => Num (GroupRing r g) where
+instance (Num r, Eq r, Group g, Ord g) => Num (GroupRing r g) where
     fromInteger a = GR $ reduce' $ [(mempty, fromInteger a)]
     GR as+GR bs = GR $ reduce' $ as ++ bs
-    GR as*GR bs = GR $ reduce' $ (<>) <$> as <*> bs
+    GR as*GR bs = GR $ reduce' $ m <$> as <*> bs
+                    where m (g, r) (g', r') = (g <> g', r*r')
     negate (GR as) = GR [(g, -r) | (g, r) <- as]
 
+{-
 instance (Eq a, Eq b, Eq c, Ord b, Ord c, Num a, Abelian b, Abelian c) => Num (Expr a b c) where
     fromInteger a = reduce $ i (fromInteger a)
     E as+E bs = reduce $ E (as ++ bs)
     E as*E bs = reduce $ E $ (<>) <$> as <*> bs
     negate (E as) = E [Term (-a) b c | Term a b c <- as]
+    -}
 
+{-
 reduce :: (Eq a, Eq b, Eq c, Num a, Ord b, Ord c) => Expr a b c -> Expr a b c
 reduce (E ts) = E $ map (\((a, b), c) -> Term c a b) $ filter (\((a, b), c) -> c /= 0) $ M.toList $ M.fromListWith (+) $ map (\(Term a b c) -> ((b, c), a)) ts
+-}
 
-ϕn, αn, βn, nn :: Expr'
-ϕn = E [Term 1 False 1]
-αn = E [Term 1 False 1]
-βn = E [Term 1 True (-1)]
-nn = E [Term 1 True 0]
+ϕn, αn, βn, nn :: (Bool, Int)
+ϕn = (False, 1)
+αn = (False, 1)
+βn = (True, -1)
+nn = (True, 0)
 
-ePower :: (Fractional a, Num a, Abelian b, Abelian c) => Expr a b c -> Int -> Expr a b c
-ePower (E [a]) n = E [a `tPower` n]
+--ePower :: (Fractional a, Num a, Abelian b, Abelian c) => Expr a b c -> Int -> Expr a b c
+--ePower (E [a]) n = E [a `pow` n]
 
 -- n Lucas(n)
 -- 0 2
@@ -119,25 +132,26 @@ ePower (E [a]) n = E [a `tPower` n]
 -- 3 7
 -- 5 11
 
-evalTerm :: Int -> Term' -> Q
-evalTerm n (Term a b c) = a*(-1)^^(if b then n else 0)*ϕ^^(c*n)
+evalTerm :: Int -> (Term Bool Int, Q) -> Q
+evalTerm n ((b, c), r) = (-1)^^(if b then n else 0)*ϕ^^(c*n)*r
 
 evalExpr :: Int -> Expr' -> Q
-evalExpr n (E ts) = sum (map (evalTerm n) ts)
+evalExpr n (GR ts) = sum (map (evalTerm n) ts)
 
 --fib n = (ϕ^^n-(-1)^^n*ϕ^^(-n))/(2*ϕ-1)
 --fib = E [Term (sqrt5/5) 0 1, Term (-sqrt5/5) 1 (-1)]
-fib = (ϕn-βn)*i (1/sqrt5)
+fib = (j ϕn-j βn)*i (1/sqrt5)
 
 -- fib (an+b)
-fib' a b = (i (α^^b)*(ϕn `ePower` a)-i (β^^b)*(βn `ePower` a))*i (1/sqrt5)
-lucas' a b = (i (α^^b)*(ϕn `ePower` a)+i (β^^b)*(βn `ePower` a))
+fib' a b = (i (α^^b)*(j $ ϕn `pow` a)-i (β^^b)*(j $ βn `pow` a))*i (1/sqrt5)
+lucas' a b = (i (α^^b)*(j $ ϕn `pow` a)+i (β^^b)*(j $ βn `pow` a))
 
 f 0 = 0
 f 1 = 1
 f n = f (n-1)+f (n-2)
 
-ex1 = fib' 1 (-1)^2*fib' 1 1^2-fib' 1 (-2)^2*fib' 1 2^2-4*nn*fib' 1 0^2
+ex1 :: GroupRing Q (Bool, Int)
+ex1 = fib' 1 (-1)^2*fib' 1 1^2-fib' 1 (-2)^2*fib' 1 2^2-4*j nn*fib' 1 0^2
 
 vmappend :: Monoid a => [a] -> [a] -> [a]
 vmappend (a:as) (b:bs) = (a <> b : vmappend as bs)
@@ -163,6 +177,7 @@ component (V []) i = mempty
 component (V (a : _)) 0 = a
 component (V (a : as)) i = component (V as) (i-1)
 
+{-
 ϕi, αi, βi, ni :: Expr Q (V Bool) (V Int)
 ϕi = E [Term 1 (V [False]) (V [1])]
 αi = E [Term 1 (V [False]) (V [1])]
@@ -174,15 +189,21 @@ ni = E [Term 1 (V [True]) (V [])]
 αj = E [Term 1 (V [False, False]) (V [0, 1])]
 βj = E [Term 1 (V [False, True]) (V [0, -1])]
 nj = E [Term 1 (V [False, True]) (V [])]
+-}
 
+{-
 fib'' a b c = (i (α^^c)*(αi `ePower` a)*(αj `ePower` b)-i (β^^c)*(βi `ePower` a)*(βj `ePower` b))*i (1/sqrt5)
 lucas'' a b c = (i (α^^c)*(αi `ePower` a)*(αj `ePower` b)+i (β^^c)*(βi `ePower` a)*(βj `ePower` b))
+-}
 
+{-
+ - XXX Reinstate
 evalTerm' :: Int -> Int -> Term Q (V Bool) (V Int) -> Q
 evalTerm' i j (Term a b c) = a*(-1)^^((if b `component` 0 then i else 0)+(if b `component` 1 then j else 0))*ϕ^^((c `component` 0)*i+(c `component` 1)*j)
 
 evalExpr' :: Int -> Int -> Expr Q (V Bool) (V Int) -> Q
 evalExpr' i j (E ts) = sum (map (evalTerm' i j) ts)
+-}
 
 {-
 --
