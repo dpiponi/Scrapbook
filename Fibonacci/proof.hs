@@ -177,33 +177,29 @@ component (V []) i = mempty
 component (V (a : _)) 0 = a
 component (V (a : as)) i = component (V as) (i-1)
 
-{-
 ϕi, αi, βi, ni :: Expr Q (V Bool) (V Int)
-ϕi = E [Term 1 (V [False]) (V [1])]
-αi = E [Term 1 (V [False]) (V [1])]
-βi = E [Term 1 (V [True]) (V [-1])]
-ni = E [Term 1 (V [True]) (V [])]
+ϕi = GR [((V [False], V [1]), 1)]
+αi = GR [((V [False], V [1]), 1)]
+βi = GR [((V [True], V [-1]), 1)]
+ni = GR [((V [True], V []), 1)]
 
 ϕj, αj, βj, nj :: Expr Q (V Bool) (V Int)
-ϕj = E [Term 1 (V [False, False]) (V [0, 1])]
-αj = E [Term 1 (V [False, False]) (V [0, 1])]
-βj = E [Term 1 (V [False, True]) (V [0, -1])]
-nj = E [Term 1 (V [False, True]) (V [])]
--}
+ϕj = GR [((V [False, False], V [0, 1]), 1)]
+αj = GR [((V [False, False], V [0, 1]), 1)]
+βj = GR [((V [False, True], V [0, -1]), 1)]
+nj = GR [((V [False, True], V []), 1)]
 
-{-
+ePower :: (Group g, Fractional r) => GroupRing r g -> Int -> GroupRing r g
+ePower (GR [(g, r)]) n = GR [(g `pow` n, r ^^ n)]
+-- fib'' a b c = fib_(a+b*m+c*n)
 fib'' a b c = (i (α^^c)*(αi `ePower` a)*(αj `ePower` b)-i (β^^c)*(βi `ePower` a)*(βj `ePower` b))*i (1/sqrt5)
 lucas'' a b c = (i (α^^c)*(αi `ePower` a)*(αj `ePower` b)+i (β^^c)*(βi `ePower` a)*(βj `ePower` b))
--}
 
-{-
- - XXX Reinstate
-evalTerm' :: Int -> Int -> Term Q (V Bool) (V Int) -> Q
-evalTerm' i j (Term a b c) = a*(-1)^^((if b `component` 0 then i else 0)+(if b `component` 1 then j else 0))*ϕ^^((c `component` 0)*i+(c `component` 1)*j)
+evalTerm' :: Int -> Int -> ((V Bool, V Int), Q) -> Q
+evalTerm' i j ((b, c), a) = a*(-1)^^((if b `component` 0 then i else 0)+(if b `component` 1 then j else 0))*ϕ^^((c `component` 0)*i+(c `component` 1)*j)
 
 evalExpr' :: Int -> Int -> Expr Q (V Bool) (V Int) -> Q
-evalExpr' i j (E ts) = sum (map (evalTerm' i j) ts)
--}
+evalExpr' i j (GR ts) = sum (map (evalTerm' i j) ts)
 
 {-
 --
@@ -220,11 +216,11 @@ sigma :: Expr' -> Expr'
 sigma (E ts) = reduce $ E $ concatMap sigma' ts
 -}
 
-{-
 ex2 = fib'' 1 1 0+nj*fib'' 1 (-1) 0 - fib'' 1 0 0*lucas'' 0 1 0
 ex3 = 2*fib'' 1 1 0-lucas'' 1 0 0*fib'' 0 1 0-lucas'' 0 1 0*fib'' 1 0 0
 ex4 = fib'' 0 1 0^2*fib'' 1 0 1*fib'' 1 0 (-1)-fib'' 1 0 0^2*fib'' 0 1 1*fib'' 0 1 (-1)+nj*fib'' 1 1 0*fib'' 1 (-1) 0
 
+{-
 data Expression = Constant Int
                 | Expression :+ Expression
                 | Expression :* Expression

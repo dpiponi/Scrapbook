@@ -1,0 +1,114 @@
+\documentclass[12pt,reqno]{article}      % Sets 12pt font, equation numbers on right
+\usepackage{amsmath,amssymb,amsfonts,amsthm} % Typical maths resource packages
+\usepackage{graphics}                 % Packages to allow inclusion of graphics
+\usepackage{color}                    % For creating coloured text and background
+\usepackage{optidef}
+
+\usepackage[colorlinks,citecolor=blue,linkcolor=blue]{hyperref}                 % For creating hyperlinks in cross references. It should be after the color package. The option colorlinks produces colored entries without boxes. The option citecolor=blue changes the default green citations to blue.
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}
+\newcommand{\dom}{\mathop{\textrm{dom}}}
+
+\title{100 Optimization Problems and their Duals}
+
+\begin{document}
+\maketitle
+
+\section{The Examples}
+
+\begin{example}
+This is the grandaddy of them all.
+Every subsequent example is a special case of this one.
+
+The primal problem:
+\begin{mini}{x \in \cal{D}}{f(x)}{}{}
+\addConstraint{g_i(x)}{\le 0,}{i=1,\ldots m}
+\addConstraint{h_i(x)}{= 0,\quad}{i=1,\ldots n}
+\end{mini}
+\end{example}
+
+We define the Lagrangian function by:
+\[
+L(x,\lambda,\mu) = f(x)+\sum_{i=1}^m\lambda_ig_i(x)+\sum_{i=1}^n\nu_ih_i(x)
+\]
+
+The dual function is now defined by
+\[
+g(\lambda,\nu) = \mathop{\inf}_{x\in\cal{d}}L(x,\lambda,\nu)
+\]
+
+The $g(\lambda,\nu)$ are all lower bounds for the minimum of the primal problem.
+
+Define the dual problem as:
+\begin{maxi}{\lambda,\nu}{g(\lambda,\nu)}{}{}
+\addConstraint{\lambda}{\ge0}
+\end{maxi}
+
+The solution to the dual problem clearly bounds the solution to the primal problem from below.
+
+Often there are values of $\lambda$ and $\nu$ for which $g(\lambda,\nu)=-\infty$ making $g(\lambda,\nu)$ vacuously a lower bound for the primal problem.
+Define $\dom g$ as the set of $(\lambda,\nu)$ where $g(\lambda,\nu) > -\infty$.
+Then the following is essentially the same same as the dual problem:
+\begin{maxi}{\lambda,\nu}{g(\lambda,\nu)}{}{}
+\addConstraint{\lambda}{\ge0}
+\addConstraint{(\lambda,\nu)}{\in\dom g}
+\end{maxi}
+We will usually use the latter formulation.
+
+We'll start with some problems that are simple enough that you might think of them as degenerate, but which still have non-trivial content.
+\begin{example}
+\begin{mini}{x \in \mathbb{R}}{f(x)}{}{}
+\addConstraint{x=a}
+\end{mini}
+Clearly the solution is $f(a)$ achieved at $x=a$.
+
+Define
+\[
+L(x,\nu) = f(x)+\lambda(a-x)
+\]
+
+We now have
+\begin{align}
+g(\lambda) & = \mathop{\inf}_{x}L(x,\lambda) \\
+           & = \lambda a+\mathop{\inf}_{x}(f(x)-\lambda x) \\
+\end{align}
+
+The dual problem is
+\begin{maxi}{\lambda \in \mathbb{R}}{g(\lambda)}{}{}
+\end{maxi}
+\end{example}
+
+\subsubsection{Geometric interpretation}
+Start with a line of the form $y = \lambda x+b$.
+For a fixed $\lambda$, adjusting $b$ slides this line up and down the $y$-axis.
+Consider the problem of sliding the line up so that it just touches the curve $y=f(x)$ from below.
+We want to find $b$ such that the smallest gap between $y=f(x)$ and $y=\lambda x+b$ is zero.
+If $b$ is the size of the smallest (signed) gap between $f(x)$ and $\lambda x$ then the line $y=\lambda x+b$ will be the translate of the line that just touches $y=f(x)$.
+For any given $\lambda$, the line $y=\lambda(x-a)x+g(\lambda)$ is the line of gradient $\lambda$ that just touches $y=f(x)$.
+Clearly $f(a) > \lambda(a-a)+g(\lambda) = g(\lambda)$.
+
+Now consider the problem of finding $\lambda$ such the that the line just touches $y=f(x)$ from below at $x=a$.
+This is clearly given by maximizing $g(]lambda)$.
+So the dual problem finds gradient of a line just touching $y=f(x)$ from below.
+
+Consider the case where $f(x)$ is differentiable.
+Then the maximum in the dual problem occurs when $g'(\lambda) = 0$.
+So we have $\lambda = f'(a)$.
+In other words, the line with tangent $f'(a)$ just touches $f(x)$ from below at $x=a$.
+
+\subsubsection{Physical interpretation}
+Consider $f$ to be a potential field.
+This gives rise to a force $-f'(x)$.
+Suppose a particle is in the potential field.
+What do we need to do to ensure the particle is constrained to $x=a$?
+We need to supply a force $f'(a)$ that cancels out the force $-f'(x)$ due to the potential.
+We can view this another way.
+A fixed force $\lambda$ can be seen as the force arising from the potential $\lambda(a-x)$.
+So to keep the particle static at $x=a$ we need to add a potential $\lambda(a-x)$ for some $\lambda$.
+The particle is at rest at the minimum of the potential.
+$g(λ)$ is the potential at $x=a$ when new potential is added.
+Clearly it equals the minimum potential of a particle with a potential $f$ constrained to $a$.
+This is generally true: we can can often think of the Lagrange multipliers as being the forces requireed to enforce a constraint.
+
+\end{document}
