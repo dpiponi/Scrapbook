@@ -3,12 +3,24 @@
 \usepackage{graphics}                 % Packages to allow inclusion of graphics
 \usepackage{color}                    % For creating coloured text and background
 \usepackage{optidef}
+\usepackage{bm}
+\usepackage{framed}
 
 \usepackage[colorlinks,citecolor=blue,linkcolor=blue]{hyperref}                 % For creating hyperlinks in cross references. It should be after the color package. The option colorlinks produces colored entries without boxes. The option citecolor=blue changes the default green citations to blue.
 
 \theoremstyle{definition}
 \newtheorem{example}{Example}
 \newcommand{\dom}{\mathop{\textrm{dom}}}
+
+\newcommand{\bmx}{\bm{x}}
+\newcommand{\bmy}{\bm{y}}
+\newcommand{\bma}{\bm{a}}
+\newcommand{\bmb}{\bm{b}}
+\newcommand{\bmc}{\bm{c}}
+\newcommand{\bmA}{\bm{A}}
+\newcommand{\bmlambda}{\bm{\lambda}}
+\newcommand{\bmmu}{\bm{\mu}}
+\newcommand{\bmnu}{\bm{\nu}}
 
 \title{100 Optimization Problems and their Duals}
 
@@ -110,5 +122,44 @@ The particle is at rest at the minimum of the potential.
 $g(λ)$ is the potential at $x=a$ when new potential is added.
 Clearly it equals the minimum potential of a particle with a potential $f$ constrained to $a$.
 This is generally true: we can can often think of the Lagrange multipliers as being the forces requireed to enforce a constraint.
+
+\begin{example}
+\begin{framed}
+\begin{maxi}{\bmx\in\mathbb{R}^n}{\bmc\cdot \bmx}{}{}
+\addConstraint{\bmA\bmx}{\le \bmb}
+\addConstraint{\bmx}{\ge 0}
+\end{maxi}
+\end{framed}
+\end{example}
+
+The Lagrangian is given by
+\begin{align}
+L(\bmx,\bmlambda,\bmmu) &= \bmc\cdot\bmx+\bmlambda\cdot(\bmA\bmx-\bmb)+\bmmu\cdot x \\
+                        &= (\bmc+\bmA^T\bmlambda+\bmmu)\cdot x-\bmb\cdot\bmlambda 
+\end{align}
+The maximum is trivially $\infty$ unless $\bmc+\bmA^T\bmlambda+\bmmu = 0$.
+So we have
+\[
+g(\bmlambda,\bmmu) = -\bmb\cdot\bmlambda
+\]
+with $\dom g = \{(\lambda,\mu) \mid \bmc+\bmA^T\bmlambda+\bmmu = 0, \bmlambda \le 0, \bmmu \ge 0\}$.
+
+So the dual problem is
+
+\begin{mini}{\bmlambda,\bmmu\in\mathbb{R}^m}{-\bmb\cdot\bmlambda}{}{}
+\addConstraint{\bmc+\bmA^T\bmlambda+\bmmu}{=0}
+\addConstraint{\bmlambda}{\le0}
+\addConstraint{\bmmu}{\ge0}
+\end{mini}
+
+In the presence of the condition $\bmmu\ge0$,  condition $\bmc+\bmA^T+\bmmu=0$ is equivalant to $\bmc+\bmlambda^T\bmA\le0$.
+Define the new variable $\bmy=-\bmlambda$.
+The dual problem is now
+\begin{framed}
+\begin{mini}{\bmy\in\mathbb{R}^m}{\bmb\cdot\bmy}{}{}
+\addConstraint{\bmA^T\bmy}{\ge\bmc}
+\addConstraint{\bmy}{\ge0}
+\end{mini}
+\end{framed}
 
 \end{document}
