@@ -1,0 +1,50 @@
+X → V factors as
+X → C(V) → V
+
+Coalgebra:
+Δ:C → C⊗C
+𝜖:C → K
+
+Eg.
+C = <c,s>
+Δ(s) = s⊗c+c⊗s
+Δ(c) = c⊗c-s⊗s
+ε(s) = 0
+ε(c) = 1
+
+<Δ(s),x⊗y> = s(x+y)?
+
+---
+Is there such a thing as Bessel coalgebra:
+ΔJ_n = ∑J_m ⊗ J_{n-m}
+
+ΔJ₀ = … + J₁⊗J₋₁ + J₀⊗J₀ + J₋₁⊗J₁ + …
+
+
+---
+ℤ/2 → ℤ/4 via × 2 ?
+
+1 -> 10 ?
+
+101 -> 1010 ?
+
+Eg. g₁ = 1 -> (1, 10, 100, 1000, …)
+g₁² = 0
+But there must be
+    g₂ = (01, 010, 0100, …)
+g₂² = g₁
+Etc.
+g₁g₂ = (11, 110, …)
+We only need to give first element.
+Left justify before adding!
+
+--
+
+Vector space V
+
+Limit of all subspaces of V is just V again, I think.
+Limit of all finite dimensional subspaces?
+Well, every element is in some finite dimensional subspace, so fine.
+Now do duals.
+W⊂V
+elts of V* restrict to elements of W*
