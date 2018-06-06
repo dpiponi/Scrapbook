@@ -125,7 +125,22 @@ f : (-∞, 0) ↦ -∞
 
 
 ---
-game
+maximization
+
+min f(x)
+s.t. g(x) ≤ 0
+
+min f(x) + λg(x)
+s.t. λ ≥ 0
+Think of λ as a penalty. Only works as such if λ is +ve. 
+
+max f(x)
+s.t. g(x) ≤ 0
+Then max f(x)-λg(x)
+s.t. λ ≥ 0
+--
+
+game theory
 
 maxₓ minᵢ Pᵢⱼxⱼ
           xⱼ ≥ 0
@@ -136,18 +151,21 @@ maxₓ z
      xⱼ ≥ 0      ∀j
      ∑xⱼ = 1
 
-z - ∑ᵢνᵢ(∑ⱼPᵢⱼxⱼ-z) - ∑ⱼλⱼxⱼ + μ(∑ⱼxⱼ-1)
+z + ∑ᵢνᵢ(∑ⱼPᵢⱼxⱼ-z) + ∑ⱼλⱼxⱼ + μ(∑ⱼxⱼ-1)
 
-z + ∑ⱼ(-∑ᵢνᵢPᵢⱼ-λⱼ+μ)xⱼ + z∑ᵢνᵢ - μ
+z + ∑ⱼ(∑ᵢνᵢPᵢⱼ+λⱼ+μ)xⱼ + z∑ᵢνᵢ - μ
 
 min_λμν -μ
-        s.t. -∑ᵢνᵢPᵢⱼ-λⱼ+μ = 0   ∀j
+        s.t. ∑ᵢνᵢPᵢⱼ+λⱼ+μ = 0   ∀j
              νᵢ ≥ 0              ∀i
-             ∑ᵢνᵢ = 0
+             1-∑ᵢνᵢ = 0
              λⱼ ≥ 0              ∀j
 
--∑ᵢνᵢPᵢⱼ-λⱼ+μ = 0
--∑ᵢνᵢPᵢⱼ-λⱼ = -μ
+∑ᵢνᵢPᵢⱼ+λⱼ+μ = 0
+∑ᵢνᵢPᵢⱼ+λⱼ = -μ
 
-max -μ s.t. -∑ᵢνᵢPᵢⱼ ≥ μ
+At min, objective is -μ
+
+Dual is:
+min -μ s.t. ∑ᵢνᵢPᵢⱼ ≥ μ
 i.e. max min of ∑ᵢνᵢPᵢⱼ
