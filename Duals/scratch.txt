@@ -1,0 +1,153 @@
+f(x) s.t. x=a, x=b
+Clearly soln. is ∞ if a ≠ b
+
+f(x)+λ(a-x)+ν(b-x)
+
+f(x)-(λ+ν)x+λa+νb
+
+Let ν = ε-λ
+
+λ, ε
+
+f(x)-εx+λa+(ε-λ)b
+f(x)-εx+λ(a-b)+εb
+
+If a-b, then taking λ to -∞ or +∞ takes L(x,λ,ν) to -∞
+
+Dual has a=b
+--
+ι[⊤] = 0
+ι[⊥] = 1
+f(x)+λι[x∈D]
+
+Unconstrained min: if x∈D min f(x)
+                      x∉D anything
+
+So g(λ) = min of penalise going outside of D by λ.
+   g(0) = min f(x)
+g(λ) < x* for all λ
+In fact, as λ→∞ we get x*
+
+Speculation
+-----------
+
+K:M→C, T:M→A
+T - objective
+K - constraint
+Extend "objective" to C(Km',c)·Tm
+c is Lagrange multiplier
+Lan_K T - K is constraint, T is objective
+
+Kan Extension
+-------------
+
+      objective
+      X
+  A --> C
+  |    /
+F |  /  L
+  |/
+  v
+  B
+
+h is objective, g is constraint
+Lan :: (g b -> a) -> h b -> Lan g h a
+
+
+This is coproduct.
+
+Co-equaliser: a⇒b is just b is it not?
+
+Conversely, colimit is lowest upper bound
+
+What is a natural transformation in Pos?
+
+Given two monotone functions F:A→B, G:A→B.
+α:F ⇒ G
+α(X): F(X) → G(X)
+I.e. F(X) always <= G(X).
+Morphisms are just ≤
+
+Also
+
+a : X → Y
+F(X) → G(X)
+  ↓F(a)  ↓G(a)
+F(Y) → G(Y)
+
+Nat trans are just functions that are always less than another
+
+Kan extension
+
+    X
+A ----> C
+|      ^
+|     /
+|F   L
+|   /
+v  /
+B
+
+Lan_F X is monotone function L:B → C
+∀a. X(a) ≤ LB(x)
+If any other such monotone function M:B → C exists
+then ∀a. L(a) ≤ M(a)
+So L is a lowest upper bound of sorts.
+
+Extends monotone function on A to smallest possibly larger function on all of B.
+
+Say B is a point.
+Then L is a constant function.
+So LF is a constant function.
+So C is smallest constant function.
+C is *the* l.u.b.
+
+Say B has two elememts 0 ≤ 1.
+F sorts elememts of A into two "classs", class 0 and class 1.
+All of class 0 ≤ all of class 1.
+L picks out two elements, L(0) ≤ L(1).
+I think these are the lubs of the two classes..
+
+Consider
+
+       1
+[0,1]  →  ℝ
+
+  ↓ ι₀
+
+  ℝ
+
+Find "smallest" monotone function on ℝ ≥ identity on [0,1]
+Surely
+f : (-∞, 0) ↦ -∞
+    [0,1] x ↦ x
+    (1, ∞)  ↦ 1
+
+
+---
+game
+
+maxₓ minᵢ Pᵢⱼxⱼ
+          xⱼ ≥ 0
+          ∑xⱼ = 1
+
+maxₓ z
+     z ≤ Pᵢⱼxⱼ   ∀i
+     xⱼ ≥ 0      ∀j
+     ∑xⱼ = 1
+
+z - ∑ᵢνᵢ(∑ⱼPᵢⱼxⱼ-z) - ∑ⱼλⱼxⱼ + μ(∑ⱼxⱼ-1)
+
+z + ∑ⱼ(-∑ᵢνᵢPᵢⱼ-λⱼ+μ)xⱼ + z∑ᵢνᵢ - μ
+
+min_λμν -μ
+        s.t. -∑ᵢνᵢPᵢⱼ-λⱼ+μ = 0   ∀j
+             νᵢ ≥ 0              ∀i
+             ∑ᵢνᵢ = 0
+             λⱼ ≥ 0              ∀j
+
+-∑ᵢνᵢPᵢⱼ-λⱼ+μ = 0
+-∑ᵢνᵢPᵢⱼ-λⱼ = -μ
+
+max -μ s.t. -∑ᵢνᵢPᵢⱼ ≥ μ
+i.e. max min of ∑ᵢνᵢPᵢⱼ

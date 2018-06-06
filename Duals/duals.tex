@@ -6,11 +6,17 @@
 \usepackage{bm}
 \usepackage{framed}
 
-\usepackage[colorlinks,citecolor=blue,linkcolor=blue]{hyperref}                 % For creating hyperlinks in cross references. It should be after the color package. The option colorlinks produces colored entries without boxes. The option citecolor=blue changes the default green citations to blue.
+\usepackage[colorlinks,citecolor=blue,linkcolor=blue]{hyperref}
 
 \theoremstyle{definition}
-\newtheorem{example}{Example}
+%\newtheorem{example}{Example}
 \newcommand{\dom}{\mathop{\textrm{dom}}}
+
+\newcounter{example}[section]
+\newenvironment{example}[1][]
+{\refstepcounter{example}\par\medskip
+    \noindent \textbf{\theexample. #1}
+\rmfamily}{\medskip}
 
 \newcommand{\bmx}{\bm{x}}
 \newcommand{\bmy}{\bm{y}}
@@ -22,6 +28,9 @@
 \newcommand{\bmmu}{\bm{\mu}}
 \newcommand{\bmnu}{\bm{\nu}}
 
+\newcommand{\problem}{\noindent\textbf{Problem~\theexample.}}
+\newcommand{\dual}{\noindent\textbf{Dual~\theexample.}}
+
 \title{100 Optimization Problems and their Duals}
 
 \begin{document}
@@ -29,33 +38,34 @@
 
 \section{The Examples}
 
-\begin{example}
+\begin{example}[The definition of the dual.]
 This is the grandaddy of them all.
 Every subsequent example is a special case of this one.
-
 The primal problem:
+\begin{framed}
+\problem
 \begin{mini}{x \in \cal{D}}{f(x)}{}{}
 \addConstraint{g_i(x)}{\le 0,}{i=1,\ldots m}
 \addConstraint{h_i(x)}{= 0,\quad}{i=1,\ldots n}
 \end{mini}
-\end{example}
-
+\end{framed}
 We define the Lagrangian function by:
 \[
 L(x,\lambda,\mu) = f(x)+\sum_{i=1}^m\lambda_ig_i(x)+\sum_{i=1}^n\nu_ih_i(x)
 \]
-
 The dual function is now defined by
 \[
 g(\lambda,\nu) = \mathop{\inf}_{x\in\cal{d}}L(x,\lambda,\nu)
 \]
-
 The $g(\lambda,\nu)$ are all lower bounds for the minimum of the primal problem.
 
 Define the dual problem as:
+\begin{framed}
+\dual
 \begin{maxi}{\lambda,\nu}{g(\lambda,\nu)}{}{}
 \addConstraint{\lambda}{\ge0}
 \end{maxi}
+\end{framed}
 
 The solution to the dual problem clearly bounds the solution to the primal problem from below.
 
@@ -67,12 +77,17 @@ Then the following is essentially the same same as the dual problem:
 \addConstraint{(\lambda,\nu)}{\in\dom g}
 \end{maxi}
 We will usually use the latter formulation.
+\end{example}
 
 We'll start with some problems that are simple enough that you might think of them as degenerate, but which still have non-trivial content.
-\begin{example}
+
+\begin{example}[A single equality constraint.]
+\begin{framed}
+\problem
 \begin{mini}{x \in \mathbb{R}}{f(x)}{}{}
 \addConstraint{x=a}
 \end{mini}
+\end{framed}
 Clearly the solution is $f(a)$ achieved at $x=a$.
 
 Define
@@ -87,9 +102,11 @@ g(\lambda) & = \mathop{\inf}_{x}L(x,\lambda) \\
 \end{align}
 
 The dual problem is
+\begin{framed}
+\dual
 \begin{maxi}{\lambda \in \mathbb{R}}{g(\lambda)}{}{}
 \end{maxi}
-\end{example}
+\end{framed}
 
 \subsubsection{Geometric interpretation}
 Start with a line of the form $y = \lambda x+b$.
@@ -122,9 +139,11 @@ The particle is at rest at the minimum of the potential.
 $g(λ)$ is the potential at $x=a$ when new potential is added.
 Clearly it equals the minimum potential of a particle with a potential $f$ constrained to $a$.
 This is generally true: we can can often think of the Lagrange multipliers as being the forces requireed to enforce a constraint.
+\end{example}
 
-\begin{example}
+\begin{example}[Linear programming.]
 \begin{framed}
+\problem
 \begin{maxi}{\bmx\in\mathbb{R}^n}{\bmc\cdot \bmx}{}{}
 \addConstraint{\bmA\bmx}{\le \bmb}
 \addConstraint{\bmx}{\ge 0}
@@ -156,10 +175,37 @@ In the presence of the condition $\bmmu\ge0$,  condition $\bmc+\bmA^T+\bmmu=0$ i
 Define the new variable $\bmy=-\bmlambda$.
 The dual problem is now
 \begin{framed}
+\dual
 \begin{mini}{\bmy\in\mathbb{R}^m}{\bmb\cdot\bmy}{}{}
 \addConstraint{\bmA^T\bmy}{\ge\bmc}
 \addConstraint{\bmy}{\ge0}
 \end{mini}
 \end{framed}
 
+\begin{example}[Relaxed set cover.]
+Consider the following problem: we have a set $U$ and a collection of subsets $S_i$ indexed by elements $i\in \{1,\ldots,n\}$.
+We'd like to find the smallest number of $S_i$ that cover $U$, i.e. find the smallest subset of indices, $J$, such that $\bigcup_{i\in J}S_i = U$.
+Let $x_i$ be indicator variables so that $x_i=1$ if $i\in J$ and $x_i=0$ otherwise.
+We can express our problem as the following optimisation:
+\begin{mini}{x_i}{\sum_{i=1}^nx_i}{}{}
+\addConstraint{\sum_{i:v\in S_i}x_i}{\ge 1\quad}{\forall v\in U}
+\addConstraint{x_i}{\in \{0,1\}\quad}{\forall i\in\{1,\ldots,n\}}
+\end{mini}
+The first constraint tells us that every point in $u$ must appear in at least one of the chosen subsets.
+This is a non-convex problem because the set $\{0,1\}$ is not convex.
+We can relax this problem to allow the $x_i$ to lie in $[0,1]$.
+Solutions to this problem will provide an upper bound to the original problem.
+\begin{framed}
+\problem
+\begin{mini}{x_i}{\sum_{i=1}^nx_i}{}{}
+\addConstraint{\sum_{i:v\in S_i}x_i}{\ge 1\quad}{\forall v\in U}
+\addConstraint{x_i}{\le 1\quad}{\forall i\in\{1,\ldots,n\}}
+\addConstraint{x_i}{\ge 0\quad}{\forall i\in\{1,\ldots,n\}}
+\end{mini}
+\end{framed}
+\end{example}
+
 \end{document}
+
+% max-flow min-cut
+% SVM
