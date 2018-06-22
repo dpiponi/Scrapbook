@@ -4,7 +4,7 @@
 \usepackage{color}                    % For creating coloured text and background
 \usepackage{optidef}
 \usepackage{bm}
-\usepackage{framed}
+\usepackage{mdframed}
 
 \usepackage[colorlinks,citecolor=blue,linkcolor=blue]{hyperref}
 
@@ -36,19 +36,19 @@
 \begin{document}
 \maketitle
 
-\section{The Examples}
+\section{One problem to rule them all}
 
 \begin{example}[The definition of the dual.]
 This is the grandaddy of them all.
 Every subsequent example is a special case of this one.
 The primal problem:
-\begin{framed}
+\begin{mdframed}
 \problem
 \begin{mini}{x \in \cal{D}}{f(x)}{}{}
 \addConstraint{g_i(x)}{\le 0,}{i=1,\ldots m}
 \addConstraint{h_i(x)}{= 0,\quad}{i=1,\ldots n}
 \end{mini}
-\end{framed}
+\end{mdframed}
 We define the Lagrangian function by:
 \[
 L(x,\lambda,\mu) = f(x)+\sum_{i=1}^m\lambda_ig_i(x)+\sum_{i=1}^n\nu_ih_i(x)
@@ -60,12 +60,13 @@ g(\lambda,\nu) = \mathop{\inf}_{x\in\cal{d}}L(x,\lambda,\nu)
 The $g(\lambda,\nu)$ are all lower bounds for the minimum of the primal problem.
 
 Define the dual problem as:
-\begin{framed}
+
+\begin{mdframed}[nobreak]
 \dual
 \begin{maxi}{\lambda,\nu}{g(\lambda,\nu)}{}{}
 \addConstraint{\lambda}{\ge0}
 \end{maxi}
-\end{framed}
+\end{mdframed}
 
 The solution to the dual problem clearly bounds the solution to the primal problem from below.
 
@@ -79,15 +80,34 @@ Then the following is essentially the same same as the dual problem:
 We will usually use the latter formulation.
 \end{example}
 
+\subsection{A mnemonic}
+Sometimes we'll consider maximisations and sometimes minimisations.
+It can be easy to get confused about signs.
+Suppose we're optimising $f(x)$ subject to a constraint $g(x) \ge 0$, $g(x)\le 0$ or $g(x)=0$.
+Then think of the term
+$\lambda g(x)$ as a penalty for violating the constraint.
+If we're minimising then it's a penalty if it's positive and if we're maximising then
+it's a penalty if it's negative.
+
+For the constraint $g(x)=0$, the constraint is violated both when $g(x)>0$ and when $g(x)<0$.
+We must allow $\lambda$ to be both positive and negative.
+
+For the constraint $g(x)\le0$ in a maximisation problem, say,
+the constraint is violated when $g(x)>0$.
+For maximisations, penalties are negative, so for $\lambda g(x)$ to be negative,
+we require the constraint on $\lambda$ to be $\lambda\le0$.
+Our Lagrangian is $f(x)+\lambda g(x)$ subject to $\lambda\le0$.
+
+\section{The problems}
 We'll start with some problems that are simple enough that you might think of them as degenerate, but which still have non-trivial content.
 
 \begin{example}[A single equality constraint.]
-\begin{framed}
+\begin{mdframed}
 \problem
 \begin{mini}{x \in \mathbb{R}}{f(x)}{}{}
 \addConstraint{x=a}
 \end{mini}
-\end{framed}
+\end{mdframed}
 Clearly the solution is $f(a)$ achieved at $x=a$.
 
 Define
@@ -102,11 +122,11 @@ g(\lambda) & = \mathop{\inf}_{x}L(x,\lambda) \\
 \end{align}
 
 The dual problem is
-\begin{framed}
+\begin{mdframed}
 \dual
 \begin{maxi}{\lambda \in \mathbb{R}}{g(\lambda)}{}{}
 \end{maxi}
-\end{framed}
+\end{mdframed}
 
 \subsubsection{Geometric interpretation}
 Start with a line of the form $y = \lambda x+b$.
@@ -142,13 +162,13 @@ This is generally true: we can can often think of the Lagrange multipliers as be
 \end{example}
 
 \begin{example}[Linear programming.]
-\begin{framed}
+\begin{mdframed}
 \problem
 \begin{maxi}{\bmx\in\mathbb{R}^n}{\bmc\cdot \bmx}{}{}
 \addConstraint{\bmA\bmx}{\le \bmb}
 \addConstraint{\bmx}{\ge 0}
 \end{maxi}
-\end{framed}
+\end{mdframed}
 \end{example}
 
 The Lagrangian is given by
@@ -174,13 +194,13 @@ So the dual problem is
 In the presence of the condition $\bmmu\ge0$,  condition $\bmc+\bmA^T+\bmmu=0$ is equivalant to $\bmc+\bmlambda^T\bmA\le0$.
 Define the new variable $\bmy=-\bmlambda$.
 The dual problem is now
-\begin{framed}
+\begin{mdframed}
 \dual
 \begin{mini}{\bmy\in\mathbb{R}^m}{\bmb\cdot\bmy}{}{}
 \addConstraint{\bmA^T\bmy}{\ge\bmc}
 \addConstraint{\bmy}{\ge0}
 \end{mini}
-\end{framed}
+\end{mdframed}
 
 \begin{example}[Relaxed set cover.]
 Consider the following problem: we have a set $U$ and a collection of subsets $S_i$ indexed by elements $i\in \{1,\ldots,n\}$.
@@ -195,14 +215,38 @@ The first constraint tells us that every point in $u$ must appear in at least on
 This is a non-convex problem because the set $\{0,1\}$ is not convex.
 We can relax this problem to allow the $x_i$ to lie in $[0,1]$.
 Solutions to this problem will provide an upper bound to the original problem.
-\begin{framed}
+\begin{mdframed}
 \problem
 \begin{mini}{x_i}{\sum_{i=1}^nx_i}{}{}
 \addConstraint{\sum_{i:v\in S_i}x_i}{\ge 1\quad}{\forall v\in U}
 \addConstraint{x_i}{\le 1\quad}{\forall i\in\{1,\ldots,n\}}
 \addConstraint{x_i}{\ge 0\quad}{\forall i\in\{1,\ldots,n\}}
 \end{mini}
-\end{framed}
+\end{mdframed}
+\end{example}
+
+\begin{example}[Two player zero-sum games.]
+We have two players, A and B.
+Simultaneously, player $A$ picks an $i$ in the set $I$ and $B$ picks a $j$ in the set $J$.
+The outcome is that $A$ must pay $B$ \$$P_{ij}$.
+
+B would like to maximise the payment from A to B and B would like to minimise it.
+B must adopt a strategy that maximises the outcome on the assumption that A is trying to thwart them.
+B can also adopt a mixed strategy, picking option $j$ with probability $x_j$.
+This can be written as the optimisation
+\begin{maxi}{x_j}{\min_i\sum_jP_{ij}x_j}{}{}
+\addConstraint{x_j}{\ge0\quad}{\forall j\in J}
+\addConstraint{\sum_j x_j}{=1\quad}{}
+\end{maxi}
+\begin{mdframed}
+\problem
+\begin{maxi}{x_j,z}{z}{}{}
+\addConstraint{z}{\le \sum_j P_{ij}x_j\quad}{\forall i\in I}
+\addConstraint{x_j}{\ge0\quad}{\forall j\in J}
+\addConstraint{\sum_j x_j}{=1\quad}{}
+\end{maxi}
+\end{mdframed}
+
 \end{example}
 
 \end{document}

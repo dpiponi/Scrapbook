@@ -157,15 +157,151 @@ z + ∑ⱼ(∑ᵢνᵢPᵢⱼ+λⱼ+μ)xⱼ + z∑ᵢνᵢ - μ
 
 min_λμν -μ
         s.t. ∑ᵢνᵢPᵢⱼ+λⱼ+μ = 0   ∀j
-             νᵢ ≥ 0              ∀i
+             νᵢ ≥ 0             ∀i
              1-∑ᵢνᵢ = 0
-             λⱼ ≥ 0              ∀j
+             λⱼ ≥ 0             ∀j
 
 ∑ᵢνᵢPᵢⱼ+λⱼ+μ = 0
 ∑ᵢνᵢPᵢⱼ+λⱼ = -μ
+∑ᵢνᵢPᵢⱼ ≤ -μ
 
 At min, objective is -μ
 
 Dual is:
 min -μ s.t. ∑ᵢνᵢPᵢⱼ ≥ μ
-i.e. max min of ∑ᵢνᵢPᵢⱼ
+i.e. min max of ∑ᵢνᵢPᵢⱼ
+
+--- fluid dynamics
+
+Assume i<j
+
+minₑ ∑ᵢⱼ (eᵢⱼ-fᵢⱼ)²
+s.t. ∑(j:(i,j)∈E) eᵢⱼ - ∑(k:(k,i)∈E)e_kᵢ = 0 ∀i
+  (stuff flowing out) - (stuff flowing in)
+
+minₑ ∑ᵢⱼ(eᵢⱼ-fᵢⱼ)² + ∑ᵢλᵢ(∑(j:(i,j)∈E) eᵢⱼ - ∑(k:(k,i)∈E)e_kᵢ)
+
+∂_m_n: 2(e_m_n-f_m_n) + λ_m-λ_n (if (m,n) an edge)
+
+e_mn = f_mn - ½(λ_m-λ_n)
+λ_m is negative pressure
+High λ_m encourages more flow into m and less out
+
+∑ fᵢⱼ(λᵢ-λⱼ) - ½∑(λᵢ-λⱼ)²
+That means high fᵢⱼ encourages higher pressure in i
+
+So intuitively: quadratic term driving pressures to be equal but
+fᵢⱼ applies a constant force to drive apart λᵢ and λⱼ when there's
+flow from i to j.
+
+Suggests an algorithm even!
+
+-- Make this one problem too
+
+minₓ ½(x-y)²
+s.t. Ax = 0
+
+g(x, λ) = ½(x-y)² + λAx
+
+(x-y)+Aᵗλ = 0
+x = y-Aᵗλ
+
+L(λ) = ½(Aᵗλ)²+λA(y-Aᵗλ)
+     = λAy - ½(Aᵗλ)²
+     = yᵗAᵗλ - ½(Aᵗλ)²
+
+---
+min c·x s.t. Ax ≥ b
+
+c·x + λ.(Ax-b)    (λ ≤ 0)
+
+min (c + Aᵗλ)·x - λ·b
+
+Only makes sense if c + Aᵗλ = 0, λ ≤ 0
+
+So dual is
+max  -λ·b
+     λ ≤ 0
+     c + Aᵗλ = 0
+
+----
+Knapsack ???
+
+max ∑ᵢ vᵢxᵢ
+    xᵢ ∈ {0, 1}
+    ∑ᵢ wᵢxᵢ ≤ W
+
+vᵢxᵢ + λ(W-∑ᵢwᵢxᵢ) + ∑μᵢxᵢ - ∑νᵢ(xᵢ-1)
+
+∑(vᵢ-λwᵢ+μᵢ-νᵢ)xᵢ + λW +∑νᵢ
+
+min λW+∑νᵢ
+s.t. vᵢ = λwᵢ-μᵢ+νᵢ
+     λ, μᵢ, νᵢ ≥ 0
+
+min λ(W-∑wᵢ) + ∑μᵢ + ∑vᵢ
+s.t. μᵢ≥ λwᵢ-vᵢ
+     λ, μᵢ≥ 0
+
+Note, ∑wᵢ is generally > W so first term encourages
+large λ
+
+min ∑μᵢ - λ(∑wᵢ-W)
+s.t. μᵢ≥ λwᵢ-vᵢ
+     λ, μᵢ≥ 0
+
+min ∑μᵢ - λ(∑wᵢ-W)
+s.t. μᵢ≥ max(λwᵢ-vᵢ, 0)
+     λ ≥ 0
+
+min ∑max(λwᵢ-vᵢ, 0) - λ(∑wᵢ-W)
+s.t. λ ≥ 0
+
+When λ ≤ vᵢ/wᵢ ith term is zero
+
+Gradient is W-∑wᵢ for all i s.t. vᵢ/wᵢ > λ
+
+So add items to knapsack in order of vᵢ/wᵢ.
+Intuitively obvious? Want biggest back (vᵢ) for the buck (wᵢ).
+
+ℓ₁-norm
+-------
+
+min ‖x‖₁
+    s.t. Ax=b
+
+‖x‖₁ + λ(Ax-b)
+
+-Aᵗλ ∈ (sign(x₁), …, sign(x_n))
+?????
+
+Optimal Transport
+-----------------
+
+(We have that ∑vᵢ = ∑wⱼ = 1)
+
+cᵢⱼ = cost transporting one unit from i to j
+
+min ∑ᵢⱼcᵢⱼtᵢⱼ
+s.t. ∑ⱼcᵢⱼ = vᵢ, ∑ᵢcᵢⱼ = wⱼ,
+     tᵢⱼ ≥ 0
+
+∑ᵢⱼcᵢⱼtᵢⱼ - ∑ᵢλᵢ(∑ⱼtᵢⱼ-vᵢ) - ∑ⱼμⱼ(∑ᵢtᵢⱼ-wⱼ) - νᵢⱼtᵢⱼ
+
+∑ᵢⱼtᵢⱼ(cᵢⱼ - λᵢ-μⱼ-νᵢⱼ) + ∑λᵢvᵢ + ∑μⱼwⱼ
+
+Flip sign of λᵢ
+
+So
+max -∑λᵢvᵢ + ∑μⱼwⱼ
+s.t. -λᵢ+μⱼ ≤ cᵢⱼ
+
+If -λᵢ+μⱼ > cᵢⱼ then you could make infinite profit
+
+
+Suppose costs λᵢ to store at start
+              μⱼ to store at end
+Transport cost is cᵢⱼ
+vᵢ at start
+wⱼ at end
+Choose prices to maximise value increase
