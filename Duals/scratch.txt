@@ -317,3 +317,14 @@ max λ min x λf(x)
 
 Either λ ≥ 0 x* = min f(x)
        or λ = 0
+
+Strong Duality
+--------------
+https://people.orie.cornell.edu/dpw/orie6300/Lectures/lec08.pdf
+
+
+Theorem 3 (Strong Duality) There are four possibilities:
+1. Both primal and dual have no feasible solutions (are infeasible).
+2. The primal is infeasible and the dual unbounded.
+3. The dual is infeasible and the primal unbounded.
+4. Both primal and dual have feasible solutions and their values are equal.
