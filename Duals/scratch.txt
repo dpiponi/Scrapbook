@@ -305,3 +305,15 @@ Transport cost is cᵢⱼ
 vᵢ at start
 wⱼ at end
 Choose prices to maximise value increase
+
+--
+degenerate???
+-----
+min 0
+s.t. f(x) ≤ 0
+
+max λ min x λf(x)
+      s.t. λ ≥ 0
+
+Either λ ≥ 0 x* = min f(x)
+       or λ = 0

@@ -4,6 +4,7 @@
 \usepackage{color}                    % For creating coloured text and background
 \usepackage{optidef}
 \usepackage{bm}
+\usepackage{tikz}
 \usepackage{mdframed}
 
 \usepackage[colorlinks,citecolor=blue,linkcolor=blue]{hyperref}
@@ -201,6 +202,62 @@ The dual problem is now
 \addConstraint{\bmy}{\ge0}
 \end{mini}
 \end{mdframed}
+
+\begin{example}[Point in convex hull]
+
+\begin{figure}[h]
+\begin{center}
+\begin{tikzpicture}
+    \fill[black] (0,0) circle (.4ex);
+    \fill[black] (2,0) circle (.4ex);
+    \fill[black] (4,2) circle (.4ex);
+    \fill[black] (1,3) circle (.4ex);
+    \fill[black] (2,2) circle (.4ex);
+    \draw[thick] (0,0) -- (2,0) -- (4,2) -- (1,3) -- (0,0);
+    \draw (0,0) node[below] {$\bmx_1$};
+    \draw (2,0) node[below] {$\bmx_2$};
+    \draw (4,2) node[right] {$\bmx_3$};
+    \draw (1,3) node[above] {$\bmx_4$};
+    \draw (2,2) node[below] {$\bmy$};
+\end{tikzpicture}
+\end{center}
+\end{figure}
+
+\begin{mdframed}
+\problem
+\begin{mini}{\alpha_i}{0}{}{}
+\addConstraint{\sum_i\alpha_i\bmx_i}{=\bmy}
+\addConstraint{\sum_i\alpha_i}{=1}
+\addConstraint{\alpha_i}{\ge 0}
+\end{mini}
+\end{mdframed}
+We form the Lagrangian
+\[
+L(\alpha, \bmlambda, \mu, \nu_i) = \bmlambda\cdot(\sum_i\alpha_i\bmx_i-\bmy)+\mu(\sum_i\alpha_i-1)-\sum_i\nu_i\alpha_i
+\]
+where $\nu_i\ge0$.
+\[
+L(\alpha_i, \bmlambda, \mu, \nu_i) = \sum_i(\bmlambda\cdot\bmx_i+\mu-\nu_i)\alpha_i-\bmlambda\cdot y-\mu
+\]
+Define
+\begin{align}
+g(\bmlambda, \mu, \nu_i) & = \mathop{\textrm{min}}_{\alpha_i}L(\alpha_i,\bmlambda,\mu,\nu_i)\\
+& = -\bmlambda\cdot y-\mu
+\end{align}
+where $\bmlambda\cdot\bmx_i+\mu-\nu_i=0$ and $\nu_i\ge0$
+
+\begin{mdframed}
+\dual
+\begin{maxi}{\bmlambda,\mu}{-\bmlambda\cdot \bmy-\mu}{}{}
+\addConstraint{\bmlambda\cdot \bmx_i+\mu}{\ge 0}
+\end{maxi}
+\end{mdframed}
+\end{example}
+
+When $\bmlambda\ne0$, the equation $\bmlambda\cdot\bmx+\mu=0$ is the equation of a hyperplane in $\mathbb{R}^n$.
+Weak duality tells us that the dual objective is always less than or equal to the primal objective and hence that $\bmlambda\cdot \bmy+\mu$ is always greater than or equal to zero. In other words, if all of the $\bmx_i$ lie in the region $\{\bmx|\bmlambda\cdot \bmx+\mu\ge0\}$ then so does any $\bmy$ feasible in the primal problem.
+
+There is a converse to this\ldots
 
 \begin{example}[Relaxed set cover.]
 Consider the following problem: we have a set $U$ and a collection of subsets $S_i$ indexed by elements $i\in \{1,\ldots,n\}$.
