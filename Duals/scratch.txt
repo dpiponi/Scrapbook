@@ -305,3 +305,105 @@ Transport cost is cᵢⱼ
 vᵢ at start
 wⱼ at end
 Choose prices to maximise value increase
+
+--
+Theorem of alternative
+http://www.matem.unam.mx/omar/math340/thm-alt.html
+----------------------
+Point in polygon?
+
+min 0
+s.t. Ax ≤ b
+
+min λ·(b-Ax)
+s.t. λ ≥ 0
+
+min λ.b
+s.t. λ ≥ 0
+     Aᵗλ = 0
+
+So if there's a solution to Ax ≤ b
+
+max λ·b ≤ 0
+for λ ≥ 0
+    Aᵗλ = 0 (This is the alternative version at link above)
+
+-- Or this version
+
+min 0
+s.t. Ax ≤ b
+      x ≥ 0
+
+λ·(Ax-b) - μ·x
+
+min (Aᵗλ-μ)·x - λ·b
+s.t. λ ≥ 0
+     μ ≥ 0
+
+max -λ·b
+s.t. Aᵗλ = μ
+     λ ≥ 0
+     μ ≥ 0
+
+min λ·b
+s.t. Aᵗλ ≥ 0
+     λ ≥ 0
+
+-------------
+SVM
+-------------
+
+No soft margin etc.
+
+xᵢ, yᵢ
+xᵢ ∈ ℝⁿ
+yᵢ ∈ {0, 1}
+
+min ½‖wᵢ‖₂
+s.t. (w·xᵢ+b)yᵢ ≥ 1
+
+min ½w² - ∑αᵢ((w·xᵢ+b)yᵢ - 1)
+
+min ½w² - (∑αᵢyᵢxᵢ).w - ∑αᵢbyᵢ + ∑αᵢ
+
+min ½(w - (∑αᵢyᵢxᵢ))² - ½(∑αᵢyᵢxᵢ)² -∑αᵢbyᵢ + ∑αᵢ
+
+min at w = ∑αᵢyᵢxᵢ
+
+max  -½(∑αᵢyᵢxᵢ)² + ∑αᵢ
+s.t. αᵢ ≥ 0
+     ∑αᵢyᵢ = 0
+(Uses xᵢ·xᵢ)
+
+αᵢ > 0 ⇒  constraint tight
+yᵢ(w·xᵢ+b) = 1
+w·xᵢ+b = yᵢ 
+b = yᵢ-w·xᵢ for some i with αᵢ>0
+
+y ←  sign(w·x+b)
+y ←  sign(∑αᵢyᵢxᵢ·x+b)
+Hoping only small number of αᵢ are non-zero making this calculation easy
+Uses xᵢ·x
+
+Non-separable case allowing slack
+---------------------------------
+xᵢ, yᵢ
+xᵢ ∈ ℝⁿ
+yᵢ ∈ {0, 1}
+
+min ½‖wᵢ‖₂ + C∑ξᵢ
+s.t. (w·xᵢ+b)yᵢ ≥ 1-ξᵢ
+     ξᵢ ≥ 0
+
+min ½w² + C∑ξᵢ - ∑αᵢ((w·xᵢ+b)yᵢ - 1 + ξᵢ) - ∑βᵢξᵢ
+
+min ½w² - (∑αᵢyᵢxᵢ).w - ∑αᵢbyᵢ + ∑αᵢ + C∑ξᵢ - ∑αᵢξᵢ - ∑βᵢξᵢ
+
+min - ½(∑αᵢyᵢxᵢ)² + ∑αᵢ
+
+So  C = αᵢ+βᵢ
+∑αᵢyᵢ = 0
+
+Similar to before but C ≥ αᵢ ≥ 0
+
+I guess αᵢ weigh how important the support vectors are and C limits this
