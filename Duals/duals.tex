@@ -6,6 +6,7 @@
 \usepackage{bm}
 \usepackage{tikz}
 \usepackage{mdframed}
+\usetikzlibrary{decorations.markings}
 
 \usepackage[colorlinks,citecolor=blue,linkcolor=blue]{hyperref}
 
@@ -13,12 +14,13 @@
 %\newtheorem{example}{Example}
 \newcommand{\dom}{\mathop{\textrm{dom}}}
 
-\newcounter{example}[section]
+\newcounter{example}
 \newenvironment{example}[1][]
 {\refstepcounter{example}\par\medskip
     \noindent \textbf{\theexample. #1}
 \rmfamily}{\medskip}
 
+\newcommand{\bmw}{\bm{w}}
 \newcommand{\bmx}{\bm{x}}
 \newcommand{\bmy}{\bm{y}}
 \newcommand{\bma}{\bm{a}}
@@ -28,9 +30,11 @@
 \newcommand{\bmlambda}{\bm{\lambda}}
 \newcommand{\bmmu}{\bm{\mu}}
 \newcommand{\bmnu}{\bm{\nu}}
+\newcommand{\bbR}{\mathbb{R}}
 
 \newcommand{\problem}{\noindent\textbf{Problem~\theexample.}}
 \newcommand{\dual}{\noindent\textbf{Dual~\theexample.}}
+\newtheorem{theorem}{Theorem}
 
 \title{100 Optimization Problems and their Duals}
 
@@ -81,7 +85,6 @@ Then the following is essentially the same same as the dual problem:
 We will usually use the latter formulation.
 \end{example}
 
-\subsection{A mnemonic}
 Sometimes we'll consider maximisations and sometimes minimisations.
 It can be easy to get confused about signs.
 Suppose we're optimising $f(x)$ subject to a constraint $g(x) \ge 0$, $g(x)\le 0$ or $g(x)=0$.
@@ -129,7 +132,7 @@ The dual problem is
 \end{maxi}
 \end{mdframed}
 
-\subsubsection{Geometric interpretation}
+\subsection{Geometric interpretation}
 Start with a line of the form $y = \lambda x+b$.
 For a fixed $\lambda$, adjusting $b$ slides this line up and down the $y$-axis.
 Consider the problem of sliding the line up so that it just touches the curve $y=f(x)$ from below.
@@ -147,7 +150,7 @@ Then the maximum in the dual problem occurs when $g'(\lambda) = 0$.
 So we have $\lambda = f'(a)$.
 In other words, the line with tangent $f'(a)$ just touches $f(x)$ from below at $x=a$.
 
-\subsubsection{Physical interpretation}
+\subsection{Physical interpretation}
 Consider $f$ to be a potential field.
 This gives rise to a force $-f'(x)$.
 Suppose a particle is in the potential field.
@@ -162,7 +165,11 @@ Clearly it equals the minimum potential of a particle with a potential $f$ const
 This is generally true: we can can often think of the Lagrange multipliers as being the forces requireed to enforce a constraint.
 \end{example}
 
-\begin{example}[Linear programming.]
+\section{Fenchel dual}
+
+\section{Linear programming}
+
+\begin{example}[A linear program.]
 \begin{mdframed}
 \problem
 \begin{maxi}{\bmx\in\mathbb{R}^n}{\bmc\cdot \bmx}{}{}
@@ -170,7 +177,6 @@ This is generally true: we can can often think of the Lagrange multipliers as be
 \addConstraint{\bmx}{\ge 0}
 \end{maxi}
 \end{mdframed}
-\end{example}
 
 The Lagrangian is given by
 \begin{align}
@@ -202,6 +208,17 @@ The dual problem is now
 \addConstraint{\bmy}{\ge0}
 \end{mini}
 \end{mdframed}
+
+\begin{theorem}
+(Strong Duality) There are four possibilities:
+\begin{enumerate}
+\item Both primal and dual have no feasible solutions (are infeasible).
+\item The primal is infeasible and the dual unbounded.
+\item The dual is infeasible and the primal unbounded.
+\item Both primal and dual have feasible solutions and their values are equal.
+\end{enumerate}
+\end{theorem}
+\end{example}
 
 \begin{example}[Point in convex hull]
 
@@ -257,7 +274,30 @@ where $\bmlambda\cdot\bmx_i+\mu-\nu_i=0$ and $\nu_i\ge0$
 When $\bmlambda\ne0$, the equation $\bmlambda\cdot\bmx+\mu=0$ is the equation of a hyperplane in $\mathbb{R}^n$.
 Weak duality tells us that the dual objective is always less than or equal to the primal objective and hence that $\bmlambda\cdot \bmy+\mu$ is always greater than or equal to zero. In other words, if all of the $\bmx_i$ lie in the region $\{\bmx|\bmlambda\cdot \bmx+\mu\ge0\}$ then so does any $\bmy$ feasible in the primal problem.
 
-There is a converse to this\ldots
+There is a converse to this. Suppose the primal problem is infeasible.
+The dual is still feasible because there is some hyperplane with all of the $\bmx_i$ on one side of it.
+By the strong duality theorem the dual problem must be unbounded.
+This means we can choose $\bmlambda$ and $\mu$ so that $\bmlambda\cdot\bmx_i+\mu\ge0$ for all $i$ but with $\bmlambda\cdot\bmy+\mu\le0$. In other words we have a hyperplane that separates the $\bmx_i$ from $\bmy$.
+
+\begin{figure}[h]
+\begin{center}
+\begin{tikzpicture}
+    \fill[black] (0,0) circle (.4ex);
+    \fill[black] (2,0) circle (.4ex);
+    \fill[black] (4,2) circle (.4ex);
+    \fill[black] (1,3) circle (.4ex);
+    \fill[black] (4,0) circle (.4ex);
+    \draw[thick] (0,0) -- (2,0) -- (4,2) -- (1,3) -- (0,0);
+    \draw (0,0) node[below] {$\bmx_1$};
+    \draw (2,0) node[below] {$\bmx_2$};
+    \draw (4,2) node[right] {$\bmx_3$};
+    \draw (1,3) node[above] {$\bmx_4$};
+    \draw (4,0) node[below] {$\bmy$};
+    \draw[thick] (1,-2) -- (6,3);
+    \draw (5,2) node[below right] {$\bmlambda\cdot\bmx+\mu=0$};
+\end{tikzpicture}
+\end{center}
+\end{figure}
 
 \begin{example}[Relaxed set cover.]
 Consider the following problem: we have a set $U$ and a collection of subsets $S_i$ indexed by elements $i\in \{1,\ldots,n\}$.
@@ -280,6 +320,46 @@ Solutions to this problem will provide an upper bound to the original problem.
 \addConstraint{x_i}{\ge 0\quad}{\forall i\in\{1,\ldots,n\}}
 \end{mini}
 \end{mdframed}
+\end{example}
+
+\begin{example}[Relaxed knapsack]
+\end{example}
+
+\begin{example}[Optimal Transport]
+We have a set of locations $I$ and another set of locations $J$.
+At each location $i$ in $I$ we have an amount $v_i$ of some good.
+We want to transport the goods so that we end up with amount $v_j$ at each location $j$ in $J$.
+The total amount of good is conserved so we have $\sum_iv_i=\sum_jw_j$.
+The cost of transporting one unit from $i$ to $j$ is $c_{ij}$.
+We wish to minimise the total cost of transport.
+
+Suppose we transport amount $t_{ij}$ from $i$ to $j$.
+The total amount transported from $i$ must be $v_i$ so we have $\sum_jt_{ij}=v_i$.
+Similarly an amount $w_j$ ends up at $j$ so we have $\sum_it_{ij}=w_j$.
+\begin{mdframed}
+\problem
+\begin{mini}{(t_{ij})}{\sum_{i,j}c_{ij}t_{ij}}{}{}
+\addConstraint{\sum_jt_{ij}}{=v_i}
+\addConstraint{\sum_it_{ij}}{=w_j}
+\addConstraint{t_{ij}}{\ge0}
+\end{mini}
+\end{mdframed}
+We have
+\begin{align*}
+L(t_{ij},\lambda_i,\mu_j,\nu_{ij}) &= \sum_{ij}c_{ij}t_{ij}+\sum\lambda_i(\sum_jt_{ij}-\nu_i)-\sum_j\mu_j(\sum_it_{ij}-w_j)-\sum_{i,j}\nu_{ij}t_{ij} \\
+&= \sum_{ij}t_{ij}(c_{ij}+\lambda_i-\mu_j-\nu_{ij})-\sum_i\lambda_iv_i+\sum_j\mu_jw_j
+\end{align*}
+\begin{mdframed}
+\begin{maxi}{\lambda_i,\mu_j}{-\sum_i\lambda_iv_i+\sum_j\mu_jw_j}{}{}
+\addConstraint{-\lambda_i+\mu_j}{\le c_{ij}}
+\end{maxi}
+\end{mdframed}
+\subsection{Economics interpretation}
+A company is going to provide transportation of the goods from the $I$ to the $J$.
+They charge $\lambda_i$ per unit for pickup at each $i$ and $\mu_j$ for delivery per unit at each $j$.
+It costs anyone $c_{ij}$ per unit to move goods from $i$ to $j$.
+Their goal is to maximise profits.
+Note that they must charge so that $-\lambda_i+\mu_j\le c_{ij}$ otherwise the customer could just move the goods from $i$ to $j$ themselves.
 \end{example}
 
 \begin{example}[Two player zero-sum games.]
@@ -306,8 +386,164 @@ This can be written as the optimisation
 
 \end{example}
 
-\end{document}
+\begin{example}[Support Vector Machines]
+We are given a set of points $\{\bmx_i\}$ in $\bbR^n$.
+For each $i$ we are also given a $y_i\in\{-1,1\}$.
+In Figure~\ref{svm1} the red points are the $\bmx_i$ for which $y_i=-1$ and the blue points are the $\bmx_i$ such that $y_i=1$.
+The goal is to find a vector $\bmw_i\in\bbR^n$ and $b\in\bbR$ that separate the red and blue points in the sense that $\bmw\cdot\bmx+b<0$ when $y_i=-1$ and $\bmw\cdot\bmx+b>0$ when $y_i=1$.
+For example, the $\bmx_i$ might be the reflectivities of a material at various wavelengths with $y_i$ indicating whether it is material $A$ or material $B$.
+If we collect reflectivities for a new sample of material we can use $\bmw\cdot\bmc+b$ to predict whether the sample is of material $A$ or $B$.
+\begin{figure}[h]
+\begin{center}
+\begin{tikzpicture}
+    \fill[red] (2,2) circle (.4ex);
+    \fill[red] (3.4,3.2) circle (.4ex);
+    \fill[red] (4,2.4) circle (.4ex);
+    \fill[red] (2.6,5.4) circle (.4ex);
+    \fill[red] (3.2,4.8) circle (.4ex);
+    \fill[red] (3.4,3.2) circle (.4ex);
+    \fill[red] (4.2,4.8) circle (.4ex);
+    \fill[red] (4.6,4.6) circle (.4ex);
+    \fill[red] (4.5,6.0) circle (.4ex);
+    \fill[red] (5,4) circle (.4ex);
+    \fill[blue] (7.0,6.3) circle (.4ex);
+    \fill[blue] (7.8,4.4) circle (.4ex);
+    \fill[blue] (7.8,5.2) circle (.4ex);
+    \fill[blue] (7.0,4.0) circle (.4ex);
+    \fill[blue] (7.8,6.8) circle (.4ex);
+    \fill[blue] (9.0,3.4) circle (.4ex);
+    \fill[blue] (9.2,2.8) circle (.4ex);
+    \fill[blue] (9.6,5.8) circle (.4ex);
+    \draw[thick,gray] (6,0) -- (4,8);
+    \draw[thick] (7,0) -- (5,8);
+    \draw[thick,gray] (8,0) -- (6,8);
 
-% max-flow min-cut
-% SVM
-% game theory
+    \draw (6,0) node[above left] {$\bmw\cdot\bmx+b=-1$};
+    \draw (8,0) node[above right] {$\bmw\cdot\bmx+b=+1$};
+\end{tikzpicture}
+\caption{Training data}
+\label{svm1}
+\end{center}
+\end{figure}
+There may be many suitable vectors $\bmw$.
+It makes sense to choose the most economical one in the sense that $|\bmw|^2$ is minimised.
+This has the effect of making the distance between the hypersurfaces $\bmw\cdot\bmx+b=-1$ and $\bmw\cdot\bmx+b=+1$ as large as possible, in effect ensuring the two classes are separated by as much distance as possible.
+We can write the problem as
+\begin{mdframed}
+\problem
+\begin{mini}{\bmw,b}{|\bmw|^2}{}{}
+\addConstraint{y_i(\bmw\cdot\bmx_i+b)}{\ge 1}{\quad \forall i}
+\end{mini}
+\end{mdframed}
+\end{example}
+
+\begin{example}[SVM with soft margin]
+\end{example}
+
+\begin{example}[Max-flow min-cut]
+\end{example}
+\begin{example}[Two-player games]
+\end{example}
+
+\section{Quadratic programming}
+\begin{example}[Linearly constrained closest point]
+\begin{mdframed}
+\problem
+\begin{mini}{\bmx}{\frac{1}{2}|\bmx-\bmy|^2}{}{}
+\addConstraint{\bmA\bmx}{= 0\quad}{}
+\end{mini}
+\end{mdframed}
+Define
+\[
+L(\bmx,\bmy) = \frac{1}{2}|\bmx-\bmy|^2+\bmlambda^T\bmA\bmx
+\]
+so
+\[
+\nabla_{\bmx} L = \bmx-\bmy+\bmA^T\bmlambda
+\]
+At the minimum with respect to $\bmx$ we have
+\[
+\bmx = \bmy-\bmA^T\bmlambda
+\]
+Therefore $g(\bmlambda) = \min_{\bmx}L(\bmx,\bmlambda)$ is given by
+\begin{align}
+g(\bmlambda) &= \frac{1}{2}|\bmA^T\bmlambda|^2+\bmlambda^T\bmA(\bmy-\bmA^T\bmlambda)\\
+&= \bmy^T\bmA^T\bmlambda-\frac{1}{2}|\bmA^T\bmlambda|^2
+\end{align}
+\begin{mdframed}
+\dual
+\begin{maxi}{\bmlambda}{-\frac{1}{2}|\bmA^T\bmlambda|^2+\bmy^T\bmA^T\bmlambda}{}{}
+\end{maxi}
+\end{mdframed}
+\end{example}
+
+\begin{example}[Fluid dynamics]
+Suppose we have a graph with vertices $V$ and edges $(i,j)\in E\subset V\times V$ with $i<j$.
+Each edge has a flow $f_{ij}$ which is from $i$ to $j$ if $f_{ij}>0$ and from $j$ to $i$ if $f_{ij}<0$.
+A flow is incompressible if the total flow in or out of each vertex is zero, in other words if for each $i\in V$
+\[
+\sum_{j:(i,j)\in E} f_{ij} - \sum_{k:(k,i)\in E}f_{ki} = 0
+\]
+Given a flow that is not incompressible we can seek the closest incompressibleflow $e_{ij}$ to $f_{ij}$ in the $L_2$ sense.
+In other words
+\begin{mdframed}
+\problem
+\begin{mini}{e_{ij}}{\sum_{(i,j)\in E}|f_{ij}-e_{ij}|^2}{}{}
+\addConstraint{\sum_{j:(i,j)\in E} e_{ij} - \sum_{k:(k,i)\in E}e_{ki}}{= 0\quad}{\forall i\in V}
+\end{mini}
+\end{mdframed}
+\begin{figure}[h]
+\begin{center}
+\begin{tikzpicture}
+\begin{scope}[very thick,decoration={markings, mark=at position 0.5 with {\arrow{>}}}] 
+    \fill[black] (0,0) circle (.4ex);
+    \draw[thick,dashed] (0,0) -- (-1,0);
+    \fill[black] (3,0) circle (.4ex);
+    \draw[thick,dashed] (3,0) -- (4,1);
+    \draw[thick,dashed] (3,0) -- (4,-1);
+    \fill[black] (4,2) circle (.4ex);
+    \draw[thick,dashed] (4,2) -- (5,1);
+    \draw[thick,dashed] (4,2) -- (5,3);
+    \fill[black] (1,3) circle (.4ex);
+    \fill[black] (2,2) circle (.4ex);
+    \draw[thick,postaction={decorate}] (0,0) -- (2,2) node[midway,below right] {$f_{01}$};    
+    \draw[thick,postaction={decorate}] (2,2) -- (3,0) node[midway,below left] {$f_{12}$};    
+    \draw[thick,postaction={decorate}] (2,2) -- (4,2) node[midway,below] {$f_{13}$};    
+    \draw[thick,postaction={decorate}] (2,2) -- (1,3) node[midway,below left] {$f_{14}$};    
+    \draw (0,0) node[below] {$0$};
+    \draw (3,0) node[below left] {$2$};
+    \draw (4,2) node[above left] {$3$};
+    \draw (1,3) node[above] {$4$};
+    \draw (2,2) node[above right] {$1$};
+\end{scope}
+\end{tikzpicture}
+\end{center}
+\caption{A graph with flows}
+\end{figure}
+Define
+\[
+L(e_{ij}, \lambda_i) = \sum_{(i,j)\in E}(e_{ij}-f_{ij})^2+\sum_i\lambda_i\big(\sum_{j:(i,j)\in E} e_{ij} - \sum_{k:(k,i)\in E}e_{ki}\big)
+\]
+To minimise with respect to the $e_{ij}$ consider
+\[
+\frac{\partial L}{\partial e_{mn}} = 2(e_{mn}-f_{mn})+\lambda_m-\lambda_n
+\]
+so
+\[
+e_{mn} = f_{mn}-\frac{1}{2}(\lambda_m-\lambda_n)
+\]
+\begin{mdframed}
+\dual
+\begin{maxi}{(\lambda_i)}{\sum_{(i,j)\in E}f_{ij}(\lambda_i-\lambda_j)-\frac{1}{2}(\lambda_i-\lambda_j)^2}{}{}
+\end{maxi}
+\end{mdframed}
+\end{example}
+
+\section{Non-linear examples}
+\begin{example}[$L_q$ norm?]
+\end{example}
+
+\begin{example}[Maximum entropy probability distributions]
+\end{example}
+
+\end{document}

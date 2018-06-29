@@ -283,7 +283,7 @@ Optimal Transport
 cᵢⱼ = cost transporting one unit from i to j
 
 min ∑ᵢⱼcᵢⱼtᵢⱼ
-s.t. ∑ⱼcᵢⱼ = vᵢ, ∑ᵢcᵢⱼ = wⱼ,
+s.t. ∑ⱼtᵢⱼ = vᵢ, ∑ᵢtᵢⱼ = wⱼ,
      tᵢⱼ ≥ 0
 
 ∑ᵢⱼcᵢⱼtᵢⱼ - ∑ᵢλᵢ(∑ⱼtᵢⱼ-vᵢ) - ∑ⱼμⱼ(∑ᵢtᵢⱼ-wⱼ) - νᵢⱼtᵢⱼ
@@ -429,3 +429,62 @@ Theorem 3 (Strong Duality) There are four possibilities:
 2. The primal is infeasible and the dual unbounded.
 3. The dual is infeasible and the primal unbounded.
 4. Both primal and dual have feasible solutions and their values are equal.
+
+
+----
+Fenchel dual
+------
+
+min  f(x)
+s.t. x=a
+
+min f(x) - λ·(x-a)
+
+λ·a - f'(λ)
+
+max of this if f''(a). f(x) = f''(x) usually
+
+
+min f(x)+g(y)
+s.t. x=y
+
+f(x)+g(y)-λ(x-y)
+min f(x)-λx + min g(x)+λy
+f'(λ)+g'(-λ)
+
+max_λ f'(λ)+g'(-λ)
+
+max entropy
+-----------
+-∑ᵢpᵢlogpᵢ+λ·(Xp-y)
+
+-logpᵢ-1+(Xᵗλ)ᵢ = 0
+
+pᵢ = exp((Xᵗλ)ᵢ-1)
+
+-∑ᵢexp((Xᵗλ)ᵢ-1)((Xᵗλ)ᵢ-1)+λ·X(exp((Xᵗλ)ᵢ-1)-y)
+
+min g(λ) = ∑ᵢexp((Xᵗλ)ᵢ-1)-λXy
+
+
+max relative entropy
+-----------
+-∑ᵢpᵢ(logpᵢ-logqᵢ)+λ·(Xp-y)
+
+-(logpᵢ-logqᵢ)-1+(Xᵗλ)ᵢ = 0
+-(logpᵢ-logqᵢ) = 1-(Xᵗλ)ᵢ
+-logpᵢ+logqᵢ = 1-(Xᵗλ)ᵢ
+-logpᵢ = -logqᵢ + 1-(Xᵗλ)ᵢ
+logpᵢ = logqᵢ - 1+(Xᵗλ)ᵢ
+pᵢ = exp(logqᵢ - 1+(Xᵗλ)ᵢ)
+pᵢ = qᵢexp(-1+(Xᵗλ)ᵢ)
+
+pᵢ = qᵢexp((Xᵗλ)ᵢ-1)
+
+-∑ᵢqᵢexp((Xᵗλ)ᵢ-1)((Xᵗλ)ᵢ-1)+λ·(X(qᵢexp((Xᵗλ)ᵢ-1))-y)
+
+min g(λ) = ∑ᵢqᵢexp((Xᵗλ)ᵢ-1)-λXy
+
+
+Eg.
+-∑ᵢpᵢlogpᵢ + λ(∑pᵢ-1)
