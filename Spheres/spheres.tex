@@ -1,0 +1,71 @@
+\documentclass{article}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+
+\begin{document}
+\section{The unit circle in $\mathbb{C}$}
+Let $C$ be a complex number picked uniformly at random on the unit circle in the complex plane $\mathbb{C}$.
+Let $f$ be an function analytic on the circle. We're going to compute $E[f(C)]$.
+We can write $C=\exp(i\Theta)$ where $\Theta$ is uniformly distributed on $[0,2\pi]$.
+We get
+\[
+E[f(C)] = \frac1{2\pi}\int_0^{2\pi}f(\exp(i\theta))d\theta
+\]
+We can turn this into a contour integral via $z=\exp(i\theta)$ and $dz=i\exp(i\theta)d\theta$:
+\[
+\frac1{2\pi}\int_0^{2\pi}f(\exp(i\theta))d\theta = \frac1{2\pi i}\int_C \frac{f(z)}{z} dz
+\]
+If we write $f(z)$ as a Laurent series $f(z)=a_{-n}z^{-n}+\ldots a_{-1}z^{-1}+a_0+a_1z+a_2x^2+\ldots$ then using Cauchy's residue theorem we have that $E[f(C)] = a_0$.
+(If you think of the Laurent series as a Fourier series, then $E[f(X)]$ is the DC component of $f$.)
+
+We have
+\[
+E[C^n]=\delta_{n0}
+\]
+where $\delta_{ij}$ is the Kronecker delta.
+This makes geometric sense.
+When $n\ne0$ The function $z\rightarrow z^n$ wraps the unit circle around itself $|n|$ times, clockwise or anti-clockwise, but does so in a way that keeps the distribution uniform.
+
+If we write $C=X+iY$, where $X$ and $Y$ are real-valued random variables, we'd like to compute the moments $E[X^n]$.
+\[
+E[X^n] = \frac1{2^n}E[(C+\bar{C})^n]
+\]
+But $f(z)=(z+\bar{z})^n$ isn't an analytic function so we can't use the result above directly.
+On the other hand, on the unit circle, $\bar{z}=1/z$.
+We we use $f(z)=(z+z^{-1})^n$ instead.
+
+So $2^nE[X^n]$ is the constant term in $(z+\bar{z})^n$.
+If $n$ is even then that's ${n\choose{\frac n2}}$.
+For $n$ odd we get zero. So we have
+\[
+E[X^n] = \begin{cases}
+    {n \choose \frac n2} & n \text{ even}\\
+    0 & n \text{ odd}
+\end{cases}
+\]
+
+As a special case, consider computing $E[|g(C)|^2]$.
+This is the same as $E[g(C)g(\bar{C})]=E[g(C)g(C^{-1})]$.
+Where can constant terms come from in the Laurent expansion?
+They can only arise from terms of the form $az^n$ in $g(z)$ being multiplied by terms of the form $]hat{a}z^{-n}$ in $g(z^{-1})$.
+So $E[|g(C)|^2]$ is the sum of the absolute squares of the coefficients in the Laurent expansion of $g$.
+(This is essentially Parseval's theorem.)
+
+Suppose instead we want the distance between two points on the unit circle chosen at random, $C_1$ nd $C_2$.
+We want $E[|C_1-C_2|]$.
+This problem is rotationally symmetric, so it's the same as $E[|1-C|]=E[\sqrt{1-C}\sqrt{1-C^{-1}}]$.
+We sum the terms in the Taylor series for $\sqrt{1-z}$ to get
+$E[|1-C|]=\sum_{i=0}^\infty{\frac{1}{2} \choose i}^2$.
+
+$E[|C_1-C_2|^n]\ldots$.
+
+\section{The unit 3-sphere in $\mathbb{Q}$}
+Define the $n$-sphere to be the surface $(x_1,\ldots,x_n)$ such that $\sum_ix_i^2=1$ in $\mathbb{R}^n$.
+Consider the problem of computing the volume $A_n(r)$ of an $n$-sphere of radius $r$.
+One approach is to define a ``latitude'' angle $\theta$ so that $x_1=\cos(\theta)$.
+Then the region of the $n$-sphere with $\theta$ in the range $[\theta,\theta+d\theta]$ is an $(n-1)$-sphere of ``thickness'' $rd\theta$. So
+\[
+V_n(r) = \int_0^\pi V_{n-1}(\sin\theta)\sin\theta d\theta
+\]
+
+\end{document}
