@@ -1,0 +1,114 @@
+E[q²] = -½
+E[q²r²] = ¼
+E[qrq²] = 0
+E[qrqr] = -½
+E[qrqr̅] = ¼
+E[qrqrqr] = 0
+E[qrqrqrqr] = 0 etc.
+E[qrrq̅] = -½
+E[qrq̅r̅] = ¼
+E[qrq̅r̅qrq̅r̅] = -⅓  ?
+E[(qrq̅r̅)³] = -⅛
+E[(qrq̅r̅)⁴] = ?? -0.067   -1/15?
+E[(qrq̅r̅)⁵] = ?? -1/24?
+E[(qrq̅r̅)^6] = ?? -1/35?
+E[(qrq̅r̅)ⁿ] = 1/(n²-1) ?
+
+MGF 1+t/4-Sum[tⁿ/(n!(n²-1)),{n,2,Infinity}]
+t/4-Exp[t](t*t+t-1)
+
+C_n = 1/(n+1)(2n n)
+
+I guess qr is like q
+
+qrq̅r̅ is (r with randomised xyz part)r̅
+Ie. r and r̅ share real part but uncorrelated directions in xyz part
+
+qrq̅ r̅ qrq̅ r̅
+
+a ~ 0.25
+b, b' ~ rand vector sq len 3/4
+
+(a+b') (a+b) (a+b') (a+b)
+
+a^4 + 4 a^2 b'b + b'bb'b
+
+qrq̅r̅ is essentially product of two random unit quaternions with same real part
+
+
+q = re(q)+im(q)
+
+E[re(q)²] = ¼
+E[|im(q)|²] = ¾
+
+u=qrq̅r̅
+
+r = re(r)+im(r)
+qrq̅ = re(r)+R(q,im(r)) = v
+re(r)²-im(r)² = 1
+im(r)² = re(r)²-1
+E[v²] = -3/4 as expected
+
+im(q)im(r) = -q·r + q×r
+E[q×r] = 0
+E[q·r] = E[(1,0,0)·r] = 0
+E[(q·r)²] = E[rₓ²] = ⅓ 
+
+E[im(q)im(r)im(q)im(r)] = -⅕
+
+v ind. of r, v ind.(?) of q.
+
+qrq̅r̅ = re(r)(re(r)-im(r))+R(q,im(r))(re(r)-im(r))
+     = re(r)²-re(r)im(r)+R(q,im(r))re(e)-R(q,im(r))im(r)
+
+(qrq̅r̅)² = (re(r)²-re(r)im(r)+v·re(r)-v·im(r))²
+
+        = re(r)⁴+re(r)²im(r)²+v²re(r)²+v·im(r)v·im(r)           = re(r)⁴ = ⅛
+          -re(3)³im(r)+v·re(r)³-re(r)²v·im(r)
+          -2re(r)³im(r)+2re(r)³v-2re(r)²v·im(r)
+          -re(r)²(im(r)v+v·im(r))+re(r)(im(r)v·im(r)+v·im(r)²)  = 0
+          -re(r)(vv·im(r)+v·im(r)v)                             = 0
+
+        = ⅛ - ⅛ - ⅛ - ⅕
+
+E[u²] = E[qrq̅r̅qrq̅r̅]
+
+
+
+f(q,r) conditioned on re(q)=re(r)?
+
+∫ f(qr) p(q)p(r)δ(re(p)-re(q))
+
+E[(qrq⁻¹r⁻¹)ⁿ]
+
+
+
+qrQRqrQR
+qrQqRrQR
+qQrqRrQR
+qQrRqrQR
+qQrRqQrR
+
+
+qrq̅r̅qrq̅r̅
+
+E[(q+q̅-2)²ⁿ) = central binomial even n
+E[(q+q̅-2)²ⁿ⁺¹) = (2n+1 n+1) n odd
+
+Unnormalised
+------------
+E[q²] = -2
+E[q⁴] = 0?
+E[q⁶] = 0???
+
+
+QRQR
+
+E[q²r²q²r²] = -⅓ 
+
+E[q²+½] = 0
+
+0
+= (q²+½)(r²+½)(q²+½)(r²+½)
+= q²r²q²r²+4½r²(q²+½)(r²+½)+2½½(r²+½)(r²+½)+4½½(r²+½)(q²+½)+4½½½(q²+½)+½½½½
+= q²r²q²r²+4½r²(q²+½)(r²+½)+2½½(r²+½)(r²+½)+½½½½
