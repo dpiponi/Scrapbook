@@ -59,11 +59,28 @@ $E[|1-C|]=\sum_{i=0}^\infty{\frac{1}{2} \choose i}^2$.
 
 $E[|C_1-C_2|^n]\ldots$.
 
+\section{The moments of the area of a random triangle}
+If $q$ is uniformly distributed on the unit circle, $E[q^n]=\delta_{n0}$. So if $f$ is meromorphic, $E[f(q)]$ is the constant term in $f$.
+
+The area of triangle $pqr$ is $\frac12\Im[(q-p)(\bar{r}-\bar{p})]$. By symmetry we can say $p=1$. For complex numbers on the unit circle, $\bar{z}=z^{-1}$. Also use $\Im(z)=(z-z^{-1})/(2i)$. So if $q$ and $r$ are both uniformly distributed we want the constant term in
+$$
+\frac{1}{(4i)^{2n}}\left((q-1)(\frac 1r-1)-(\frac1q-1)(r-1)\right)^{2n}
+$$
+Rearranging gives
+$$
+\frac{1}{(4i)^{2n}}(r-1)^{2n}(q-1)^{2n}\left(\frac1r-\frac1q\right)^{2n}
+$$
+The constant terms can only arise by picking an $j$th power of $r$ from $(r-1)^{2n}$ and a $(2n-j)$th power of $q$ from $(q-1)^{2n}$. So the final result is
+$$
+\frac{1}{(-16)^{n}}\sum_{j=0}^{2n}(-1)^j{2n\choose j}^3
+$$
+As pointed out in the comments, the equivalence to the original formula follows from [Dixon's formula][1]. I like the proof at Wikipedia using the [MacMahon-Master theorem][2].
+
 \section{The unit 3-sphere in $\mathbb{Q}$}
 Define the $n$-sphere to be the surface $(x_1,\ldots,x_n)$ such that $\sum_ix_i^2=1$ in $\mathbb{R}^n$.
 Consider the problem of computing the volume $A_n(r)$ of an $n$-sphere of radius $r$.
 One approach is to define a ``latitude'' angle $\theta$ so that $x_1=\cos(\theta)$.
-Then the region of the $n$-sphere with $\theta$ in the range $[\theta,\theta+d\theta]$ is an $(n-1)$-sphere of ``thickness'' $rd\theta$. So
+Then the region of the $n$-sphere with $\theta$ in the range $[\theta,\theta+d\theta]$ is an $(n-1)$-sphere of ``thickness'' $rd\theta$ where $r=\sin\theta$. So
 \[
 V_n(r) = \int_0^\pi V_{n-1}(\sin\theta)\sin\theta d\theta
 \]
