@@ -1,0 +1,64 @@
+\documentclass{article}
+\usepackage{mathtools}
+\usepackage{pgf}
+\usepackage{tikz}
+\usepackage{mathdots}
+\usepackage{graphicx}
+\usepackage{amsfonts}
+\usetikzlibrary{arrows,automata,decorations.markings}
+\makeatletter
+\newcommand\mathcircled[1]{%
+  \mathpalette\@mathcircled{#1}%
+}
+\newcommand\@mathcircled[2]{%
+  \tikz[baseline=(math.base)] \node[draw,circle,inner sep=1pt] (math) {$\m@th#1#2$};%
+}
+\newcommand\myvec[1]{\vec{#1}\hspace{0.5mm}}
+\makeatother
+\newcommand\bbe{\mathbb{E}}
+\newcommand\var{\mathop{\mathrm{Var}}}
+
+% TODO
+% More motivation with trig and elliptic examples
+% More on C
+% Better notation for T, R and C
+% Some blurb about f(x,y) = f(r,\theta) = f(z) = f(\myvec{p})
+% Some plots
+
+\begin{document}
+\section{A random point on a sphere}
+Let $(X_1,X_2,\ldots,X_n)$ be a point chosen uniformly at random on an $(n-1)$-sphere.
+What is the distribution of $X_1$?
+
+By symmetry, we know that $\bbe[X_1]=0$.
+We also know that $\bbe[X_1^2]+\ldots+\bbe[X_n^2]=1$, and that each of the $X_i$ has the same marginal distribution, and hence that $\bbe[X_1^2]=\frac{1}{n}$.
+So $\var[X_1]=\frac{1}{n}$.
+As $n$ grows, $X_1$ becomes more concentrated around zero.
+In some sense, this means that random points on high-dimensional spheres are concentrated around the equator.
+But this is somewhat illusory.
+Random points on spheres are just as concentrated around any plane going through the origin.
+
+Let's compute the exact distribution.
+We start by computing the volume, $V_n(r)$, of an $n$-ball of radius $r$.
+The volume of an $1$-ball of radius $r$, otherwise known as the interval $[-r, r]$, is $2r$.
+We can slice an $n$-ball into $(n-1)$-balls at height $x$, radius $\sqrt{r^2-x^2}$ and thickness $dx$ which allows us to write
+\begin{equation}
+V_n(r) = \int dx V_{n-1}(\sqrt{r^2-x^2})
+\label{slices}
+\end{equation}
+
+We can also view an $n$-ball as an onion of $(n-1)-spheres$, each of radius $r$ and thickness $dr$.
+So
+\[
+V_n(r) = \int dr S_{n-1}(r)
+\]
+and hence that
+\[
+\frac{dV_n(r)}{dr} = S_{n-1}(r)
+\]
+Differentiating both sides of Equation~\ref{slices}, and sliding the derivative under the integral, gives
+\[
+S_{n-1}(r) = \int dx S_{n-1}(\sqrt{r^2-x^2})\frac{r}{\sqrt{r^2-x^2}}
+\]
+
+\end{document}
