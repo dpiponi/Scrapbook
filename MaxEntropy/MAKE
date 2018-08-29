@@ -1,0 +1,3 @@
+pdflatex maxentropy.tex && open maxentropy.pdf
+gnuplot maxentropy.pgf-plot.gnuplot
+pdflatex maxentropy.tex && open maxentropy.pdf

@@ -1,4 +1,4 @@
-\documentclass{article}
+\documentclass[tikz]{article}
 \usepackage{mathtools}
 \usepackage{pgf}
 \usepackage{tikz}
@@ -66,4 +66,18 @@ p(x) = \frac{S_{n-2}(\sqrt{r^2-x^2})}{S_{n-1}(r)}\frac{r}{\sqrt{r^2-x^2}}
 \]
 We also know that $S_n(r)=S_n(1)r^n$.
 So $p(x) = A_n r^{-n+2}(r^2-x^2)^\frac{n-3}{2}$ for some constant $A_n$.
+
+\begin{tikzpicture}
+  \tikzset{swapaxes/.style = {rotate=90,yscale=-1}}
+  \draw[red] plot[samples=200,domain=-2:2] function {(1-x*x/20)**8.5};
+  \draw[->,thick] (-2,0)--(2,0) node[right]{$x$};
+  \draw[->,thick] (0,-2)--(0,2) node[above]{$y$};
+\end{tikzpicture}
+
+\begin{tikzpicture}
+  \tikzset{swapaxes/.style = {rotate=90,yscale=-1}}
+  \draw[red] plot[samples=200,domain=-2:2] function {(1-x*x/40)**18.5};
+  \draw[->,thick] (-2,0)--(2,0) node[right]{$x$};
+  \draw[->,thick] (0,-2)--(0,2) node[above]{$y$};
+\end{tikzpicture}
 \end{document}
