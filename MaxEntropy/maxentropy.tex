@@ -58,7 +58,12 @@ and hence that
 \]
 Differentiating both sides of Equation~\ref{slices}, and sliding the derivative under the integral, gives
 \[
-S_{n-1}(r) = \int dx S_{n-1}(\sqrt{r^2-x^2})\frac{r}{\sqrt{r^2-x^2}}
+S_{n-1}(r) = \int dx S_{n-2}(\sqrt{r^2-x^2})\frac{r}{\sqrt{r^2-x^2}}
 \]
-
+So our desired probability density function on $f$ is
+\[
+p(x) = \frac{S_{n-2}(\sqrt{r^2-x^2})}{S_{n-1}(r)}\frac{r}{\sqrt{r^2-x^2}}
+\]
+We also know that $S_n(r)=S_n(1)r^n$.
+So $p(x) = A_n r^{-n+2}(r^2-x^2)^\frac{n-3}{2}$ for some constant $A_n$.
 \end{document}
