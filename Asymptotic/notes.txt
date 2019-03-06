@@ -1,0 +1,37 @@
+SΔ = {x | 0 ≤ arg x ≤ π/2-Δ, 0 < |x| < ∞ }
+
+If x = u+iv, v ≤ ucotΔ, or u ≥ vtanΔ (v/u ≥ cotΔ)
+
+(i) RTP exp(-x) = O(x^α) for x → ∞ in SΔ
+
+RTP |exp(-x)| ≤ A |x|^α
+
+|exp(-u-iv)| = |exp(-u)|
+
+RTP -u ≤ logA + ½α log (u²+v²)  for |x| large enough
+
+-u ≤ logA + ½ 2logu · log (1+v²/u²)
+
+ETP -u ≤ logA + logu · log(1+cot²Δ)
+
+ETP u ≥ C+Blogu with B positive and for u large enough
+
+Well 1 ≥ B/u for u large enough so follows
+
+(ii) RTP exp(-x) = O(x^α) in S0 as x → ∞ for ℜ α ≥ 0
+
+x = u+iv
+
+|exp(-u-iv)| ≤ A|(a+iv)^α|
+
+
+log |(u+iv)^α| = log |α||log(u+iv)| = |α|||log(√(u²+v²))+iarg(u+iv)|
+
+log |(u+iv)^α| = ℜ (log(u+iv)^α) = ℜ (α log(u+iv)) = ℜ (α (log(√(u²+v²))+iarg(u+iv)|))
+ 
+= ℜ α log(√(u²+v²)) - ℑ α arg(u+iv)
+
+RTP -u ≤ B + ℜ α log(√(u²+v²)) - ℑ α arg(u+iv)
+RTP u ≥ C - ℜ α log(√(u²+v²)) + ℑ α arg(u+iv)
+
+Clearly true for R = |u+iv| large enough

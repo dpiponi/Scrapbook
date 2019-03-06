@@ -1,0 +1,266 @@
+%&latex
+\documentclass{article}
+\usepackage{optidef}
+\usepackage{calrsfs}
+\usepackage{hyperref}
+
+\begin{document}
+
+%+Title
+\title{Starting from Lagrangian mechanics, how to we get to Hamiltonian mechanics?}
+\author{Dan Piponi}
+\date{\today}
+\maketitle
+%-Title
+
+%+Abstract
+\begin{abstract}
+Trying to motivate Hamilton's equations.
+\end{abstract}
+%-Abstract
+
+%+Contents
+\tableofcontents
+%-Contents
+
+\newcommand{\cD}{\mathcal{D}}
+\newcommand{\rd}{\mathrm{d}}
+
+\section{The Euler-Lagrange equations}
+\subsection{Hamilton's principle of least action}
+I'll start with the actual problem we want to solve.
+We have a function of two variables, $L$, called the \emph{Lagrangian} and we want to find a function $q$ on some time interval (say $0$ to $T$) that minimises the so-called \emph{action}:
+\[
+A(q)=\int\rd tL(q,\dot{q}).
+\]
+Thinking of $q(t)$ parameterising a path then we are trying to find the path $q$ that minimises this action.
+Many physical systems can be described as following a path $q$ that minimises the action for some definition of $L$.
+This is Hamilton's principle of least action\cite{hamilton}.
+A better name is Hamilton's princple of stationary action as the action might be a minimum, maximum of a saddle point.
+But for now we'll work on the assumption that the Lagrangian is strictly convex and that we're looking for minima.
+
+\subsection{A discretised version}
+\newcommand{\Min}{\mathop{\mathrm{Min}}}
+\newcommand{\Max}{\mathop{\mathrm{Max}}}
+
+\newcommand{\bA}{\mathbf{A}}
+I'm going to take the slightly non-standard approach of (1) generalising this problem slightly and (2) discretising it.
+First the generalisation. We're going to minimise
+\[
+\int\rd tL(q,Aq)
+\]
+where $A$ is a linear operator acting on our space of paths.
+Ultimately we're interested in the case when $A=\frac{\rd}{\rd t}$.
+Next I'll discretise this problem as
+\begin{equation*}
+\min_{q_1}\min_{q_2}\ldots\min_{q_n}\sum_{i=1}^nL(q_i,(\bA q)_i)
+\end{equation*}
+Instead of $q$ depending continuously on $q$ we have $q_i$ for discrete time steps $i$.
+And instead of the linear operator $A$ we have the matrix $\bA=(A_{ij})$ with $(\bA q)_i=\sum_jA_{ij}q_j$.
+We'll use the shorthand
+\begin{equation*}
+\Min_q=\min_{q_1}\min_{q_2}\ldots\min_{q_n}
+\end{equation*}
+Our problem is now
+\begin{equation}
+\Min_q\sum_{i=1}^nL(q_i,(\bA q)_i)
+\label{original}
+\end{equation}
+
+\subsection{The direct approach}
+We can use standard calculus to attack (\ref{original}).
+Differentiate with respect to $q_i$ and set the result equal to zero.
+Define the vector $L^0=(L_i)$ by
+\[
+L^0_i=L(q_i,(\bA q)_i)
+\]
+and similarly $L^1$ and $L^2$ by
+\begin{align*}
+L^1_i &= L^{(1,0)}(q_i,(\bA q)_i)\\
+L^2_i &= L^{(0,1)}(q_i,(\bA q)_i)\\
+\end{align*}
+where I use $f^{(m,n)}$ to mean $f$ differentiated $m$ times w.r.t.\ its first argument and $n$ times w.r.t.\ its second.
+\newcommand{\pd}[1]{\frac{\partial}{\partial #1}}
+The chain rule and a bit of index chasing gives
+\begin{align*}
+&\pd{q_k}\sum_{i=1}^nL(q_i,\sum_{j=1}^nA_{ij}q_j)=L^1_k+(\bA^TL^2)_k_ _\\
+\end{align*}
+so we need to solve
+\[
+L^1+A^TL^2=0
+\]
+
+\subsection{Back to the continuum}
+When we go back to the continuum $q_i$ goes back to being $q(t)$ and the matrix $\bA$ goes back to being the linear operator $A$.
+The transpose $\bA ^T$ becomes the adjoint $A^\ast$
+defined by the property
+\[
+\int f(t)(Ag)(t)dx=\int (A^\ast f)(t)g(t)dt
+\]
+We need to solve the differential equation
+\[
+L^{(1,0)}(q,Aq)+A^\ast L^{(0,1)}(q,Aq)=0
+\]
+In the special case when $A=\frac{\rd}{\rd t}$ it is conventional to write this as
+\[
+\frac{\partial L}{\partial q}-\frac{d}{\rd t}\frac{\partial L}{\partial \dot{q}}=0
+\]
+which is known as the Euler-Lagrange equation.
+
+\subsection{Why did I do things slightly non-standardly?}
+\begin{enumerate}
+\item What does $\pd{\dot{q}}$ mean? That's one of the most confusing bits of notation I've ever seen. The expression $\dot{q}$ doesn't name a variable but you normally differentiate w.r.t\ variables.
+It looks like some kind of iterated derivative operation.
+But really it just means the derivative with respect to the argument that goes in the slot currently occupied by $\dot{q}$ in the rest of the expression.
+I find it easier to work with discrete indices first so there's no confusion over what is a function of what. 
+\item I wanted to make it very clear where that minus sign in the Euler-Lagrange equation comes from. It's there because (a) the adjoint of differentiation is negated differentiation, (b) the adjoint is just a continuous version of the transpose and (c) the transpose is really just a bit of index shuffling that arises when you differentiate $x\cdot\bA y$ with respect to $y$.
+\item In my day job I often find myself differentiating with respect to large sets of variables, but I rarely have anything like in calculus of variations where you effectively differentiate with respect to an infinite number of variables indexed by a continuous variable.
+It's easier for me to trust what I'm familiar with.
+\end{enumerate}
+
+\section{Version 2: using an auxiliary variable}
+\subsection{The easy case}
+
+Consider the following minimisation
+\begin{equation}
+\min_{q_1}\min_{q_2}\ldots\min_{q_n}\sum_{i=1}^nL(q_i)
+\label{simplified}
+\end{equation}
+We could imagine that $q_i$ is some quantity we need to decide daily for each day $i$, and that $L(q_i)$ is some kind of cost associated with $q_i$.
+We're trying to minimise the total cost.
+Because the quantity being optimised is a sum of terms, each of which depends on only one of the $q_i$, it becomes $n$ independent optimisations.
+This makes life much easier.
+
+\subsection{Back to the original problem}
+Here's the original discretised problem again
+\begin{equation}
+\Min_q\sum_{i=1}^nL(q_i,(\bA q)_i)
+\end{equation}
+Using the example above, $\bA$ mixes up the $q_i$ for different days.
+For example $L$ might depend on a moving average of $q$ for a few days or on the change in $q$ from one day to the next.
+The problem no longer decomposes into $n$ independent problems.
+One practical consequence of this is that (\ref{simplified}) can be implemented in constant time on an $n$ processor parallel machine, but (\ref{original}) doesn't seem amenable to such a treatment.
+
+One way to handle this is to introduce an auxiliary variable $y$ and consider
+the minimisation
+\[
+\Min_q\Min_y\sum_{i=1}^nL(q_i,y_i)\mbox{ subject to the constraint }y=\bA q
+\]
+Introduce a Lagrange multiplier $p$ and we instead consider
+\[
+\Min_q\Min_y\left(\sum_{i=1}^nL(q_i,y_i)+p\cdot(\bA q-y)\right)
+\]
+Let's assume everything in sight is strongly convex.
+Then strong duality tells us that the original optimum is given by
+\begin{align*}
+&=\Max_p\Min_q\Min_y\left(\sum_{i=1}^nL(q_i,y_i)+p\cdot(\bA q-y)\right)\\
+&=\Max_p\Min_q\left(\Min_y\left(\sum_{i=1}^n(L(q_i,y_i)-p_iy_i)\right)+p\cdot\bA q\right)\\
+\end{align*}
+We've partly succeeded in our goal: we have a subexpression that is the sum over values of $L$ at different $i$ meaning that they can be minimised independently.
+An approach like this can turn into a practical algorithm.
+For example we can take an alternating projection approach where we run the optimisations for the $y_i$ on each processor in parallel and then run the outer, but hopefully simpler and faster optimisations, in a more sequential manner.
+If you follow this kind of idea you'll eventually reach something practical like ADMM \cite{boyd}. But curiously this idea also leads us to the Hamiltonian formulation of mechanics.
+
+\subsection{The Hamiltonian}
+Let's define the Hamiltonian $H$ by
+\[
+H(q,p)=\max_y(py-L(q,y))
+\]
+(Note that this is the Legendre transform of $H$ w.r.t.\ the second variable.)
+Our original problem has become
+\begin{equation}
+\Max_p\Min_q\left(-\sum_iH(p_i,q_i)+p\cdot\bA q\right)
+\label{reformulated}
+\end{equation}
+(In the special (\emph{separable}) case $L(q,y)=T(y)-V(q)$ where $T(y)=\frac{1}{2}y^2$.
+Then
+\begin{align*}
+H(q,p)&=\max_y(py-\frac{1}{2}y^2+V(q))\\
+&=\max_y(-\frac{1}{2}(y-p)^2+\frac{1}{2}p^2+V(q))\\
+&=T(p)+V(q)\\
+\end{align*}
+which is often the total energy of the system.)
+
+Now use some calculus to minimise our reformulated problem~\ref{reformulated}.
+Assume everything s differentiable and that the quantity being optimized is convex with respect to $q$ and concave with respect to $p$ \cite{bogosel}:
+\begin{align*}
+\frac{\partial}{\partial p_i}(-H(q_i,p_i)+p_i(\bA q)_i)&=0\\
+\frac{\partial}{\partial q_i}(-H(q_i,p_i)+p_i(\bA q)_i)&=0\\
+\end{align*}
+
+\[
+(\bA q)_i=\frac{\partial H(q_i,p_i)}{\partial p_i}
+\]
+and
+\[
+(\bA^T p)_i=\frac{\partial H(q_i,p_i)}{\partial q_i}
+\]
+
+\subsection{Back to the continuous version}
+Remember the original problem was
+\[
+\Min_q\int L(q,Aq)dt
+\]
+where we're now minimising over all functions $q$ and $A$ is some linear operator acting on $q$.
+Translating sums to integrals and transposes to adjoints we get
+\[
+(Aq)(t)=\frac{\partial H(q,p)}{\partial p}
+\]
+and
+\[
+(A^\ast q)(t)=\frac{\partial H(q,p)}{\partial q}
+\]
+where $A$ is the adjoint of $A$ defined by
+\[
+\int f(t)(Ag)(t)dx=\int (A^\ast f)(t)g(t)dt
+\]
+In the special case that $A=\frac{d}{dt}$ we use integration by parts to find $A^\ast=-A$.
+We end up with
+\begin{align*}
+\frac{dq}{dt}&=\phantom{-}\frac{\partial H}{\partial p}\\
+\frac{dp}{dt}&=-\frac{\partial H}{\partial p}\\
+\end{align*}
+otherwise known as Hamilton's equations.
+I hadn't noticed before but the different minus signs in the two equations arise from $A$ and its adjoint.
+
+\subsection{TL;DR}
+The Hamiltonian formulation of mechanics is a dual of the Lagrangian formulation. But it's not the direct dual, it's the dual after you introduce a new variable that is constrained to be equal to $\dot{q}$.
+
+\section{Bonus: The quantum version}
+We have the equality of (\ref{original}) and (\ref{reformulated}):
+\begin{equation}
+\Min_q\sum_{i=1}^nL(q_i,(\bA q)_i)
+=\Max_p\Min_q\left(-\sum_iH(p_i,q_i)+p\cdot\bA q\right)
+\end{equation}
+
+Using the Legendre-Fourier dictionary \cite{piponi} all of the above reasoning can be reinterpreted.
+We use the translation
+\begin{align*}
+\min_x \mbox{ and } \max_x &\rightarrow \int \rd x\\
+\Max_x \mbox{ and } \Min_x &\rightarrow \int \cD x\\
+f(x) &\rightarrow \exp(if(x))
+\end{align*}
+We get
+\[
+\int\cD q\exp i{\int \mathrm{d}tL(q,Aq)}=\int\cD q\cD p\exp i\int \mathrm{d}t( pAq-H(q,p)})
+\]
+and when $A=\frac{d}{dt}$ we get
+\[
+\int\cD q\exp i{\int \mathrm{d}tL(q,\dot{q})}=\int\cD p\cD q\exp i\int \mathrm{d}t(
+p\dot{q}-H(q,p)})
+\]
+Now compare with Ryder \cite{ryder} Chapter 5 eqs. (5.13) and (5.15).
+This one of the important steps in Feynman's derivation of the path integral formulation.
+%+Bibliography
+\begin{thebibliography}{99}
+\bibitem{hamilton} \url{https://en.wikipedia.org/wiki/Principle_of_least_action}
+\bibitem{ryder} Ryder, Lewis H., \emph{Quantum Field Theory}, Cambridge University Press
+\bibitem{boyd} \url{http://stanford.edu/~boyd/admm.html}
+\bibitem{bogosel} Beni Bogosel \url{https://math.stackexchange.com/users/7327/beni-bogosel)}
+\bibitem{piponi} Me \url{https://github.com/dpiponi/Legendre/blob/master/legendre.pdf}
+\end{thebibliography}
+%-Bibliography
+
+\end{document}
+
+

@@ -82,21 +82,21 @@ This is wrong. Need canonical form for reduce to work.
 >                     where m (g, r) (g', r') = (g <> g', r*r')
 >     negate (GR as) = GR $ fmap (fmap negate) as
 
-> ϕn, αn, βn, nn :: (Z2, Int)
-> ϕn = (False, 1)
-> αn = (False, 1)
-> βn = (True, -1)
+> ϕⁿ, αⁿ, βⁿ, nn :: (Z2, Int)
+> ϕⁿ = (False, 1)
+> αⁿ = (False, 1)
+> βⁿ = (True, -1)
 > nn = (True, 0)
 
 Expression for F(n)
 
 > fib :: GroupRing Q (Z2, Int)
-> fib = (𝚥 ϕn - 𝚥 βn) * 𝚤 (1/sqrt5)
+> fib = (𝚥 ϕⁿ - 𝚥 βⁿ) * 𝚤 (1/sqrt5)
 
 Expression for Fibonacci number F(an+b)
 
-> fib' a b = (𝚤 (α^^b)*(𝚥 $ ϕn `pow` a)-𝚤 (β^^b)*(𝚥 $ βn `pow` a))*𝚤 (1/sqrt5)
-> lucas' a b = (𝚤 (α^^b)*(𝚥 $ ϕn `pow` a)+𝚤 (β^^b)*(𝚥 $ βn `pow` a))
+> fib' a b = (𝚤 (α^^b)*(𝚥 $ ϕⁿ `pow` a)-𝚤 (β^^b)*(𝚥 $ βⁿ `pow` a))*𝚤 (1/sqrt5)
+> lucas' a b = (𝚤 (α^^b)*(𝚥 $ ϕⁿ `pow` a)+𝚤 (β^^b)*(𝚥 $ βⁿ `pow` a))
 
 > f 0 = 0
 > f 1 = 1
@@ -126,20 +126,20 @@ Expression for Fibonacci number F(an+b)
 > V (a : _) ! 0 = a
 > V (a : as) ! i = V as ! (i-1)
 
-> ϕi, αi, βi, ni :: (V Z2, V Int)
-> ϕi = (V [False], V [1])
-> αi = (V [False], V [1])
+> ϕⁱ, αⁱ, βi, ni :: (V Z2, V Int)
+> ϕⁱ = (V [False], V [1])
+> αⁱ = (V [False], V [1])
 > βi = (V [True], V [-1])
 > ni = (V [True], V [])
 
-> ϕj, αj, βj, nj :: (V Z2, V Int)
+> ϕj, αʲ, βʲ, nj :: (V Z2, V Int)
 > ϕj = (V [False, False], V [0, 1])
-> αj = (V [False, False], V [0, 1])
-> βj = (V [False, True], V [0, -1])
+> αʲ = (V [False, False], V [0, 1])
+> βʲ = (V [False, True], V [0, -1])
 > nj = (V [False, True], V [])
 
 > αpow :: Int -> Int -> Expr Q (V Z2) (V Int)
-> αpow a b = 𝚥 $ (αi `pow` a) <> (αj `pow` b)
+> αpow a b = 𝚥 $ (αⁱ `pow` a) <> (αʲ `pow` b)
 
 Expression for Fibonacci number F(a*i+b*j+c)
 

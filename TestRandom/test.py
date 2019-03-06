@@ -1,5 +1,9 @@
+import random
 from interval import interval
 from heapq import *
+
+def coin():
+    return random.random() <= 0.33333333
 
 def coercing(f):
     from functools import wraps
@@ -41,6 +45,13 @@ b = interval([2,3])
 def integrate(f, tol):
     queue = [(-1.0, interval([0, 1]))]
 
+    def local_random():
+        global r, count
+        if count > 0:
+            raise ValueError("Higher order integration not supported yet")
+        count += 1
+        return r
+
     total = 0.0
     bound = 1.0
     while bound > tol:
@@ -50,19 +61,23 @@ def integrate(f, tol):
         (width, x) = heappop(queue)
         width = -width
         try:
-            result = f(x)
+            global r, count
+            count = 0
+            r = x
+            old_random = random.random
+            random.random = local_random
+            result = f()
+            random.random = old_random
             print "Accumulating", result, "from", x
             total += result*width
             bound -= width
         except ValueError as e:
+            random.random = old_random
             a = x[0].inf
             b = x[0].sup
             heappush(queue, (-0.5*width, interval([a, 0.5*(a+b)])))
             heappush(queue, (-0.5*width, interval([0.5*(a+b), b])))
 
     return total
-
-def coin(x):
-    return x <= 0.33333333
 
 print integrate(coin, 1e-8)
