@@ -31,13 +31,18 @@ Trying to motivate Hamilton's equations.
 I'll start with the actual problem we want to solve.
 We have a function of two variables, $L$, called the \emph{Lagrangian} and we want to find a function $q$ on some time interval (say $0$ to $T$) that minimises the so-called \emph{action}:
 \[
-A(q)=\int\rd tL(q,\dot{q}).
+A(q)=\int_0^T\rd tL(q,\dot{q}).
 \]
 Thinking of $q(t)$ parameterising a path then we are trying to find the path $q$ that minimises this action.
 Many physical systems can be described as following a path $q$ that minimises the action for some definition of $L$.
 This is Hamilton's principle of least action\cite{hamilton}.
 A better name is Hamilton's princple of stationary action as the action might be a minimum, maximum of a saddle point.
 But for now we'll work on the assumption that the Lagrangian is strictly convex and that we're looking for minima.
+In general we may want to work over different time periods and may want to consider only paths $q$ from some class of paths.
+We may also have additional constraints.
+These likely won't change the essence of what we say below.
+For example constrains on the endpoints of $q$ may require extra terms with Lagrange multipliers but through much of the derivation these will be additional terms added to every expression making no essential change to the calculations.
+We we'll leave these details for the reader to add as needed.
 
 \subsection{A discretised version}
 \newcommand{\Min}{\mathop{\mathrm{Min}}}
@@ -82,9 +87,9 @@ L^2_i &= L^{(0,1)}(q_i,(\bA q)_i)\\
 where I use $f^{(m,n)}$ to mean $f$ differentiated $m$ times w.r.t.\ its first argument and $n$ times w.r.t.\ its second.
 \newcommand{\pd}[1]{\frac{\partial}{\partial #1}}
 The chain rule and a bit of index chasing gives
-\begin{align*}
-&\pd{q_k}\sum_{i=1}^nL(q_i,\sum_{j=1}^nA_{ij}q_j)=L^1_k+(\bA^TL^2)_k_ _\\
-\end{align*}
+\[
+\pd{q_k}\sum_{i=1}^nL(q_i,\sum_{j=1}^nA_{ij}q_j) = L^1_k+(\bA^TL^2)_k\\
+\]
 so we need to solve
 \[
 L^1+A^TL^2=0
@@ -242,12 +247,11 @@ f(x) &\rightarrow \exp(if(x))
 \end{align*}
 We get
 \[
-\int\cD q\exp i{\int \mathrm{d}tL(q,Aq)}=\int\cD q\cD p\exp i\int \mathrm{d}t( pAq-H(q,p)})
+\int\cD q\exp i{\int \mathrm{d}tL(q,Aq)}=\int\cD q\cD p\exp i\int \mathrm{d}t( pAq-H(q,p))
 \]
 and when $A=\frac{d}{dt}$ we get
 \[
-\int\cD q\exp i{\int \mathrm{d}tL(q,\dot{q})}=\int\cD p\cD q\exp i\int \mathrm{d}t(
-p\dot{q}-H(q,p)})
+\int\cD q\exp i{\int \mathrm{d}tL(q,\dot{q})}=\int\cD p\cD q\exp i\int \mathrm{d}t(p\dot{q}-H(q,p))
 \]
 Now compare with Ryder \cite{ryder} Chapter 5 eqs. (5.13) and (5.15).
 This one of the important steps in Feynman's derivation of the path integral formulation.
@@ -256,7 +260,7 @@ This one of the important steps in Feynman's derivation of the path integral for
 \bibitem{hamilton} \url{https://en.wikipedia.org/wiki/Principle_of_least_action}
 \bibitem{ryder} Ryder, Lewis H., \emph{Quantum Field Theory}, Cambridge University Press
 \bibitem{boyd} \url{http://stanford.edu/~boyd/admm.html}
-\bibitem{bogosel} Beni Bogosel \url{https://math.stackexchange.com/users/7327/beni-bogosel)}
+\bibitem{bogosel} Beni Bogosel, \url{https://math.stackexchange.com/users/7327/beni-bogosel)}
 \bibitem{piponi} Me \url{https://github.com/dpiponi/Legendre/blob/master/legendre.pdf}
 \end{thebibliography}
 %-Bibliography
