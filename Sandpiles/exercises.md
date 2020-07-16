@@ -6,6 +6,14 @@ Ie. |
 Chapter 1 The Picard and Jacobian Groups
 ========================================
 
+Definition 1.3
+--------------
+Div(G) = ℤV = {∑(v∈V) D(v)v : D(v) ∈ ℤ}
+
+Pic(G) = Div(F)/~
+
+Jac(G) = Div⁰(G)/~
+
 Definition of |.|
 -----------------
 |D| = {E ∈ Div(G) : E ~ D and E ≥ 0}
@@ -16,6 +24,36 @@ Chapter 2 The Discrete Laplacian
 --------------------------------
 |D| = D + Prin(G)
 |0| = Prin(G)
+
+Defn 2.2
+--------
+σ:V → ℤ is a firing script
+M(G) is abelian group of firing scripts.
+χW is characteristic function of W.
+
+2.2 Configurations and the reduced Laplacian
+--------------------------------------------
+Picard group is cok(L).
+
+Defn 2.9
+--------
+Fix q ∈ V. Let V∼ = V\{q}
+A configuration wrt q of G is an element of
+
+  Config(G,q) := Config(G) := ℤV~ ⊂ ℤV = Div(G)
+
+We're ignoring q. So we're allowed to lend and borrow on c ∈ Config(G) not
+worrying about q at all.
+
+Defn 2.11
+---------
+D|V~ config by ignoring q in D.
+M~(G) ⊂ M(G) firing scripts not using q.
+
+div~ : M~(G) → Config(G)
+           σ ↦ div(σ)|V~
+
+XXX <-- here!
 
 Chapter 3
 =========
@@ -88,7 +126,7 @@ So all points in S in small divisor aren't enough to cover outgoings from S.
 Proposition 3.11
 ----------------
 G d-edge connected
-D ∈ Div(G), winnable, deg(D) < G.
+D ∈ Div(G), winnable, deg(D) < d.
 |D| is single effective divisor.
 For each k ≥ d, ∃ linear system of degree k with more than one effective divisor.
 Ie. more than one way to win.
@@ -101,7 +139,22 @@ Say E₁ ~ E₂ ~ D. (E₁, E₂ effective.)
 deg(E₁) = deg(E₂) = deg(D) < d
 E₁ and E₂ are both q-reduced. By Theorem 3.2.1 they're equal
 
-XXX <- Come back
+3.3 Superstable configurations
+------------------------------
+Defn 3.12
+
+
+Chapter 4 Acyclic orientations
+==============================
+
+Corollary 4.9
+-------------
+Let g = |E|-|V|+1, the genus of G.
+1. A superstable c is maximal iff deg(c)=g.
+2. D is maximal unwinnable iff q-reduced form is c-q, c maximal superstable.
+3. 𝒪 ↦ D(𝒪) bijection between acyclic orientations of G with unique source
+    q and maximal unwinnable q-reduced divisors of G.
+4. If D is maximal unwinnable, deg(D) = g-1. Hence deg(D) ≥ g ⇒ D winnable. 
 
 Chapter 5 Riemann-Roch
 ======================
@@ -184,4 +237,6 @@ E ∈ Div₊(G), deg(E) < d. G d-edge connected.
 Then r(E) = min{E(v): v ∈ V(G)}
 
 Proof.
+Take the minimal vertex and look what happens if you subtract v, 2v, 3v, …
+Safe until no more v's in E. Do it one more time and 3.11 says unwinnable.
 
